@@ -1,0 +1,157 @@
+/* iOS/macOS Tahoe Design System */
+
+:root {
+  --tahoe-bg: rgba(255, 255, 255, 0.2); /* стеклянный фон */
+  --tahoe-blur: 20px;                   /* сила размытия */
+  --tahoe-border: rgba(255, 255, 255, 0.4);
+  --tahoe-radius: 16px;                 /* закругления */
+  --tahoe-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  --tahoe-text: #111;                   /* тёмный текст */
+  --tahoe-accent: #007aff;              /* акцент iOS (синий) */
+}
+
+/* Базовая типографика */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  background: linear-gradient(120deg, #f9fafc, #eef1f7);
+  color: var(--tahoe-text);
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+p {
+  line-height: 1.6;
+}
+
+/* Стеклянные карточки (основной приём Liquid Glass) */
+.tahoe-card {
+  background: var(--tahoe-bg);
+  backdrop-filter: blur(var(--tahoe-blur));
+  -webkit-backdrop-filter: blur(var(--tahoe-blur));
+  border: 1px solid var(--tahoe-border);
+  border-radius: var(--tahoe-radius);
+  box-shadow: var(--tahoe-shadow);
+  padding: 1.5rem;
+  color: var(--tahoe-text);
+  transition: all 0.3s ease-in-out;
+}
+
+.tahoe-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Кнопки в стиле Tahoe */
+.tahoe-button {
+  background: var(--tahoe-accent);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.tahoe-button:hover {
+  background: #005ad3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+}
+
+/* Прозрачное меню (в духе macOS Tahoe) */
+.tahoe-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.8rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Дополнительные стили для модальных окон */
+.tahoe-modal {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--tahoe-radius);
+  box-shadow: 0 8px 50px rgba(0, 0, 0, 0.2);
+}
+
+/* Стеклянные инпуты */
+.tahoe-input {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  color: var(--tahoe-text);
+  transition: all 0.2s ease-in-out;
+}
+
+.tahoe-input:focus {
+  outline: none;
+  border-color: var(--tahoe-accent);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+
+/* Анимации для плавности */
+@keyframes tahoe-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tahoe-animate {
+  animation: tahoe-fade-in 0.4s ease-out;
+}
+
+/* Стеклянные статистические карточки */
+.tahoe-stat-card {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.tahoe-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Прогресс бар в стиле Tahoe */
+.tahoe-progress {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.tahoe-progress-bar {
+  background: linear-gradient(90deg, var(--tahoe-accent), #00c7ff);
+  height: 8px;
+  border-radius: 10px;
+  transition: width 0.5s ease-in-out;
+}

@@ -1,0 +1,157 @@
+[
+  {
+    "id": "come-with-me-tshirt",
+    "name": "COME WITH ME IF YOU WANNA LIVE",
+    "description": "Classic Crew Neck T-Shirt with safety motivation slogan",
+    "price": 22.99,
+    "image": "/come-with-me-tshirt.jpg",
+    "source": "creator_spring",
+    "category": "apparel",
+    "tags": [
+      "safety",
+      "motivation",
+      "tshirt",
+      "crew-neck"
+    ],
+    "course_tags": [
+      "osha",
+      "general",
+      "safety"
+    ],
+    "dept_tags": [
+      "all"
+    ],
+    "url": "https://calpoly.creator-spring.com/listing/come-with-me-if-you-wanna-live?product=2&variation=566",
+    "utm_params": "utm_source=ehs_mentor&utm_medium=merch&utm_campaign=post_course",
+    "external": true
+  },
+  {
+    "id": "survival-hoodie",
+    "name": "SURVIVAL IS THE KEY (I GOT A BADGE)",
+    "description": "Unisex Classic Pullover Hoodie celebrating safety achievements",
+    "price": 40.99,
+    "image": "/survival-hoodie.jpg",
+    "source": "creator_spring",
+    "category": "apparel",
+    "tags": [
+      "survival",
+      "badge",
+      "hoodie",
+      "achievement"
+    ],
+    "course_tags": [
+      "all",
+      "completion"
+    ],
+    "dept_tags": [
+      "all"
+    ],
+    "url": "https://calpoly.creator-spring.com/listing/survival-is-the-key-i-got-a-b?product=212&variation=5837",
+    "utm_params": "utm_source=ehs_mentor&utm_medium=merch&utm_campaign=post_course",
+    "external": true
+  },
+  {
+    "id": "deep-breath-hoodie",
+    "name": "Deep Breath Everything will be all right",
+    "description": "Unisex Classic Pullover Hoodie for mindfulness and safety",
+    "price": 40.99,
+    "image": "/deep-breath-hoodie.jpg",
+    "source": "creator_spring",
+    "category": "apparel",
+    "tags": [
+      "mindfulness",
+      "breathing",
+      "hoodie",
+      "wellness"
+    ],
+    "course_tags": [
+      "mental-health",
+      "stress",
+      "wellness"
+    ],
+    "dept_tags": [
+      "all"
+    ],
+    "url": "https://calpoly.creator-spring.com/listing/deep-breath-everything-will-be?product=212&variation=5818",
+    "utm_params": "utm_source=ehs_mentor&utm_medium=merch&utm_campaign=post_course",
+    "external": true
+  },
+  {
+    "id": "deep-breath-womens-tee",
+    "name": "Deep Breath (and let go)",
+    "description": "Women's Classic Tee for stress relief and mindfulness",
+    "price": 23.99,
+    "image": "/deep-breath-womens-tee.jpg",
+    "source": "creator_spring",
+    "category": "apparel",
+    "tags": [
+      "mindfulness",
+      "womens",
+      "tshirt",
+      "wellness"
+    ],
+    "course_tags": [
+      "mental-health",
+      "stress",
+      "wellness"
+    ],
+    "dept_tags": [
+      "all"
+    ],
+    "url": "https://calpoly.creator-spring.com/listing/deep-breath-and-let-go?product=87&variation=2324",
+    "utm_params": "utm_source=ehs_mentor&utm_medium=merch&utm_campaign=post_course",
+    "external": true
+  },
+  {
+    "id": "deep-breath-mug",
+    "name": "Deep Breath Everything will be all right",
+    "description": "Mug with calming message for your daily coffee break",
+    "price": 15.99,
+    "image": "/deep-breath-mug.jpg",
+    "source": "creator_spring",
+    "category": "accessories",
+    "tags": [
+      "mug",
+      "coffee",
+      "mindfulness",
+      "wellness"
+    ],
+    "course_tags": [
+      "mental-health",
+      "stress",
+      "wellness"
+    ],
+    "dept_tags": [
+      "all"
+    ],
+    "url": "https://calpoly.creator-spring.com/listing/deep-breath-everything-will-be?product=1565&variation=104920",
+    "utm_params": "utm_source=ehs_mentor&utm_medium=merch&utm_campaign=post_course",
+    "external": true
+  },
+  {
+    "id": "deep-breath-sticker",
+    "name": "Deep Breath Everything will be all right",
+    "description": "Die Cut Sticker to remind you to stay calm and breathe",
+    "price": 6.99,
+    "image": "/deep-breath-sticker.jpg",
+    "source": "creator_spring",
+    "category": "accessories",
+    "tags": [
+      "sticker",
+      "mindfulness",
+      "reminder",
+      "wellness"
+    ],
+    "course_tags": [
+      "mental-health",
+      "stress",
+      "wellness"
+    ],
+    "dept_tags": [
+      "all"
+    ],
+    "url": "https://calpoly.creator-spring.com/listing/deep-breath-everything-will-be?product=794&variation=103544",
+    "utm_params": "utm_source=ehs_mentor&utm_medium=merch&utm_campaign=post_course",
+    "external": true
+  }
+]

@@ -1,0 +1,158 @@
+[
+  {
+    "timestamp": "2025-09-20T10:13:19.831691",
+    "event_type": "course_completed",
+    "user_id": "u007",
+    "data": {
+      "course_id": "RAD-SAFETY-101"
+    }
+  },
+  {
+    "timestamp": "2025-09-20T10:13:58.483401",
+    "event_type": "course_completed",
+    "user_id": "u007",
+    "data": {
+      "course_id": "BLOODBORNE-PATHOGENS"
+    }
+  },
+  {
+    "timestamp": "2025-09-20T12:16:37.860378",
+    "event_type": "course_completed",
+    "user_id": "u005",
+    "data": {
+      "course_id": "FORKLIFT-SAFETY-101"
+    }
+  },
+  {
+    "timestamp": "2025-09-20T12:18:00.968274",
+    "event_type": "merch_customize",
+    "user_id": "u005",
+    "data": {
+      "item_id": "safety-mug-001",
+      "context": "personalized_feed",
+      "timestamp": "2025-09-20T12:18:00.968261"
+    }
+  },
+  {
+    "timestamp": "2025-09-20T12:18:04.002910",
+    "event_type": "merch_buy",
+    "user_id": "u005",
+    "data": {
+      "item_id": "calpoly-hoodie-001",
+      "context": "personalized_feed",
+      "timestamp": "2025-09-20T12:18:04.002896"
+    }
+  },
+  {
+    "timestamp": "2025-09-20T12:19:55.737231",
+    "event_type": "course_completed",
+    "user_id": "u008",
+    "data": {
+      "course_id": "BLOODBORNE-PATHOGENS"
+    }
+  },
+  {
+    "timestamp": "2025-09-20T12:29:31.390073",
+    "event_type": "merch_buy",
+    "user_id": "u008",
+    "data": {
+      "item_id": "calpoly-hoodie-001",
+      "context": "post_course",
+      "timestamp": "2025-09-20T12:29:31.390060"
+    }
+  },
+  {
+    "timestamp": "2025-09-20T14:58:53.174114",
+    "event_type": "course_completed",
+    "user_id": "u009",
+    "data": {
+      "course_id": "BLOODBORNE-PATHOGENS"
+    }
+  },
+  {
+    "timestamp": "2025-09-20T18:02:36.635925",
+    "event_type": "merch_buy",
+    "user_id": "u009",
+    "data": {
+      "item_id": "calpoly-hoodie-001",
+      "context": "personalized_feed",
+      "timestamp": "2025-09-20T18:02:36.635883"
+    }
+  },
+  {
+    "timestamp": "2025-09-21T12:49:32.955402",
+    "event_type": "course_completed",
+    "user_id": "u008",
+    "data": {
+      "course_id": "HAZCOM-1910.1200"
+    }
+  },
+  {
+    "timestamp": "2025-09-21T12:52:21.457216",
+    "event_type": "course_completed",
+    "user_id": "u008",
+    "data": {
+      "course_id": "RAD-SAFETY-101"
+    }
+  },
+  {
+    "timestamp": "2025-09-21T16:26:51.558857",
+    "event_type": "course_completed",
+    "user_id": "u003",
+    "data": {
+      "course_id": "RAD-SAFETY-101"
+    }
+  },
+  {
+    "timestamp": "2025-09-22T10:27:18.180316",
+    "event_type": "merch_buy",
+    "user_id": "u001",
+    "data": {
+      "item_id": "come-with-me-tshirt",
+      "context": "post_course",
+      "timestamp": "2025-09-22T10:27:18.180300"
+    }
+  },
+  {
+    "timestamp": "2025-09-22T10:29:38.064564",
+    "event_type": "course_completed",
+    "user_id": "u001",
+    "data": {
+      "course_id": "HAZCOM-1910.1200"
+    }
+  },
+  {
+    "timestamp": "2025-09-22T11:07:39.611841",
+    "event_type": "course_completed",
+    "user_id": "u001",
+    "data": {
+      "course_id": "BBP-1910.1030"
+    }
+  },
+  {
+    "timestamp": "2025-09-22T11:23:05.235729",
+    "event_type": "merch_buy",
+    "user_id": "u001",
+    "data": {
+      "item_id": "deep-breath-mug",
+      "context": "post_course",
+      "timestamp": "2025-09-22T11:23:05.235715"
+    }
+  },
+  {
+    "timestamp": "2025-09-22T11:48:40.480045",
+    "event_type": "course_completed",
+    "user_id": "u003",
+    "data": {
+      "course_id": "FORKLIFT-SAFETY-1910.178"
+    }
+  },
+  {
+    "timestamp": "2025-09-22T12:08:29.860558",
+    "event_type": "course_completed",
+    "user_id": "u007",
+    "data": {
+      "course_id": "FORKLIFT-SAFETY-1910.178"
+    }
+  }
+]

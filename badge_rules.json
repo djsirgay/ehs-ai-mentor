@@ -1,0 +1,97 @@
+[
+  {
+    "badge_id": "safety_champion",
+    "name": "Safety Champion",
+    "description": "Complete 5 safety courses",
+    "emoji": "🏆",
+    "type": "course_completion",
+    "requirements": {
+      "course_count": 5,
+      "course_tags": [
+        "safety"
+      ]
+    },
+    "unlocks_merch": [
+      "custom-badge-001",
+      "champion-hoodie-001"
+    ]
+  },
+  {
+    "badge_id": "lab_expert",
+    "name": "Lab Safety Expert",
+    "description": "Master all lab safety courses",
+    "emoji": "🧪",
+    "type": "course_completion",
+    "requirements": {
+      "specific_courses": [
+        "LAB-SAFETY-101",
+        "BIOSAFETY-201",
+        "CHEM-SPILL-101"
+      ]
+    },
+    "unlocks_merch": [
+      "lab-coat-custom-001",
+      "expert-badge-001"
+    ]
+  },
+  {
+    "badge_id": "fire_marshal",
+    "name": "Fire Safety Marshal",
+    "description": "Complete fire safety training with excellence",
+    "emoji": "🔥",
+    "type": "course_completion",
+    "requirements": {
+      "course_tags": [
+        "fire-safety"
+      ],
+      "min_score": 95
+    },
+    "unlocks_merch": [
+      "fire-marshal-badge-001",
+      "emergency-kit-001"
+    ]
+  },
+  {
+    "badge_id": "early_adopter",
+    "name": "Early Adopter",
+    "description": "One of the first 100 users of EHS AI Mentor",
+    "emoji": "🚀",
+    "type": "milestone",
+    "requirements": {
+      "user_rank": 100
+    },
+    "unlocks_merch": [
+      "early-adopter-tshirt-001",
+      "founder-badge-001"
+    ]
+  },
+  {
+    "badge_id": "streak_master",
+    "name": "Streak Master",
+    "description": "Complete courses 7 days in a row",
+    "emoji": "⚡",
+    "type": "streak",
+    "requirements": {
+      "consecutive_days": 7
+    },
+    "unlocks_merch": [
+      "streak-hoodie-001",
+      "lightning-badge-001"
+    ]
+  },
+  {
+    "badge_id": "mentor",
+    "name": "Safety Mentor",
+    "description": "Help 10 colleagues through Random Coffee",
+    "emoji": "🎓",
+    "type": "social",
+    "requirements": {
+      "coffee_meetings": 10,
+      "avg_rating": 4.5
+    },
+    "unlocks_merch": [
+      "mentor-badge-001",
+      "leadership-book-001"
+    ]
+  }
+]

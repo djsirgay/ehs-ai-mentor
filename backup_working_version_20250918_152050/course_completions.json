@@ -1,0 +1,16 @@
+[
+  {
+    "user_id": "u001",
+    "course_id": "RAD-SAFETY-101",
+    "completed_at": "2025-09-18T13:42:36.047828",
+    "completion_method": "manual",
+    "id": 1
+  },
+  {
+    "user_id": "u002",
+    "course_id": "RAD-SAFETY-101",
+    "completed_at": "2025-09-18T15:04:52.009458",
+    "completion_method": "manual",
+    "id": 2
+  }
+]

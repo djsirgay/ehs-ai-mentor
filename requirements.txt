@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+boto3
+psycopg2-binary
+python-dotenv
+pydantic
+python-multipart
+PyPDF2

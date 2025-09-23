@@ -1,0 +1,80 @@
+{
+  "u005": [
+    {
+      "badge_id": "early_adopter",
+      "name": "Early Adopter",
+      "description": "One of the first 100 users of EHS AI Mentor",
+      "emoji": "🚀",
+      "earned_at": "2025-09-20T12:16:37.859877",
+      "unlocks_merch": [
+        "early-adopter-tshirt-001",
+        "founder-badge-001"
+      ]
+    }
+  ],
+  "u008": [
+    {
+      "badge_id": "early_adopter",
+      "name": "Early Adopter",
+      "description": "One of the first 100 users of EHS AI Mentor",
+      "emoji": "🚀",
+      "earned_at": "2025-09-20T12:19:55.736859",
+      "unlocks_merch": [
+        "early-adopter-tshirt-001",
+        "founder-badge-001"
+      ]
+    }
+  ],
+  "u009": [
+    {
+      "badge_id": "early_adopter",
+      "name": "Early Adopter",
+      "description": "One of the first 100 users of EHS AI Mentor",
+      "emoji": "🚀",
+      "earned_at": "2025-09-20T14:58:53.173731",
+      "unlocks_merch": [
+        "early-adopter-tshirt-001",
+        "founder-badge-001"
+      ]
+    }
+  ],
+  "u003": [
+    {
+      "badge_id": "early_adopter",
+      "name": "Early Adopter",
+      "description": "One of the first 100 users of EHS AI Mentor",
+      "emoji": "🚀",
+      "earned_at": "2025-09-21T16:26:51.557843",
+      "unlocks_merch": [
+        "early-adopter-tshirt-001",
+        "founder-badge-001"
+      ]
+    }
+  ],
+  "u001": [
+    {
+      "badge_id": "early_adopter",
+      "name": "Early Adopter",
+      "description": "One of the first 100 users of EHS AI Mentor",
+      "emoji": "🚀",
+      "earned_at": "2025-09-22T10:29:38.063774",
+      "unlocks_merch": [
+        "early-adopter-tshirt-001",
+        "founder-badge-001"
+      ]
+    }
+  ],
+  "u007": [
+    {
+      "badge_id": "early_adopter",
+      "name": "Early Adopter",
+      "description": "One of the first 100 users of EHS AI Mentor",
+      "emoji": "🚀",
+      "earned_at": "2025-09-22T12:08:29.859506",
+      "unlocks_merch": [
+        "early-adopter-tshirt-001",
+        "founder-badge-001"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+[
+  {
+    "user_id": "u001",
+    "course_id": "RAD-SAFETY-101",
+    "completed_at": "2025-09-18T13:42:36.047828",
+    "completion_method": "manual",
+    "id": 1,
+    "user_name": "User 001",
+    "user_role": "lab_tech",
+    "user_department": "Chemistry Lab"
+  },
+  {
+    "user_id": "u002",
+    "course_id": "RAD-SAFETY-101",
+    "completed_at": "2025-09-18T15:04:52.009458",
+    "completion_method": "manual",
+    "id": 2,
+    "user_name": "User 002",
+    "user_role": "chem_researcher",
+    "user_department": "Biochemistry"
+  },
+  {
+    "user_id": "u005",
+    "course_id": "POWERED-INDUSTRIAL-TRUCKS-1910.178",
+    "completed_at": "2025-09-18T16:48:04.045057",
+    "completion_method": "manual",
+    "id": 3
+  },
+  {
+    "user_id": "u001",
+    "course_id": "BLOODBORNE-PATHOGENS",
+    "completed_at": "2025-09-19T19:48:35.542261",
+    "completion_method": "manual",
+    "id": 4
+  },
+  {
+    "user_id": "u002",
+    "course_id": "BIOSAFETY-UNIVERSAL-PRECAUTIONS",
+    "completed_at": "2025-09-19T20:16:25.415486",
+    "completion_method": "manual",
+    "id": 5
+  },
+  {
+    "user_id": "u003",
+    "course_id": "BLOODBORNE-PATHOGENS",
+    "completed_at": "2025-09-19T20:19:41.619866",
+    "completion_method": "manual",
+    "id": 6
+  },
+  {
+    "user_id": "u004",
+    "course_id": "BLOODBORNE-PATHOGENS",
+    "completed_at": "2025-09-19T20:51:51.614854",
+    "completion_method": "manual",
+    "id": 7
+  },
+  {
+    "user_id": "u002",
+    "course_id": "FORKLIFT-SAFETY-1910.178",
+    "completed_at": "2025-09-19T22:30:16.940557",
+    "completion_method": "manual",
+    "id": 8
+  },
+  {
+    "user_id": "u001",
+    "course_id": "FORKLIFT-SAFETY-1910.178",
+    "completed_at": "2025-09-19T23:16:03.005963",
+    "completion_method": "manual",
+    "id": 9
+  },
+  {
+    "user_id": "u003",
+    "course_id": "HAZCOM-1910.1200",
+    "completed_at": "2025-09-20T09:36:31.553600",
+    "completion_method": "manual",
+    "id": 10
+  },
+  {
+    "user_id": "u007",
+    "course_id": "RAD-SAFETY-101",
+    "completed_at": "2025-09-20T10:13:19.827823",
+    "completion_method": "manual",
+    "id": 11
+  },
+  {
+    "user_id": "u007",
+    "course_id": "BLOODBORNE-PATHOGENS",
+    "completed_at": "2025-09-20T10:13:58.480493",
+    "completion_method": "manual",
+    "id": 12
+  },
+  {
+    "user_id": "u005",
+    "course_id": "FORKLIFT-SAFETY-101",
+    "completed_at": "2025-09-20T12:16:37.855065",
+    "completion_method": "manual",
+    "id": 13
+  },
+  {
+    "user_id": "u008",
+    "course_id": "BLOODBORNE-PATHOGENS",
+    "completed_at": "2025-09-20T12:19:55.734436",
+    "completion_method": "manual",
+    "id": 14
+  },
+  {
+    "user_id": "u009",
+    "course_id": "BLOODBORNE-PATHOGENS",
+    "completed_at": "2025-09-20T14:58:53.171256",
+    "completion_method": "manual",
+    "id": 15
+  },
+  {
+    "user_id": "u008",
+    "course_id": "HAZCOM-1910.1200",
+    "completed_at": "2025-09-21T12:49:32.951414",
+    "completion_method": "manual",
+    "id": 16
+  },
+  {
+    "user_id": "u008",
+    "course_id": "RAD-SAFETY-101",
+    "completed_at": "2025-09-21T12:52:21.454496",
+    "completion_method": "manual",
+    "id": 17
+  },
+  {
+    "user_id": "u003",
+    "course_id": "RAD-SAFETY-101",
+    "completed_at": "2025-09-21T16:26:51.554428",
+    "completion_method": "manual",
+    "id": 18
+  },
+  {
+    "user_id": "u001",
+    "course_id": "HAZCOM-1910.1200",
+    "completed_at": "2025-09-22T10:29:38.057337",
+    "completion_method": "manual",
+    "id": 19
+  },
+  {
+    "user_id": "u001",
+    "course_id": "BBP-1910.1030",
+    "completed_at": "2025-09-22T11:07:39.602226",
+    "completion_method": "manual",
+    "id": 20
+  },
+  {
+    "user_id": "u003",
+    "course_id": "FORKLIFT-SAFETY-1910.178",
+    "completed_at": "2025-09-22T11:48:40.475370",
+    "completion_method": "manual",
+    "id": 21
+  },
+  {
+    "user_id": "u007",
+    "course_id": "FORKLIFT-SAFETY-1910.178",
+    "completed_at": "2025-09-22T12:08:29.854419",
+    "completion_method": "manual",
+    "id": 22
+  }
+]

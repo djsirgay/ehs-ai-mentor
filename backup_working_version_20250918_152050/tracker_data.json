@@ -1,0 +1,528 @@
+{
+  "processed_docs": {
+    "701ce12274cd54d8c728c01adac6f78c": {
+      "processed_at": "2025-09-18T12:43:21.473078",
+      "title": "California Polytechnic State University \nSan Luis Obispo  \n \n \n \n \n \n \nX-Ray Safety Manual \n \n \nRevi...",
+      "assignments_count": 9,
+      "assigned_users": [
+        "u001",
+        "u002",
+        "u003",
+        "u005",
+        "u006",
+        "u007",
+        "u008",
+        "u009",
+        "u010"
+      ]
+    },
+    "67ded7b9ba3bb45c3b7cf81b13cdcd9e": {
+      "processed_at": "2025-09-18T12:46:19.773591",
+      "title": "March 2024 \n \nRadiation Safety Program \nInterim EHS Program Contact : Melonee Cruz | mecruz@calpoly....",
+      "assignments_count": 9,
+      "assigned_users": [
+        "u001",
+        "u002",
+        "u003",
+        "u004",
+        "u006",
+        "u007",
+        "u008",
+        "u009",
+        "u010"
+      ]
+    },
+    "b29f53fd70bcb8ee04fc5e578c6f30a9": {
+      "processed_at": "2025-09-18T13:29:49.146714",
+      "title": "California Polytechnic State University  \nSan Luis Obispo  \nRadiation Safety Manual  \n \n            ...",
+      "assignments_count": 1,
+      "assigned_users": [
+        "u006"
+      ]
+    },
+    "3fee1089086da6d7a88632938f9cf6a4": {
+      "processed_at": "2025-09-18T14:07:03.082672",
+      "title": "NIOSH POCKET GUIDE TO CHEMICAL HAZARDS \n \n \n \nDEPARTMENT OF HEALTH AND HUMAN SERVICES  \nCenters for ...",
+      "assignments_count": 0,
+      "assigned_users": []
+    },
+    "2b19c13c7981e0c12cb41792470661eb": {
+      "processed_at": "2025-09-18T14:27:07.133673",
+      "title": "Erin Winett, Aubrey Arain\nEHS Department\nMarch 9th, 2023\n•Phased roll -out. All meetings 8:30 –9:30 ...",
+      "assignments_count": 0,
+      "assigned_users": []
+    },
+    "c90b3fb617880e4c84a8aa9d6349662d": {
+      "processed_at": "2025-09-18T14:33:10.260947",
+      "title": "Cal Poly  - San Luis Obispo  \nHazard Communication  \nProgram \n \n \nRevision History:  \nApril 1994  Or...",
+      "assignments_count": 0,
+      "assigned_users": []
+    },
+    "905fff07185c23523ab9cf063c32cacf": {
+      "processed_at": "2025-09-18T15:08:02.836159",
+      "title": "Biosafety \nManualOffice of Environment, Health & Safety\n1\nTable of Contents\nIntroduction 2\nInstituti...",
+      "assignments_count": 1,
+      "assigned_users": [
+        "u006"
+      ]
+    },
+    "13614105fe8ab0b841926518f0ee09d3": {
+      "processed_at": "2025-09-18T15:12:40.045464",
+      "title": "O:\\EH&S\\Injury and Illn ess Prevention Program \\IIPP 2018  Update.docx Rev. 8 1/25/18  \n  \n \n \nINJUR...",
+      "assignments_count": 0,
+      "assigned_users": [],
+      "skipped_duplicates": [
+        {
+          "user_id": "u001",
+          "name": "User 001",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u002",
+          "name": "User 002",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u003",
+          "name": "User 003",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u004",
+          "name": "User 004",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u005",
+          "name": "User 005",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u006",
+          "name": "User 006",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u007",
+          "name": "User 007",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u008",
+          "name": "User 008",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u009",
+          "name": "User 009",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u010",
+          "name": "User 010",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        }
+      ]
+    },
+    "4e208397416ab4bd0b280855ad06bd1f": {
+      "processed_at": "2025-09-18T15:13:52.530877",
+      "title": "OSHA Training Institute (OTI) \nEducation Centers  \nThe OSHA Training Institute (OTI) Education Cente...",
+      "assignments_count": 0,
+      "assigned_users": [],
+      "skipped_duplicates": [
+        {
+          "user_id": "u001",
+          "name": "User 001",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u002",
+          "name": "User 002",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u003",
+          "name": "User 003",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u004",
+          "name": "User 004",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u005",
+          "name": "User 005",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u006",
+          "name": "User 006",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u007",
+          "name": "User 007",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u008",
+          "name": "User 008",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u009",
+          "name": "User 009",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u010",
+          "name": "User 010",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        }
+      ]
+    },
+    "210e01e721a3aca2064a6ec9b8186dde": {
+      "processed_at": "2025-09-18T15:15:36.170667",
+      "title": "Small Entity Compliance Guide for\nOSHA’s Abatement Verification Regulation\n29 CFR 1903.19\n          ...",
+      "assignments_count": 1,
+      "assigned_users": [
+        "u005"
+      ],
+      "skipped_duplicates": [
+        {
+          "user_id": "u001",
+          "name": "User 001",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u002",
+          "name": "User 002",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u003",
+          "name": "User 003",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u004",
+          "name": "User 004",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u005",
+          "name": "User 005",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u006",
+          "name": "User 006",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u007",
+          "name": "User 007",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u008",
+          "name": "User 008",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u009",
+          "name": "User 009",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        },
+        {
+          "user_id": "u010",
+          "name": "User 010",
+          "skipped_courses": [
+            "HAZCOM-1910.1200"
+          ],
+          "reason": "Курсы уже назначались ранее"
+        }
+      ]
+    }
+  },
+  "assignment_history": {
+    "u001": [
+      {
+        "document_hash": "701ce12274cd54d8c728c01adac6f78c",
+        "courses": [
+          "HAZCOM-1910.1200"
+        ],
+        "assigned_at": "2025-09-18T12:43:21.473105",
+        "reason": "Работа с рентгеновским оборудованием требует обязательного обучения технике безопасности при работе с источниками ионизирующего излучения"
+      },
+      {
+        "document_hash": "67ded7b9ba3bb45c3b7cf81b13cdcd9e",
+        "courses": [
+          "RAD-SAFETY-101"
+        ],
+        "assigned_at": "2025-09-18T12:46:19.773619",
+        "reason": "Работа в химической лаборатории с потенциальным радиационным риском требует обязательного обучения по технике безопасности и обращению с радиоактивными материалами"
+      }
+    ],
+    "u002": [
+      {
+        "document_hash": "701ce12274cd54d8c728c01adac6f78c",
+        "courses": [
+          "HAZCOM-1910.1200"
+        ],
+        "assigned_at": "2025-09-18T12:43:21.473113",
+        "reason": "Работа с рентгеновским оборудованием требует обязательного инструктажа по технике безопасности и обращению с источниками ионизирующего излучения"
+      },
+      {
+        "document_hash": "67ded7b9ba3bb45c3b7cf81b13cdcd9e",
+        "courses": [
+          "RAD-SAFETY-101"
+        ],
+        "assigned_at": "2025-09-18T12:46:19.773627",
+        "reason": "Работа с ионизирующим излучением требует строгого обучения по технике безопасности и радиационной защите"
+      }
+    ],
+    "u003": [
+      {
+        "document_hash": "701ce12274cd54d8c728c01adac6f78c",
+        "courses": [
+          "HAZCOM-1910.1200"
+        ],
+        "assigned_at": "2025-09-18T12:43:21.473118",
+        "reason": "Работа с рентгеновским оборудованием требует обязательного обучения технике безопасности при работе с источниками ионизирующего излучения"
+      },
+      {
+        "document_hash": "67ded7b9ba3bb45c3b7cf81b13cdcd9e",
+        "courses": [
+          "RAD-SAFETY-101"
+        ],
+        "assigned_at": "2025-09-18T12:46:19.773632",
+        "reason": "Работа с ионизирующим излучением требует строгого обучения по радиационной безопасности"
+      }
+    ],
+    "u005": [
+      {
+        "document_hash": "701ce12274cd54d8c728c01adac6f78c",
+        "courses": [
+          "HAZCOM-1910.1200"
+        ],
+        "assigned_at": "2025-09-18T12:43:21.473122",
+        "reason": "Работа с рентгеновским оборудованием требует обязательного обучения по технике безопасности с рентгеновским излучением и химическими веществами"
+      },
+      {
+        "document_hash": "210e01e721a3aca2064a6ec9b8186dde",
+        "courses": [
+          "POWERED-INDUSTRIAL-TRUCKS-1910.178"
+        ],
+        "assigned_at": "2025-09-18T15:15:36.170684",
+        "reason": "Работа на погрузчике требует обязательного обучения по технике безопасности и обращению с опасными грузами"
+      }
+    ],
+    "u006": [
+      {
+        "document_hash": "701ce12274cd54d8c728c01adac6f78c",
+        "courses": [
+          "RAD-SAFETY-X-RAY"
+        ],
+        "assigned_at": "2025-09-18T12:43:21.473126",
+        "reason": "Работа с рентгеновским излучением требует строгого соблюдения техники безопасности и регулярного обучения"
+      },
+      {
+        "document_hash": "67ded7b9ba3bb45c3b7cf81b13cdcd9e",
+        "courses": [
+          "RAD-SAFETY-101",
+          "RADIATION-PROTECTION"
+        ],
+        "assigned_at": "2025-09-18T12:46:19.773641",
+        "reason": "Работа с ионизирующим излучением требует строгого обучения безопасности"
+      },
+      {
+        "document_hash": "b29f53fd70bcb8ee04fc5e578c6f30a9",
+        "courses": [
+          "HAZCOM-1910.1200",
+          "Radiation_Safety_Training"
+        ],
+        "assigned_at": "2025-09-18T13:29:49.146729",
+        "reason": "Работа с радиационными материалами требует обязательного обучения по технике безопасности и обращению с опасными веществами"
+      },
+      {
+        "document_hash": "905fff07185c23523ab9cf063c32cacf",
+        "courses": [
+          "BIOSAFETY-CLEB"
+        ],
+        "assigned_at": "2025-09-18T15:08:02.836173",
+        "reason": "Работа с биологическими материалами требует строгого обучения по биобезопасности"
+      }
+    ],
+    "u007": [
+      {
+        "document_hash": "701ce12274cd54d8c728c01adac6f78c",
+        "courses": [
+          "HAZCOM-1910.1200"
+        ],
+        "assigned_at": "2025-09-18T12:43:21.473130",
+        "reason": "Работа с рентгеновским оборудованием требует обязательного обучения технике безопасности при работе с источниками ионизирующего излучения"
+      },
+      {
+        "document_hash": "67ded7b9ba3bb45c3b7cf81b13cdcd9e",
+        "courses": [
+          "RAD-SAFETY-101"
+        ],
+        "assigned_at": "2025-09-18T12:46:19.773645",
+        "reason": "Работа в химической лаборатории с потенциальным радиационным риском требует обязательного обучения по технике безопасности и обращению с радиационными материалами"
+      }
+    ],
+    "u008": [
+      {
+        "document_hash": "701ce12274cd54d8c728c01adac6f78c",
+        "courses": [
+          "HAZCOM-1910.1200"
+        ],
+        "assigned_at": "2025-09-18T12:43:21.473133",
+        "reason": "Работа с рентгеновским оборудованием требует обязательного инструктажа по технике безопасности и обращению с источниками ионизирующего излучения"
+      },
+      {
+        "document_hash": "67ded7b9ba3bb45c3b7cf81b13cdcd9e",
+        "courses": [
+          "RAD-SAFETY-101"
+        ],
+        "assigned_at": "2025-09-18T12:46:19.773648",
+        "reason": "Работа с ионизирующим излучением требует строгого обучения по технике безопасности и радиационной защите"
+      }
+    ],
+    "u009": [
+      {
+        "document_hash": "701ce12274cd54d8c728c01adac6f78c",
+        "courses": [
+          "HAZCOM-1910.1200"
+        ],
+        "assigned_at": "2025-09-18T12:43:21.473137",
+        "reason": "Работа с рентгеновским оборудованием требует обязательного обучения технике безопасности при работе с источниками ионизирующего излучения"
+      },
+      {
+        "document_hash": "67ded7b9ba3bb45c3b7cf81b13cdcd9e",
+        "courses": [
+          "RAD-SAFETY-101"
+        ],
+        "assigned_at": "2025-09-18T12:46:19.773651",
+        "reason": "Работа с ионизирующим излучением требует строгого обучения по радиационной безопасности"
+      }
+    ],
+    "u010": [
+      {
+        "document_hash": "701ce12274cd54d8c728c01adac6f78c",
+        "courses": [
+          "HAZCOM-1910.1200"
+        ],
+        "assigned_at": "2025-09-18T12:43:21.473140",
+        "reason": "Работа с рентгеновским оборудованием требует обязательного обучения технике безопасности и радиационной защите"
+      },
+      {
+        "document_hash": "67ded7b9ba3bb45c3b7cf81b13cdcd9e",
+        "courses": [
+          "RAD-SAFETY-2024"
+        ],
+        "assigned_at": "2025-09-18T12:46:19.773655",
+        "reason": "Работа с ионизирующим излучением требует обязательного обучения по радиационной безопасности"
+      }
+    ],
+    "u004": [
+      {
+        "document_hash": "67ded7b9ba3bb45c3b7cf81b13cdcd9e",
+        "courses": [
+          "RAD-SAFETY-2024"
+        ],
+        "assigned_at": "2025-09-18T12:46:19.773637",
+        "reason": "Работа с ионизирующим излучением требует обязательного обучения по радиационной безопасности"
+      }
+    ]
+  }
+}
