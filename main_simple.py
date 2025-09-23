@@ -197,8 +197,9 @@ async def chat_with_ai(message: str = Form(...), history: str = Form(default="[]
         
         Give brief, practical answers. If information is insufficient, say so."""
         
-        # Parse history
+        # Parse history and add current message
         chat_history = json.loads(history)
+        chat_history.append({"role": "user", "content": message})
         
         # Call Bedrock
         response = mentor.bedrock.client.invoke_model(
