@@ -298,8 +298,8 @@ async def upload_pdf(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/")
-async def root():
+@app.get("/admin")
+async def admin_dashboard():
     html = '''
 <!DOCTYPE html>
 <html>
@@ -4157,47 +4157,8 @@ async def complete_course(user_id: str = Form(...), course_id: str = Form(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 # Главная страница - редирект на демо дашборд
-@app.get("/")
-async def root():
-    """Главная страница - показывает EHS AI Mentor"""
-    return HTMLResponse('''
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>EHS AI Mentor - Cal Poly Safety Platform</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-                   background: linear-gradient(135deg, #2a7d2e 0%, #66d36f 100%); 
-                   color: white; margin: 0; padding: 40px; text-align: center; min-height: 100vh; 
-                   display: flex; flex-direction: column; justify-content: center; }
-            .container { max-width: 600px; margin: 0 auto; }
-            h1 { font-size: 3em; margin-bottom: 20px; }
-            p { font-size: 1.2em; margin-bottom: 30px; opacity: 0.9; }
-            .buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-            .btn { background: rgba(255,255,255,0.2); color: white; padding: 15px 30px; 
-                   border: 2px solid rgba(255,255,255,0.3); border-radius: 12px; 
-                   text-decoration: none; font-weight: 600; transition: all 0.3s ease; }
-            .btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>🛡️ EHS AI Mentor</h1>
-            <p>Cal Poly Safety Platform with AI Training & Random Coffee</p>
-            <div class="buttons">
-                <a href="/login" class="btn">🔑 Login</a>
-                <a href="/user/u001/dashboard" class="btn">🎯 Demo Dashboard</a>
-                <a href="/docs" class="btn">📚 API Docs</a>
-            </div>
-        </div>
-    </body>
-    </html>
-    ''')
-
 # Страница логина
-@app.get("/login")
+@app.get("/")
 async def login_page():
     """Страница входа в систему"""
     return HTMLResponse('''
@@ -4231,14 +4192,14 @@ async def login_page():
                        border-radius: 8px; margin: 5px; display: inline-block; 
                        text-decoration: none; color: white; font-size: 14px; }
             .demo-btn:hover { background: rgba(255,255,255,0.25); }
-            .back-link { position: absolute; top: 20px; left: 20px; color: white; 
-                        text-decoration: none; font-size: 16px; }
         </style>
     </head>
     <body>
-        <a href="/" class="back-link">← Back to Home</a>
         <div class="login-container">
-            <h1>🔑 Login</h1>
+            <div style="text-align: center; margin-bottom: 30px;">
+                <img src="/calpoly-logo.png" alt="Cal Poly" style="height: 80px; margin-bottom: 15px; filter: brightness(0) invert(1);">
+                <h1 style="margin: 0; font-size: 2em;">EHS AI Mentor</h1>
+            </div>
             <form id="loginForm">
                 <div class="form-group">
                     <label for="user_id">User ID:</label>
@@ -4254,9 +4215,8 @@ async def login_page():
             <div class="demo-users">
                 <h3>🎯 Quick Demo Access</h3>
                 <p>Try these demo accounts:</p>
-                <a href="#" class="demo-btn" onclick="quickLogin('u001')">Student (u001)</a>
-                <a href="#" class="demo-btn" onclick="quickLogin('u002')">Faculty (u002)</a>
-                <a href="#" class="demo-btn" onclick="quickLogin('u007')">Admin (u007)</a>
+                <a href="#" class="demo-btn" onclick="quickLogin('u001')">Lab Tech (u001)</a>
+                <a href="/admin" class="demo-btn" style="background: rgba(255,255,255,0.3);">🛡️ Admin Panel</a>
             </div>
         </div>
         
@@ -4305,10 +4265,13 @@ async def login(user_id: str = Form(...), password: str = Form(...)):
         # Простая проверка пароля (для демо)
         # В реальном проекте используйте хеширование
         demo_passwords = {
-            "u001": "student123",
-            "u002": "faculty123", 
-            "u007": "admin123",
-            "u008": "user123",
+            "u001": "lab123",
+            "u002": "research123", 
+            "u004": "hr123",
+            "admin": "admin123",
+            "u006": "safety123",
+            "u007": "demo123",
+            "u008": "demo123",
             "u009": "demo123"
         }
         
