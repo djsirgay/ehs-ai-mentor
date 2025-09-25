@@ -4156,6 +4156,46 @@ async def complete_course(user_id: str = Form(...), course_id: str = Form(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# Главная страница - редирект на демо дашборд
+@app.get("/")
+async def root():
+    """Главная страница - показывает EHS AI Mentor"""
+    return HTMLResponse('''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>EHS AI Mentor - Cal Poly Safety Platform</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                   background: linear-gradient(135deg, #2a7d2e 0%, #66d36f 100%); 
+                   color: white; margin: 0; padding: 40px; text-align: center; min-height: 100vh; 
+                   display: flex; flex-direction: column; justify-content: center; }
+            .container { max-width: 600px; margin: 0 auto; }
+            h1 { font-size: 3em; margin-bottom: 20px; }
+            p { font-size: 1.2em; margin-bottom: 30px; opacity: 0.9; }
+            .buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+            .btn { background: rgba(255,255,255,0.2); color: white; padding: 15px 30px; 
+                   border: 2px solid rgba(255,255,255,0.3); border-radius: 12px; 
+                   text-decoration: none; font-weight: 600; transition: all 0.3s ease; }
+            .btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🛡️ EHS AI Mentor</h1>
+            <p>Cal Poly Safety Platform with AI Training & Random Coffee</p>
+            <div class="buttons">
+                <a href="/user/u001/dashboard" class="btn">🎯 Demo Dashboard</a>
+                <a href="/user/u002/dashboard" class="btn">👤 User Profile</a>
+                <a href="/docs" class="btn">📚 API Docs</a>
+            </div>
+        </div>
+    </body>
+    </html>
+    ''')
+
 @app.get("/user/{user_id}/dashboard")
 async def get_user_dashboard(user_id: str):
     """Get пользовательскую страницу (как видит пользователь)"""
