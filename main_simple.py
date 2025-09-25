@@ -4187,14 +4187,149 @@ async def root():
             <h1>🛡️ EHS AI Mentor</h1>
             <p>Cal Poly Safety Platform with AI Training & Random Coffee</p>
             <div class="buttons">
+                <a href="/login" class="btn">🔑 Login</a>
                 <a href="/user/u001/dashboard" class="btn">🎯 Demo Dashboard</a>
-                <a href="/user/u002/dashboard" class="btn">👤 User Profile</a>
                 <a href="/docs" class="btn">📚 API Docs</a>
             </div>
         </div>
     </body>
     </html>
     ''')
+
+# Страница логина
+@app.get("/login")
+async def login_page():
+    """Страница входа в систему"""
+    return HTMLResponse('''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Login - EHS AI Mentor</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                   background: linear-gradient(135deg, #2a7d2e 0%, #66d36f 100%); 
+                   color: white; margin: 0; padding: 40px; text-align: center; min-height: 100vh; 
+                   display: flex; flex-direction: column; justify-content: center; }
+            .login-container { max-width: 400px; margin: 0 auto; background: rgba(255,255,255,0.1); 
+                              padding: 40px; border-radius: 20px; backdrop-filter: blur(10px); 
+                              border: 1px solid rgba(255,255,255,0.2); }
+            h1 { font-size: 2.5em; margin-bottom: 30px; }
+            .form-group { margin-bottom: 20px; text-align: left; }
+            label { display: block; margin-bottom: 8px; font-weight: 600; }
+            input { width: 100%; padding: 15px; border: none; border-radius: 12px; 
+                   background: rgba(255,255,255,0.9); font-size: 16px; box-sizing: border-box; }
+            .btn { background: rgba(255,255,255,0.2); color: white; padding: 15px 30px; 
+                   border: 2px solid rgba(255,255,255,0.3); border-radius: 12px; 
+                   font-weight: 600; cursor: pointer; transition: all 0.3s ease; 
+                   width: 100%; font-size: 16px; margin-top: 10px; }
+            .btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); }
+            .demo-users { margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.1); 
+                         border-radius: 12px; }
+            .demo-btn { background: rgba(255,255,255,0.15); padding: 10px 15px; 
+                       border-radius: 8px; margin: 5px; display: inline-block; 
+                       text-decoration: none; color: white; font-size: 14px; }
+            .demo-btn:hover { background: rgba(255,255,255,0.25); }
+            .back-link { position: absolute; top: 20px; left: 20px; color: white; 
+                        text-decoration: none; font-size: 16px; }
+        </style>
+    </head>
+    <body>
+        <a href="/" class="back-link">← Back to Home</a>
+        <div class="login-container">
+            <h1>🔑 Login</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="user_id">User ID:</label>
+                    <input type="text" id="user_id" name="user_id" placeholder="Enter your User ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn">🚀 Login</button>
+            </form>
+            
+            <div class="demo-users">
+                <h3>🎯 Quick Demo Access</h3>
+                <p>Try these demo accounts:</p>
+                <a href="#" class="demo-btn" onclick="quickLogin('u001')">Student (u001)</a>
+                <a href="#" class="demo-btn" onclick="quickLogin('u002')">Faculty (u002)</a>
+                <a href="#" class="demo-btn" onclick="quickLogin('u007')">Admin (u007)</a>
+            </div>
+        </div>
+        
+        <script>
+            document.getElementById('loginForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const userId = document.getElementById('user_id').value;
+                const password = document.getElementById('password').value;
+                
+                try {
+                    const response = await fetch('/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: `user_id=${encodeURIComponent(userId)}&password=${encodeURIComponent(password)}`
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        window.location.href = `/user/${userId}/dashboard`;
+                    } else {
+                        alert('Login failed: ' + (result.message || 'Invalid credentials'));
+                    }
+                } catch (error) {
+                    alert('Login error: ' + error.message);
+                }
+            });
+            
+            function quickLogin(userId) {
+                window.location.href = `/user/${userId}/dashboard`;
+            }
+        </script>
+    </body>
+    </html>
+    ''')
+
+# Аутентификация
+@app.post("/auth/login")
+async def login(user_id: str = Form(...), password: str = Form(...)):
+    """Аутентификация пользователя"""
+    try:
+        # Проверяем существование пользователя
+        user = mentor.db.get_user(user_id)
+        if not user:
+            return {"success": False, "message": "User not found"}
+        
+        # Простая проверка пароля (для демо)
+        # В реальном проекте используйте хеширование
+        demo_passwords = {
+            "u001": "student123",
+            "u002": "faculty123", 
+            "u007": "admin123",
+            "u008": "user123",
+            "u009": "demo123"
+        }
+        
+        expected_password = demo_passwords.get(user_id, "demo123")
+        if password != expected_password:
+            return {"success": False, "message": "Invalid password"}
+        
+        # Успешная аутентификация
+        return {
+            "success": True, 
+            "message": f"Welcome back, {user['name']}!",
+            "user": {
+                "user_id": user_id,
+                "name": user["name"],
+                "role": user["role"],
+                "department": user["department"]
+            }
+        }
+        
+    except Exception as e:
+        return {"success": False, "message": "Login system error"}
 
 @app.get("/user/{user_id}/dashboard")
 async def get_user_dashboard(user_id: str):
