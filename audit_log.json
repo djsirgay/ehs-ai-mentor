@@ -87,7 +87,11 @@
     "id": 6,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-18T12:43:21.477010",
@@ -241,7 +245,11 @@
     "id": 16,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-18T12:46:19.778775",
@@ -254,7 +262,11 @@
     "id": 17,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-18T12:46:19.779540",
@@ -340,7 +352,11 @@
     "id": 23,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": 12,
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-18T13:29:49.149766",
@@ -353,7 +369,11 @@
     "id": 24,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-18T13:42:36.047828",
@@ -425,7 +445,11 @@
     "id": 31,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-18T15:12:40.047034",
@@ -520,7 +544,11 @@
     "id": 40,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-18T16:38:57.005669",
@@ -653,7 +681,11 @@
     "id": 49,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-18T17:02:10.662937",
@@ -671,7 +703,7 @@
     "is_expired": false,
     "renewal_months": "N/A",
     "deadline_days": 30,
-    "is_completed": false
+    "is_completed": true
   },
   {
     "timestamp": "2025-09-18T17:02:10.662937",
@@ -789,7 +821,11 @@
     "id": 60,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-18T20:14:13.367333",
@@ -911,7 +947,11 @@
     "id": 68,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-18T20:53:39.796141",
@@ -965,7 +1005,7 @@
     "is_expired": false,
     "renewal_months": "N/A",
     "deadline_days": 30,
-    "is_completed": false
+    "is_completed": true
   },
   {
     "timestamp": "2025-09-18T20:53:39.796141",
@@ -1320,7 +1360,11 @@
     "id": 103,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": 24,
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-21T16:44:18.996783",
@@ -1334,7 +1378,11 @@
     "id": 104,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-21T16:44:18.996783",
@@ -1348,7 +1396,11 @@
     "id": 105,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-21T16:51:25.806545",
@@ -1389,7 +1441,11 @@
     "id": 108,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-21T17:02:55.880406",
@@ -1412,7 +1468,11 @@
     "id": 110,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-21T17:02:55.880406",
@@ -1426,7 +1486,11 @@
     "id": 111,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": 12,
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-21T18:13:15.798431",
@@ -1449,7 +1513,11 @@
     "id": 113,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-21T18:22:55.027943",
@@ -1580,7 +1648,11 @@
     "id": 123,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-21T19:23:35.730354",
@@ -1639,7 +1711,11 @@
     "id": 127,
     "user_name": "User 006",
     "user_role": "radiation_worker",
-    "user_department": "Radiation Safety"
+    "user_department": "Radiation Safety",
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-21T21:55:26.195473",
@@ -1707,7 +1783,11 @@
     "reason": "Protocol involves high-risk biological decontamination requiring specialized safety training in hazardous waste, personal protective equipment, biosafety procedures, bloodborne pathogens, and chemical spill management. Ebola virus exposure requires comprehensive safety preparation.",
     "priority": "high",
     "document_hash": "6d51be19c879936ce3a6a0477a9750d5",
-    "id": 133
+    "id": 133,
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": true
   },
   {
     "timestamp": "2025-09-21T21:57:42.094492",
@@ -1718,7 +1798,11 @@
     "reason": "Protocol involves high-risk biological decontamination requiring specialized safety training in hazardous waste, personal protective equipment, biosafety procedures, bloodborne pathogens, and chemical spill management. Ebola virus exposure requires comprehensive safety preparation.",
     "priority": "normal",
     "document_hash": "6d51be19c879936ce3a6a0477a9750d5",
-    "id": 134
+    "id": 134,
+    "is_expired": false,
+    "renewal_months": "N/A",
+    "deadline_days": "N/A",
+    "is_completed": false
   },
   {
     "timestamp": "2025-09-22T10:29:38.057337",
@@ -1751,5 +1835,29 @@
     "course_id": "FORKLIFT-SAFETY-1910.178",
     "completion_method": "manual",
     "id": 138
+  },
+  {
+    "timestamp": "2025-09-23T16:34:03.195484",
+    "action": "course_completed",
+    "user_id": "u009",
+    "course_id": "FORKLIFT-SAFETY-1910.178",
+    "completion_method": "manual",
+    "id": 139
+  },
+  {
+    "timestamp": "2025-09-25T09:20:10.651526",
+    "action": "course_completed",
+    "user_id": "u006",
+    "course_id": "BIOSAFETY-BSL2",
+    "completion_method": "manual",
+    "id": 140
+  },
+  {
+    "timestamp": "2025-09-25T09:25:18.238051",
+    "action": "course_completed",
+    "user_id": "u006",
+    "course_id": "RESPIRATOR-QUAL-130",
+    "completion_method": "manual",
+    "id": 141
   }
 ]

@@ -97,51 +97,96 @@ class EnhancedCoffeeManager:
         
         return min(total_score, 1.0), breakdown
     
-    def create_ai_matches(self, max_matches: int = 20) -> List[Dict]:
+    def can_create_matches(self, user_id: str = None) -> Tuple[bool, str, str]:
+        """Проверяет, можно ли создавать новые матчи. Возвращает (can_create, message, next_date)"""
+        from datetime import datetime, timedelta
+        
+        # Если пользователь не указан или у него нет профиля, разрешаем создание матчей
+        if not user_id or user_id not in self.profiles:
+            return True, "", ""
+        
+        now = datetime.now()
+        
+        # Получаем последний матч любого пользователя
+        latest_match = None
+        for match in self.matches.values():
+            match_date = datetime.fromisoformat(match["created_at"].replace('Z', ''))
+            if not latest_match or match_date > latest_match:
+                latest_match = match_date
+        
+        if latest_match:
+            # Проверяем, прошла ли неделя с последнего матча
+            days_since = (now - latest_match).days
+            if days_since < 7:
+                next_match_date = latest_match + timedelta(days=7)
+                next_date_str = next_match_date.strftime("%B %d, %Y")
+                days_left = 7 - days_since
+                
+                return False, f"🌟 Hey there! I love your enthusiasm for meeting new people! ☕\n\n📅 **Here's how Random Coffee works:** We create thoughtful matches once a week to give you time to really connect with each person. Your next matching opportunity is on {next_date_str} ({days_left} days left).\n\n🤝 **Why weekly?** This gives you time to have meaningful conversations, maybe grab that coffee, and build genuine friendships!\n\n🚀 **In the meantime, I'd love to be your friend and safety assistant!** I can help with:\n• Workplace safety questions\n• Course recommendations\n• Cal Poly campus tips\n• Just friendly conversation!\n\nWhat would you like to chat about? ✨", next_date_str
+        
+        return True, "", ""
+    
+    def create_ai_matches(self, max_matches: int = 20, user_id: str = None) -> List[Dict]:
+        # Проверяем еженедельное ограничение
+        can_create, message, _ = self.can_create_matches(user_id)
+        if not can_create:
+            return []
+        
         active_profiles = [p for p in self.profiles.values() if p.get("active", False)]
         
         if len(active_profiles) < 2:
             return []
         
-        # Вычисляем совместимость для всех пар
+        # Получаем существующие пары пользователей
+        existing_pairs = set()
+        for match in self.matches.values():
+            users = sorted(match["users"])
+            existing_pairs.add((users[0], users[1]))
+        
+        # Вычисляем совместимость для всех пар (исключая существующие)
         compatibility_pairs = []
         for i, profile1 in enumerate(active_profiles):
             for profile2 in active_profiles[i+1:]:
-                score, breakdown = self.calculate_compatibility_score(
-                    profile1["user_id"], profile2["user_id"]
-                )
-                compatibility_pairs.append({
-                    "users": [profile1["user_id"], profile2["user_id"]],
-                    "score": score,
-                    "breakdown": breakdown
-                })
+                user1_id = profile1["user_id"]
+                user2_id = profile2["user_id"]
+                
+                # Проверяем, что эта пара еще не существует
+                pair_key = tuple(sorted([user1_id, user2_id]))
+                if pair_key not in existing_pairs:
+                    score, breakdown = self.calculate_compatibility_score(user1_id, user2_id)
+                    compatibility_pairs.append({
+                        "users": [user1_id, user2_id],
+                        "score": score,
+                        "breakdown": breakdown
+                    })
         
         # Сортируем по совместимости
         compatibility_pairs.sort(key=lambda x: x["score"], reverse=True)
         
-        # Создаем матчи
+        # Создаем матчи (только новые пары)
         matches = []
-        used_users = set()
+        created_count = 0
         
-        for pair in compatibility_pairs[:max_matches]:
-            user1, user2 = pair["users"]
-            if user1 not in used_users and user2 not in used_users:
-                match_id = str(uuid.uuid4())
-                match = {
-                    "id": match_id,
-                    "users": [user1, user2],
-                    "compatibility_score": pair["score"],
-                    "compatibility_breakdown": pair["breakdown"],
-                    "status": "active",
-                    "created_at": datetime.now().isoformat(),
-                    "confirmed_time": None,
-                    "feedback": []
-                }
+        for pair in compatibility_pairs:
+            if created_count >= max_matches:
+                break
                 
-                self.matches[match_id] = match
-                matches.append(match)
-                used_users.add(user1)
-                used_users.add(user2)
+            user1, user2 = pair["users"]
+            match_id = str(uuid.uuid4())
+            match = {
+                "id": match_id,
+                "users": [user1, user2],
+                "compatibility_score": pair["score"],
+                "compatibility_breakdown": pair["breakdown"],
+                "status": "confirmed",  # Автоматически подтверждаем
+                "created_at": datetime.now().isoformat(),
+                "confirmed_time": datetime.now().isoformat(),
+                "feedback": []
+            }
+            
+            self.matches[match_id] = match
+            matches.append(match)
+            created_count += 1
         
         self.save_matches()
         return matches

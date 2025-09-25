@@ -52,5 +52,5 @@ class CoffeeMessenger:
     def confirm_meeting(self, match_id: str, time_slot: str):
         self.send_system_message(
             match_id, 
-            f"✅ Встреча подтверждена на {time_slot}! Увидимся!"
+            f"✅ Meeting confirmed for {time_slot}! See you there!"
         )

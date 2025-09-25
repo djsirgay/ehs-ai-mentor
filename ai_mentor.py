@@ -179,3 +179,114 @@ class AIMentor:
                 })
         
         return results
+    
+    def chat(self, message: str, user_id: str = None) -> dict:
+        """Smart chat with conversation memory"""
+        try:
+            # Get user context
+            user_context = ""
+            if user_id:
+                user = self.db.get_user(user_id)
+                if user:
+                    user_context = f"User: {user['name']} ({user['role']}) from {user['department']}"
+            
+            # Get conversation history
+            chat_history = self._get_chat_history(user_id) if user_id else []
+            history_context = self._format_history(chat_history)
+            
+            # Create enhanced system prompt with memory
+            system_prompt = f"""You are a helpful Random Coffee assistant for Cal Poly students.
+You help with safety questions, workplace guidance, and campus information.
+{user_context}
+
+CONVERSATION HISTORY:
+{history_context}
+
+Be friendly, helpful, and remember the conversation context. If the user asks for elaboration or says "yes please", continue the previous topic."""
+            
+            response = self.bedrock.chat(message, system_prompt)
+            
+            # Save conversation to memory
+            if user_id:
+                self._save_to_history(user_id, message, response)
+            
+            return {"response": response}
+            
+        except Exception as e:
+            return {"response": f"I'm here to help! Ask me about safety, workplace procedures, or campus life. (Error: {str(e)[:50]}...)"}
+    
+    def _get_chat_history(self, user_id: str) -> list:
+        """Get recent chat history for user from persistent storage"""
+        try:
+            import json
+            import os
+            
+            # Create chat history directory if it doesn't exist
+            chat_dir = "data/chat_history"
+            os.makedirs(chat_dir, exist_ok=True)
+            
+            # Load from file
+            chat_file = f"{chat_dir}/{user_id}_chat.json"
+            if os.path.exists(chat_file):
+                with open(chat_file, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            return []
+        except:
+            return []
+    
+    def _format_history(self, history: list) -> str:
+        """Format chat history for AI context"""
+        if not history:
+            return "(No previous conversation)"
+        
+        # Show last 3 exchanges to keep context manageable
+        recent = history[-6:] if len(history) > 6 else history
+        formatted = []
+        
+        for i in range(0, len(recent), 2):
+            if i + 1 < len(recent):
+                user_msg = recent[i].split("] ", 1)[-1] if "] " in recent[i] else recent[i]
+                ai_msg = recent[i + 1].split("] ", 1)[-1] if "] " in recent[i + 1] else recent[i + 1]
+                formatted.append(f"User: {user_msg}\nAssistant: {ai_msg}")
+        
+        return "\n\n".join(formatted)
+    
+    def _save_to_history(self, user_id: str, user_message: str, ai_response: str):
+        """Save conversation to persistent storage"""
+        try:
+            import json
+            import os
+            from datetime import datetime
+            
+            # Create chat history directory
+            chat_dir = "data/chat_history"
+            os.makedirs(chat_dir, exist_ok=True)
+            
+            # Load existing history
+            chat_file = f"{chat_dir}/{user_id}_chat.json"
+            history = []
+            if os.path.exists(chat_file):
+                with open(chat_file, 'r', encoding='utf-8') as f:
+                    history = json.load(f)
+            
+            # Add new messages with timestamp
+            timestamp = datetime.now().isoformat()
+            history.extend([
+                f"[{timestamp}] {user_message}",
+                f"[{timestamp}] {ai_response}"
+            ])
+            
+            # Keep only last 20 messages (10 exchanges)
+            if len(history) > 20:
+                history = history[-20:]
+            
+            # Save to file
+            with open(chat_file, 'w', encoding='utf-8') as f:
+                json.dump(history, f, ensure_ascii=False, indent=2)
+                
+        except Exception as e:
+            print(f"Error saving chat history: {e}")
+    
+    def analyze_protocol(self, message: str) -> dict:
+        """Alias for chat method to maintain compatibility"""
+        return self.chat(message)

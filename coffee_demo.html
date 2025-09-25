@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Coffee - Cal Poly</title>
+    <meta charset="utf-8">
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; 
+            margin: 0; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: white;
+        }
+        .tabs {
+            display: flex;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+        }
+        .tab.active {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-weight: 600;
+        }
+        .tab-content {
+            display: none;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .chat-container {
+            height: 400px;
+            overflow-y: auto;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 80%;
+        }
+        .message.user {
+            background: #007AFF;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+        .message.bot {
+            background: rgba(255,255,255,0.9);
+            color: #333;
+        }
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+        .input-container input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.9);
+            font-size: 16px;
+        }
+        .input-container button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            background: #007AFF;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .profile-form {
+            color: white;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.9);
+            font-size: 16px;
+        }
+        .btn {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>☕ Random Coffee</h1>
+            <p>Find your perfect study buddy at Cal Poly!</p>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('chat')">💬 AI Chat</div>
+            <div class="tab" onclick="switchTab('profile')">📝 Smart Profile</div>
+            <div class="tab" onclick="switchTab('matches')">🎯 Matches</div>
+        </div>
+
+        <!-- Chat Tab -->
+        <div id="chat" class="tab-content active">
+            <div class="chat-container" id="chatMessages"></div>
+            <div class="input-container">
+                <input type="text" id="messageInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()">Send 🚀</button>
+            </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profile" class="tab-content">
+            <div class="profile-form">
+                <h2>🚀 Create Your Smart Profile</h2>
+                <p>Fill out this form to get matched with compatible Cal Poly students!</p>
+                
+                <div class="form-group">
+                    <label>Your Interests (comma-separated):</label>
+                    <input type="text" id="interests" placeholder="e.g., programming, music, sports, photography">
+                </div>
+                
+                <div class="form-group">
+                    <label>Personality Traits:</label>
+                    <input type="text" id="personality" placeholder="e.g., outgoing, creative, analytical, friendly">
+                </div>
+                
+                <div class="form-group">
+                    <label>Preferred Meeting Style:</label>
+                    <select id="meetingStyle">
+                        <option value="casual">Casual Coffee Chat</option>
+                        <option value="study">Study Session</option>
+                        <option value="activity">Activity-based</option>
+                        <option value="group">Group Hangout</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Availability:</label>
+                    <select id="availability">
+                        <option value="weekdays">Weekdays</option>
+                        <option value="weekends">Weekends</option>
+                        <option value="flexible">Flexible</option>
+                        <option value="evenings">Evenings Only</option>
+                    </select>
+                </div>
+                
+                <button class="btn" onclick="createProfile()">🚀 Create Profile</button>
+            </div>
+        </div>
+
+        <!-- Matches Tab -->
+        <div id="matches" class="tab-content">
+            <h2>🎯 Your Matches</h2>
+            <div id="matchesList">
+                <p style="color: white; text-align: center; padding: 40px;">
+                    Create your Smart Profile first to see matches! ✨
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const USER_ID = 'u001'; // Default user for demo
+        let chatHistory = [];
+
+        // Load chat history on page load
+        window.onload = async function() {
+            await loadChatHistory();
+            if (chatHistory.length === 0) {
+                // Send initial message
+                sendInitialMessage();
+            }
+        };
+        
+        // Auto-save chat every 5 seconds
+        setInterval(saveChatHistory, 5000);
+
+        function switchTab(tabName) {
+            // Save chat history before switching
+            saveChatHistory();
+            
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Load chat history when returning to chat
+            if (tabName === 'chat') {
+                setTimeout(() => loadChatHistory(), 100); // Small delay to ensure tab is active
+            } else if (tabName === 'matches') {
+                loadMatches();
+            }
+        }
+        
+        async function loadMatches() {
+            const matchesList = document.getElementById('matchesList');
+            matchesList.innerHTML = '<p style="color: white; text-align: center; padding: 20px;">🔍 Loading matches...</p>';
+            
+            try {
+                const response = await fetch(`/coffee/matches/${USER_ID}`);
+                const data = await response.json();
+                
+                if (data.success && data.matches && data.matches.length > 0) {
+                    let html = '<div style="color: white;">';
+                    html += `<h3>🎯 You have ${data.matches.length} matches!</h3>`;
+                    
+                    data.matches.forEach(match => {
+                        html += `<div style="background: rgba(255,255,255,0.1); padding: 15px; margin: 10px 0; border-radius: 10px;">`;
+                        html += `<h4>👤 ${match.name || 'Anonymous'}</h4>`;
+                        html += `<p>🏢 ${match.role || 'Student'} in ${match.department || 'Various'}</p>`;
+                        html += `<p>🎯 Interests: ${(match.interests || []).join(', ')}</p>`;
+                        if (match.compatibility_score) {
+                            html += `<p>💫 Compatibility: ${Math.round(match.compatibility_score * 100)}%</p>`;
+                        }
+                        html += `<button class="btn" onclick="startChat('${match.user_id}')">💬 Start Chat</button>`;
+                        html += `</div>`;
+                    });
+                    
+                    html += '</div>';
+                    matchesList.innerHTML = html;
+                } else {
+                    matchesList.innerHTML = '<p style="color: white; text-align: center; padding: 40px;">No matches yet. Create your Smart Profile and say "Ок" in chat to start matching! ✨</p>';
+                }
+            } catch (error) {
+                matchesList.innerHTML = '<p style="color: white; text-align: center; padding: 40px;">❌ Error loading matches</p>';
+            }
+        }
+        
+        function startChat(matchUserId) {
+            alert(`Starting chat with user ${matchUserId}! 💬`);
+            // Here you would implement the actual chat functionality
+        }
+
+        async function loadChatHistory() {
+            try {
+                // Load from server first
+                const response = await fetch(`/coffee/chat/history/${USER_ID}`);
+                const data = await response.json();
+                
+                if (data.success && data.history && data.history.length > 0) {
+                    chatHistory = [];
+                    data.history.forEach(item => {
+                        chatHistory.push({ content: item.user_message, type: 'user', timestamp: item.timestamp });
+                        chatHistory.push({ content: item.ai_response, type: 'bot', timestamp: item.timestamp });
+                    });
+                    renderChatHistory();
+                    return;
+                }
+            } catch (error) {
+                console.log('Server history not available, checking localStorage');
+            }
+            
+            // Fallback to localStorage if server fails
+            const saved = localStorage.getItem('coffeeChat_' + USER_ID);
+            if (saved) {
+                chatHistory = JSON.parse(saved);
+                renderChatHistory();
+            }
+        }
+
+        function saveChatHistory() {
+            // Keep localStorage as backup
+            localStorage.setItem('coffeeChat_' + USER_ID, JSON.stringify(chatHistory));
+        }
+
+        function renderChatHistory() {
+            const container = document.getElementById('chatMessages');
+            container.innerHTML = '';
+            
+            chatHistory.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = `message ${msg.type}`;
+                div.innerHTML = msg.content;
+                container.appendChild(div);
+            });
+            
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function addMessage(content, type) {
+            chatHistory.push({ content, type, timestamp: Date.now() });
+            renderChatHistory();
+            saveChatHistory();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+
+            // Add loading message
+            addMessage('🤖 Thinking...', 'bot');
+
+            try {
+                const formData = new FormData();
+                formData.append('user_id', USER_ID);
+                formData.append('message', message);
+
+                const response = await fetch('/coffee/chat', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                // Remove loading message
+                chatHistory.pop();
+                
+                // Add bot response
+                addMessage(data.response, 'bot');
+                
+            } catch (error) {
+                // Remove loading message
+                chatHistory.pop();
+                addMessage('❌ Error: ' + error.message, 'bot');
+            }
+        }
+
+        async function sendInitialMessage() {
+            addMessage('🤖 Connecting...', 'bot');
+            
+            try {
+                const formData = new FormData();
+                formData.append('user_id', USER_ID);
+                formData.append('message', 'hello');
+
+                const response = await fetch('/coffee/chat', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                // Remove loading message
+                chatHistory.pop();
+                
+                // Add bot response
+                addMessage(data.response, 'bot');
+                
+            } catch (error) {
+                // Remove loading message
+                chatHistory.pop();
+                addMessage('❌ Connection error. Please refresh the page.', 'bot');
+            }
+        }
+
+        async function createProfile() {
+            const interests = document.getElementById('interests').value;
+            const personality = document.getElementById('personality').value;
+            const meetingStyle = document.getElementById('meetingStyle').value;
+            const availability = document.getElementById('availability').value;
+
+            if (!interests.trim()) {
+                alert('Please enter your interests!');
+                return;
+            }
+
+            try {
+                const formData = new FormData();
+                formData.append('user_id', USER_ID);
+                formData.append('interests', interests);
+                formData.append('personality_traits', personality);
+                formData.append('availability', JSON.stringify([{day: availability, time: 'flexible'}]));
+                formData.append('meeting_preferences', JSON.stringify({style: meetingStyle}));
+
+                const response = await fetch('/enhanced-coffee/profile', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('✅ Profile created successfully! Switch to Chat tab and say "Ок" to start matching!');
+                    
+                    // Add success message to chat
+                    addMessage('✅ Smart Profile created! Now say "OK" or "Ready" to start finding friends!', 'bot');
+                    
+                    // Switch to chat tab
+                    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+                    document.getElementById('chat').classList.add('active');
+                    document.querySelector('.tab').classList.add('active');
+                } else {
+                    alert('❌ Error creating profile. Please try again.');
+                }
+                
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

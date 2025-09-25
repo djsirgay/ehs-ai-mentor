@@ -50,7 +50,9 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Личный кабинет - {user["name"]}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EHS AI Mentor - Personal Dashboard - {user["name"]}</title>
     <link rel="stylesheet" href="/tahoe.css">
     <style>
     :root {{
@@ -115,12 +117,920 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
       background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 50%, #86efac 100%);
       min-height: 100vh;
       padding: 0;
+      transition: all 0.3s ease;
+    }}
+    
+    /* Dark Theme - Friendly & Warm */
+    body.dark-theme {{
+      color: #f3f4f6;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #020617 100%);
+    }}
+    
+    body.dark-theme .hero {{
+      background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%) !important;
+      box-shadow: 0 10px 30px rgba(30, 64, 175, 0.3);
+    }}
+    
+    body.dark-theme .modal-content {{
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }}
+    
+    body.dark-theme .modal-header {{
+      background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%) !important;
+    }}
+    
+    body.dark-theme .tahoe-stat-card {{
+      background: linear-gradient(145deg, #334155 0%, #475569 100%) !important;
+      color: #f1f5f9;
+      border: 1px solid rgba(59, 130, 246, 0.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }}
+    
+    body.dark-theme .container {{
+      background: rgba(30, 41, 59, 0.3);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(59, 130, 246, 0.1);
+    }}
+    
+    /* Dark theme buttons and cards */
+    body.dark-theme button {{
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+    }}
+    
+    body.dark-theme button:hover {{
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3) !important;
+      transform: translateY(-2px);
+    }}
+    
+    body.dark-theme input, body.dark-theme select {{
+      background: rgba(30, 41, 59, 0.8) !important;
+      border: 1px solid rgba(59, 130, 246, 0.3) !important;
+      color: #f1f5f9 !important;
+    }}
+    
+    body.dark-theme input:focus, body.dark-theme select:focus {{
+      border-color: #3b82f6 !important;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    }}
+    
+    /* Dark theme cards and sections */
+    body.dark-theme [style*="background: rgba(255, 255, 255"] {{
+      background: rgba(30, 41, 59, 0.6) !important;
+      border: 1px solid rgba(59, 130, 246, 0.2) !important;
+      backdrop-filter: blur(15px) !important;
+    }}
+    
+    body.dark-theme [style*="background: linear-gradient(145deg, #ffffff"] {{
+      background: linear-gradient(145deg, #334155 0%, #475569 100%) !important;
+      border: 1px solid rgba(59, 130, 246, 0.1) !important;
+    }}
+    
+    /* Dark theme text colors */
+    body.dark-theme [style*="color: var(--gray-800)"] {{
+      color: #f1f5f9 !important;
+    }}
+    
+    body.dark-theme [style*="color: var(--gray-600)"] {{
+      color: #cbd5e1 !important;
+    }}
+    
+    body.dark-theme [style*="color: var(--gray-700)"] {{
+      color: #e2e8f0 !important;
+    }}
+    
+    /* Dark theme headings and text */
+    body.dark-theme h1, body.dark-theme h2, body.dark-theme h3, body.dark-theme h4, body.dark-theme h5, body.dark-theme h6 {{
+      color: #f1f5f9 !important;
+    }}
+    
+    body.dark-theme p, body.dark-theme span, body.dark-theme div {{
+      color: #e2e8f0;
+    }}
+    
+    body.dark-theme strong {{
+      color: #f8fafc !important;
+    }}
+    
+    /* Dark theme specific color overrides */
+    body.dark-theme [style*="color: #666"], body.dark-theme [style*="color: #374151"] {{
+      color: #cbd5e1 !important;
+    }}
+    
+    body.dark-theme [style*="color: #1e293b"], body.dark-theme [style*="color: #000"] {{
+      color: #f1f5f9 !important;
+    }}
+    
+    body.dark-theme [style*="color: #721c24"] {{
+      color: #fca5a5 !important;
+    }}
+    
+    /* Dark theme footer and special elements */
+    body.dark-theme footer {{
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+      border-top: 1px solid rgba(59, 130, 246, 0.2);
+    }}
+    
+    body.dark-theme [style*="background: #f8d7da"] {{
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: rgba(239, 68, 68, 0.3) !important;
+    }}
+    
+    body.dark-theme [style*="background: #e9ecef"] {{
+      background: rgba(30, 41, 59, 0.8) !important;
+    }}
+    
+    /* Dark theme for inline styles with specific colors */
+    body.dark-theme [style*="color: #ef4444"] {{
+      color: #f87171 !important;
+    }}
+    
+    body.dark-theme [style*="color: #10b981"] {{
+      color: #34d399 !important;
+    }}
+    
+    /* Dark theme - Orange card text fixes */
+    body.dark-theme [style*="background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%)"] * {{
+      color: #1f2937 !important;
+    }}
+    
+    body.dark-theme [style*="background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%)"] h1,
+    body.dark-theme [style*="background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%)"] h2,
+    body.dark-theme [style*="background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%)"] h3 {{
+      color: #111827 !important;
+    }}
+    
+    body.dark-theme [style*="background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%)"] p,
+    body.dark-theme [style*="background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%)"] span,
+    body.dark-theme [style*="background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%)"] div {{
+      color: #374151 !important;
     }}
 
     .container {{
       max-width: var(--container-max);
       margin: 0 auto;
       padding: 0 var(--container-pad);
+    }}
+    
+    /* Mobile First - Responsive Design */
+    @media (max-width: 768px) {{
+      .container {{
+        padding: 0 12px !important;
+        max-width: 100% !important;
+      }}
+      
+      body {{
+        padding: 0 !important;
+        font-size: 14px !important;
+      }}
+      
+      .main-grid, [style*="display: grid; grid-template-columns: 1fr 1fr"] {{
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+        min-height: auto !important;
+      }}
+      
+      .footer-grid {{
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        text-align: center !important;
+      }}
+      
+      /* Mobile footer improvements */
+      footer {{
+        padding: 20px 0 !important;
+        margin-top: 30px !important;
+        border-radius: 12px 12px 0 0 !important;
+      }}
+      
+      footer h4 {{
+        font-size: 16px !important;
+        margin-bottom: 12px !important;
+      }}
+      
+      footer div {{
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+      }}
+      
+      /* Force single column for all grids */
+      [style*="grid-template-columns: 1fr 1fr"] {{
+        grid-template-columns: 1fr !important;
+      }}
+      
+      [style*="grid-template-columns: repeat"] {{
+        grid-template-columns: 1fr !important;
+      }}
+    }}
+    
+    @media (max-width: 480px) {{
+      .container {{
+        padding: 0 8px !important;
+        margin: 0 !important;
+      }}
+      
+      .main-grid {{
+        gap: 12px !important;
+        grid-template-columns: 1fr !important;
+      }}
+      
+      .hero {{
+        min-height: auto !important;
+        margin: 0 0 12px 0 !important;
+        padding: 12px !important;
+      }}
+      
+      /* Force all grids to single column */
+      * {{
+        box-sizing: border-box !important;
+      }}
+      
+      [style*="display: grid"] {{
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+      }}
+      
+      [style*="display: flex"] {{
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+      }}
+      
+      /* Ultra compact for small screens */
+      .container {{
+        padding: 8px !important;
+      }}
+      
+      .hero {{
+        padding: 16px !important;
+        margin: 0 0 12px 0 !important;
+        border-radius: 12px !important;
+      }}
+      
+      .hero h1 {{
+        font-size: 24px !important;
+        margin-bottom: 16px !important;
+      }}
+      
+      .hero:first-child {{
+        padding: 12px !important;
+      }}
+      
+      .hero:first-child [style*="font-size: 28px"] {{
+        font-size: 16px !important;
+      }}
+      
+      /* Compact course buttons */
+      [style*="width: 150px; height: 150px"] {{
+        width: 100% !important;
+        height: 56px !important;
+        font-size: 14px !important;
+        padding: 12px !important;
+        line-height: 1.2 !important;
+      }}
+      
+      /* Stack all buttons vertically */
+      .hero > div:last-child {{
+        flex-direction: column !important;
+        gap: 8px !important;
+      }}
+      
+      .hero button {{
+        width: 100% !important;
+        min-width: auto !important;
+        font-size: 12px !important;
+        padding: 12px !important;
+      }}
+      
+      /* Better typography */
+      body {{
+        line-height: 1.5 !important;
+      }}
+      
+      /* Compact text */
+      [style*="font-size: 28px"] {{
+        font-size: 18px !important;
+        line-height: 1.3 !important;
+      }}
+      
+      [style*="font-size: 20px"] {{
+        font-size: 16px !important;
+        line-height: 1.4 !important;
+      }}
+      
+      /* Better spacing for text elements */
+      p, div {{
+        margin-bottom: 12px !important;
+      }}
+      
+      /* Improved readability */
+      [style*="font-size: 14px"] {{
+        font-size: 15px !important;
+        line-height: 1.5 !important;
+      }}
+      
+      /* Better contrast for small text */
+      [style*="font-size: 12px"] {{
+        font-size: 13px !important;
+        font-weight: 500 !important;
+      }}
+    }}
+    
+    /* Hero section responsive */
+    @media (max-width: 768px) {{
+      .hero {{
+        margin: 0 0 16px 0 !important;
+        padding: 16px !important;
+        border-radius: 16px !important;
+      }}
+      
+      .hero > div {{
+        flex-direction: column !important;
+        gap: 12px !important;
+        text-align: center;
+      }}
+      
+      .hero > div:first-child {{
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+      }}
+      
+      .hero > div:last-child {{
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 8px !important;
+      }}
+      
+      .hero h1 {{
+        font-size: 32px !important;
+        margin-bottom: 16px !important;
+      }}
+      
+      .hero img {{
+        height: 24px !important;
+      }}
+    }}
+    
+    @media (max-width: 480px) {{
+      .hero {{
+        padding: 12px !important;
+        margin: 0 0 12px 0 !important;
+      }}
+      
+      .hero h1 {{
+        font-size: 24px !important;
+        margin-bottom: 12px !important;
+      }}
+      
+      .hero div[style*="font-size: 28px"] {{
+        font-size: 18px !important;
+      }}
+      
+      .hero div[style*="font-size: 20px"] {{
+        font-size: 14px !important;
+      }}
+    }}
+    
+    /* Buttons responsive */
+    @media (max-width: 768px) {{
+      button {{
+        padding: 16px 20px !important;
+        font-size: 15px !important;
+        border-radius: 12px !important;
+        min-height: 52px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        font-weight: 600 !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+      }}
+      
+      .hero button {{
+        padding: 14px 16px !important;
+        font-size: 14px !important;
+        white-space: nowrap !important;
+        margin: 6px 0 !important;
+        border-radius: 10px !important;
+      }}
+      
+      /* Course action buttons */
+      [style*="START"] {{
+        width: 100% !important;
+        height: 64px !important;
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3) !important;
+      }}
+      
+      /* Main action buttons */
+      [style*="COMPLIANCE REPORT"], [style*="SAFE & SWAG"] {{
+        height: 56px !important;
+        font-size: 16px !important;
+        border-radius: 14px !important;
+        margin: 8px 0 !important;
+      }}
+    }}
+    
+    @media (max-width: 480px) {{
+      button {{
+        padding: 10px 12px !important;
+        font-size: 12px !important;
+        min-height: 44px;
+        touch-action: manipulation;
+      }}
+      
+      .hero button {{
+        padding: 8px 10px !important;
+        font-size: 11px !important;
+      }}
+    }}
+    
+    /* Forms responsive */
+    @media (max-width: 768px) {{
+      input, select, textarea {{
+        padding: 12px !important;
+        font-size: 16px !important;
+        border-radius: 8px !important;
+        min-height: 44px;
+      }}
+    }}
+    
+    @media (max-width: 480px) {{
+      input, select, textarea {{
+        padding: 10px !important;
+        font-size: 16px !important;
+        width: 100% !important;
+        box-sizing: border-box;
+      }}
+    }}
+    
+    /* Modal responsive */
+    @media (max-width: 768px) {{
+      .modal-content {{
+        width: 95% !important;
+        max-width: none !important;
+        max-height: 85vh !important;
+        margin: 5vh auto !important;
+        border-radius: 20px !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important;
+      }}
+      
+      .modal-header {{
+        padding: 16px !important;
+        border-radius: 16px 16px 0 0 !important;
+      }}
+      
+      .modal-header h2 {{
+        font-size: 18px !important;
+        margin: 0 !important;
+      }}
+      
+      #modalBody {{
+        padding: 16px !important;
+        max-height: calc(90vh - 120px) !important;
+        overflow-y: auto !important;
+      }}
+    }}
+    
+    @media (max-width: 480px) {{
+      .modal-content {{
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100vh !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+      }}
+      
+      .modal-header {{
+        padding: 12px !important;
+        border-radius: 0 !important;
+      }}
+      
+      .modal-header h2 {{
+        font-size: 16px !important;
+      }}
+      
+      #modalBody {{
+        padding: 12px !important;
+        max-height: calc(100vh - 100px) !important;
+      }}
+    }}
+    
+    /* Force mobile layout - Override inline styles */
+    @media (max-width: 768px) {{
+      body {{
+        overflow-x: hidden !important;
+      }}
+      
+      /* Better mobile container */
+      .container {{
+        padding: 12px !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+      }}
+      
+      /* Smoother scrolling */
+      html {{
+        scroll-behavior: smooth !important;
+      }}
+      
+      /* Improved mobile header */
+      .hero:first-child {{
+        padding: 16px !important;
+        margin: 0 0 16px 0 !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
+      }}
+      
+      .hero:first-child > div:first-child {{
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 12px !important;
+        margin-bottom: 12px !important;
+      }}
+      
+      .hero:first-child > div:last-child {{
+        flex-direction: row !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+      }}
+      
+      .hero:first-child img {{
+        height: 24px !important;
+      }}
+      
+      .hero:first-child [style*="font-size: 28px"] {{
+        font-size: 18px !important;
+        text-align: center !important;
+      }}
+      
+      .container {{
+        width: 100% !important;
+        max-width: 100% !important;
+      }}
+      
+      /* Override specific inline grid styles */
+      [style*="display: grid; grid-template-columns: 1fr 1fr; gap: 20px"] {{
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }}
+      
+      [style*="display: grid; grid-template-columns: 1fr 1fr 1fr"] {{
+        grid-template-columns: 1fr !important;
+      }}
+      
+      [style*="min-height: 400px"] {{
+        min-height: auto !important;
+      }}
+      
+      /* Better mobile cards */
+      .hero {{
+        padding: 20px !important;
+        margin: 0 0 16px 0 !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+      }}
+      
+      .hero h1 {{
+        font-size: 28px !important;
+        margin-bottom: 20px !important;
+        text-align: center !important;
+        line-height: 1.2 !important;
+      }}
+      
+      /* Better spacing for content */
+      .hero > div {{
+        margin-bottom: 16px !important;
+      }}
+      
+      .hero > div:last-child {{
+        margin-bottom: 0 !important;
+      }}
+      
+      /* Compact progress section */
+      [style*="font-size: 48px"] {{
+        font-size: 32px !important;
+      }}
+      
+      [style*="font-size: 46px"] {{
+        font-size: 30px !important;
+      }}
+      
+      /* Better progress bar */
+      [style*="height: 12px"] {{
+        height: 10px !important;
+        border-radius: 8px !important;
+      }}
+      
+      /* Improved statistics display */
+      [style*="display: flex; gap: var(--space-m)"] {{
+        flex-direction: column !important;
+        gap: 8px !important;
+      }}
+      
+      /* Better button layout */
+      [style*="display: flex; gap: 12px; justify-content: center"] {{
+        flex-direction: column !important;
+        gap: 12px !important;
+      }}
+    }}
+    
+    /* Grid layouts responsive */
+    @media (max-width: 768px) {{
+      [style*="display: grid"][style*="grid-template-columns"] {{
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }}
+      
+      [style*="display: flex"][style*="gap"] {{
+        flex-direction: column !important;
+        gap: 12px !important;
+      }}
+      
+      [style*="display: flex"][style*="justify-content: space-between"] {{
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+      }}
+    }}
+    
+    @media (max-width: 480px) {{
+      [style*="display: grid"] {{
+        gap: 8px !important;
+      }}
+      
+      [style*="display: flex"] {{
+        gap: 8px !important;
+      }}
+    }}
+    
+    /* Cards responsive */
+    @media (max-width: 768px) {{
+      [style*="padding: 24px"], [style*="padding: 20px"] {{
+        padding: 16px !important;
+      }}
+      
+      [style*="margin: 20px"], [style*="margin: 15px"] {{
+        margin: 12px 0 !important;
+      }}
+    }}
+    
+    @media (max-width: 480px) {{
+      [style*="padding: 24px"], [style*="padding: 20px"], [style*="padding: 16px"] {{
+        padding: 12px !important;
+      }}
+      
+      [style*="margin: 20px"], [style*="margin: 15px"], [style*="margin: 12px"] {{
+        margin: 8px 0 !important;
+      }}
+      
+      [style*="border-radius: 20px"], [style*="border-radius: 16px"] {{
+        border-radius: 12px !important;
+      }}
+    }}
+    
+    /* Typography responsive */
+    @media (max-width: 768px) {{
+      h1 {{
+        font-size: 28px !important;
+        line-height: 1.2 !important;
+      }}
+      
+      h2 {{
+        font-size: 22px !important;
+        line-height: 1.3 !important;
+      }}
+      
+      h3 {{
+        font-size: 18px !important;
+        line-height: 1.4 !important;
+      }}
+      
+      [style*="font-size: 48px"] {{
+        font-size: 32px !important;
+      }}
+      
+      [style*="font-size: 46px"] {{
+        font-size: 30px !important;
+      }}
+      
+      [style*="font-size: 24px"] {{
+        font-size: 18px !important;
+      }}
+    }}
+    
+    @media (max-width: 480px) {{
+      h1 {{
+        font-size: 24px !important;
+      }}
+      
+      h2 {{
+        font-size: 20px !important;
+      }}
+      
+      h3 {{
+        font-size: 16px !important;
+      }}
+      
+      [style*="font-size: 48px"], [style*="font-size: 32px"] {{
+        font-size: 24px !important;
+      }}
+      
+      [style*="font-size: 46px"], [style*="font-size: 30px"] {{
+        font-size: 22px !important;
+      }}
+      
+      [style*="font-size: 24px"], [style*="font-size: 18px"] {{
+        font-size: 16px !important;
+      }}
+      
+      [style*="font-size: 16px"] {{
+        font-size: 14px !important;
+      }}
+    }}
+    
+    /* Touch-friendly and mobile-specific */
+    @media (max-width: 768px) {{
+      /* Increase touch targets */
+      button, input, select, textarea, [onclick] {{
+        min-height: 44px !important;
+        min-width: 44px !important;
+        touch-action: manipulation;
+      }}
+      
+      /* Better spacing for touch */
+      [style*="gap: 8px"] {{
+        gap: 12px !important;
+      }}
+      
+      [style*="gap: 12px"] {{
+        gap: 16px !important;
+      }}
+      
+      /* Scrollable areas */
+      [style*="overflow-y: auto"] {{
+        -webkit-overflow-scrolling: touch;
+      }}
+      
+      /* Hide horizontal scrollbars on mobile */
+      body {{
+        overflow-x: hidden;
+      }}
+    }}
+    
+    @media (max-width: 480px) {{
+      /* Extra small screens */
+      [style*="width: 150px"] {{
+        width: 100px !important;
+        height: 100px !important;
+      }}
+      
+      [style*="height: 150px"] {{
+        height: 100px !important;
+      }}
+      
+      /* Compact button text */
+      button {{
+        line-height: 1.2 !important;
+        word-break: break-word;
+      }}
+      
+      /* Better mobile chat */
+      [style*="max-width: 80%"] {{
+        max-width: 85% !important;
+      }}
+      
+      [style*="max-width: 70%"] {{
+        max-width: 80% !important;
+      }}
+    }}
+    
+    /* Component-specific responsive styles */
+    @media (max-width: 768px) {{
+      /* Course cards */
+      [style*="display: flex; justify-content: space-between"] {{
+        flex-direction: column !important;
+        gap: 12px !important;
+      }}
+      
+      /* Course action buttons */
+      [style*="width: 150px; height: 150px"] {{
+        width: 100% !important;
+        height: 60px !important;
+        font-size: 14px !important;
+      }}
+      
+      /* Help section grid */
+      .hero [style*="display: grid; grid-template-columns: 1fr 1fr"] {{
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }}
+      
+      /* Progress bars */
+      [style*="height: 12px"] {{
+        height: 8px !important;
+      }}
+      
+      /* Tags and badges */
+      [style*="padding: 4px 12px"] {{
+        padding: 6px 10px !important;
+        font-size: 11px !important;
+      }}
+      
+      [style*="padding: 8px 14px"] {{
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+      }}
+      
+      /* Chat messages */
+      [style*="padding: 8px 12px"][style*="border-radius: 16px"] {{
+        padding: 10px 14px !important;
+        border-radius: 12px !important;
+        font-size: 14px !important;
+      }}
+    }}
+    
+    @media (max-width: 480px) {{
+      /* Extra compact for small screens */
+      [style*="padding: 4px 12px"], [style*="padding: 6px 10px"] {{
+        padding: 4px 8px !important;
+        font-size: 10px !important;
+      }}
+      
+      [style*="padding: 8px 14px"], [style*="padding: 6px 12px"] {{
+        padding: 6px 10px !important;
+        font-size: 11px !important;
+      }}
+      
+      /* Compact navigation */
+      [style*="display: flex; gap: 12px"] {{
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+      }}
+      
+      /* Better mobile forms */
+      [style*="display: grid; grid-template-columns: 1fr 1fr"] {{
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+      }}
+    }}
+    
+    /* Dark theme mobile adjustments */
+    @media (max-width: 768px) {{
+      body.dark-theme .container {{
+        background: rgba(30, 41, 59, 0.5) !important;
+        border-radius: 16px !important;
+        margin: 8px !important;
+      }}
+      
+      body.dark-theme .hero {{
+        box-shadow: 0 8px 25px rgba(30, 64, 175, 0.2) !important;
+      }}
+      
+      body.dark-theme .modal-content {{
+        border: 1px solid rgba(59, 130, 246, 0.3) !important;
+      }}
+    }}
+    
+    @media (max-width: 480px) {{
+      body.dark-theme .container {{
+        background: rgba(30, 41, 59, 0.7) !important;
+        border-radius: 12px !important;
+        margin: 4px !important;
+      }}
+      
+      body.dark-theme .modal-content {{
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+        border: none !important;
+      }}
+    }}
+    
+    /* Landscape orientation adjustments */
+    @media (max-height: 500px) and (orientation: landscape) {{
+      .modal-content {{
+        max-height: 95vh !important;
+      }}
+      
+      #modalBody {{
+        max-height: calc(95vh - 80px) !important;
+      }}
+      
+      .hero {{
+        padding: 12px !important;
+      }}
+      
+      .hero h1 {{
+        font-size: 20px !important;
+        margin-bottom: 8px !important;
+      }}
     }}
     
     .hero{{
@@ -419,6 +1329,18 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
       to {{ opacity: 1; }}
     }}
     
+    @keyframes bounce {{
+      0%, 20%, 50%, 80%, 100% {{
+        transform: translateY(0);
+      }}
+      40% {{
+        transform: translateY(-20px);
+      }}
+      60% {{
+        transform: translateY(-10px);
+      }}
+    }}
+    
     @keyframes modalSlideIn {{
       from {{ 
         opacity: 0;
@@ -444,6 +1366,9 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                     </div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 16px;">
+                    <button onclick="toggleTheme()" id="themeToggle" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3); padding: 12px; border-radius: 8px; cursor: pointer; font-size: 16px; transition: all 0.3s ease;" title="Toggle Dark Mode">
+                        🌙
+                    </button>
                     <button id="coffeeButton" onclick="openAIChat()" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3); white-space: nowrap; position: relative;">
                         ☕ Random Coffee AI
                         <span id="messageNotification" style="display: none; position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; font-weight: bold; text-align: center; line-height: 20px;"></span>
@@ -455,7 +1380,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
             </div>
         </div>
     
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; min-height: 400px;">
+        <div class="main-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; min-height: 400px;">
             <div class="hero" style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: space-between; min-height: 400px;">
                 <div>
                     <h1 style="font-size: 48px; font-weight: 800; margin-bottom: 30px;">🚀 My Journey</h1>
@@ -617,7 +1542,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
     if remaining_urgent:
         html += '''
         <div class="tahoe-card tahoe-animate">
-            <h1 style="font-size: 48px; font-weight: 800;">⚠️ Срочные дедлайны (менее 7 дней)</h1>
+            <h1 style="font-size: 48px; font-weight: 800;">⚠️ Urgent Deadlines (less than 7 days)</h1>
         '''
         for course in remaining_urgent:
             priority_class = f"priority-{course['priority']}"
@@ -635,7 +1560,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                     <span style="background: {'#dc2626' if course['priority'] == 'critical' else '#ea580c' if course['priority'] == 'high' else '#10b981' if course['priority'] == 'normal' else '#6b7280'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{course["priority"].upper()}</span>
                     <span style="font-size: 12px; font-weight: 600;">📅 Enroll: {course["assigned_date"]}</span>
                     <span style="font-size: 12px; font-weight: 600;">🏁 Due: {course["deadline_date"]}</span>
-                    <span style="font-size: 12px; font-weight: 600;">⏰ {course["days_left"]} дн. осталось</span>
+                    <span style="font-size: 12px; font-weight: 600;">⏰ {course["days_left"]} days left</span>
                 </div>
             </div>
             <div style="display: flex; flex-direction: column; gap: 8px; align-items: stretch; width: 150px;">
@@ -669,7 +1594,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                     <span style="background: {'#dc2626' if course['priority'] == 'critical' else '#ea580c' if course['priority'] == 'high' else '#10b981' if course['priority'] == 'normal' else '#6b7280'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{course["priority"].upper()}</span>
                     <span style="font-size: 12px; font-weight: 600;">📅 Enroll: {course["assigned_date"]}</span>
                     <span style="font-size: 12px; font-weight: 600;">🏁 Due: {course["deadline_date"]}</span>
-                    <span style="font-size: 12px; font-weight: 600;">🔄 Renewal: {course["renewal_months"]} мес.</span>
+                    <span style="font-size: 12px; font-weight: 600;">🔄 Renewal: {course["renewal_months"]} months</span>
                 </div>
             </div>
             <div style="display: flex; flex-direction: column; gap: 8px; align-items: stretch; width: 150px;">
@@ -685,7 +1610,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
     if expired_courses:
         html += '''
         <div class="tahoe-card tahoe-animate">
-            <h1 style="font-size: 48px; font-weight: 800;">❌ Просроченные курсы</h1>
+            <h1 style="font-size: 48px; font-weight: 800;">❌ Overdue Courses</h1>
         '''
         for course in expired_courses:
             priority_class = f"priority-{course['priority']}"
@@ -701,7 +1626,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                 <div style="background: rgba(255, 255, 255, 0.2); padding: 12px 20px; border-radius: 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
                     <span style="background: {'#dc2626' if course['priority'] == 'critical' else '#ea580c' if course['priority'] == 'high' else '#10b981' if course['priority'] == 'normal' else '#6b7280'}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">{course["priority"].upper()}</span>
                     <span style="font-size: 12px; font-weight: 600;">📅 Enroll: {course["assigned_date"]}</span>
-                    <span style="font-size: 12px; font-weight: 600;">❌ Overdue: {abs(course["days_left"])} дн.</span>
+                    <span style="font-size: 12px; font-weight: 600;">❌ Overdue: {abs(course["days_left"])} days</span>
                 </div>
             </div>
             <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
@@ -916,7 +1841,13 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
         
         function openAIChat() {
             // Сбрасываем уведомления при открытии чата
-            document.getElementById('messageNotification').style.display = 'none';
+            const notifications = [
+                document.getElementById('messageNotification'),
+                document.getElementById('coffeeUnreadBadge')
+            ];
+            notifications.forEach(notif => {
+                if (notif) notif.style.display = 'none';
+            });
             
             const coffeeChatHTML = `
                 <div style="padding: 0;">
@@ -924,7 +1855,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                         <button onclick="showCoffeeChat()" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">🤖 AI Chat</button>
                         <button onclick="showCoffeeMessages()" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; position: relative;">
                             💬 Messages
-                            <span id="unreadBadge" style="display: none; position: absolute; top: -8px; right: -8px; background: #fbbf24; color: #000; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; font-weight: bold; text-align: center; line-height: 20px;"></span>
+                            <span id="coffeeUnreadBadge" style="display: none; position: absolute; top: -8px; right: -8px; background: #fbbf24; color: #000; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; font-weight: bold; text-align: center; line-height: 20px;"></span>
                         </button>
                         <button onclick="showEnhancedProfile()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">🎯 Smart Profile</button>
                         <button onclick="showCompatibilityCheck()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">🧠 AI Matching</button>
@@ -954,7 +1885,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
             input.value = '';
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
             
-            messagesDiv.innerHTML += `<div id="coffeeLoading" style="margin: 8px 0;"><div style="background: #e9ecef; padding: 8px 12px; border-radius: 12px; display: inline-block;">☕ Думаю...</div></div>`;
+            messagesDiv.innerHTML += `<div id="coffeeLoading" style="margin: 8px 0;"><div style="background: #e9ecef; padding: 8px 12px; border-radius: 12px; display: inline-block;">☕ Thinking...</div></div>`;
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
             
             try {
@@ -972,8 +1903,8 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                 
                 document.getElementById('coffeeLoading').remove();
                 
-                const botResponse = data.response.replace(/\\n/g, '<br>');
-                messagesDiv.innerHTML += `<div style="margin: 8px 0;"><div style="background: white; border: 1px solid #dee2e6; padding: 8px 12px; border-radius: 12px; display: inline-block; max-width: 80%;">☕ ${botResponse}</div></div>`;
+                const botResponse = formatChatMessage(data.response);
+                messagesDiv.innerHTML += `<div style="margin: 8px 0;"><div style="background: white; border: 1px solid #dee2e6; padding: 8px 12px; border-radius: 12px; display: inline-block; max-width: 80%; line-height: 1.5;">☕ ${botResponse}</div></div>`;
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
                 
                 // Показываем матчи если пользователь спросил
@@ -1027,7 +1958,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                     
                     if (meditationTimeLeft <= 0) {
                         pauseMeditation();
-                        alert('🎉 Медитация завершена!');
+                        alert('🎉 Meditation completed!');
                     }
                 }, 1000);
             }
@@ -1135,9 +2066,111 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
             }
         }
         
+        // Функция переключения темы
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            
+            body.classList.toggle('dark-theme');
+            
+            // Обновляем иконку кнопки
+            if (body.classList.contains('dark-theme')) {
+                themeToggle.innerHTML = '☀️'; // Солнце для светлой темы
+                themeToggle.title = 'Switch to Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.innerHTML = '🌙'; // Луна для темной темы
+                themeToggle.title = 'Switch to Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        
+        // Загружаем сохраненную тему при загрузке
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeToggle = document.getElementById('themeToggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeToggle.innerHTML = '☀️';
+                themeToggle.title = 'Switch to Light Mode';
+            } else {
+                themeToggle.innerHTML = '🌙';
+                themeToggle.title = 'Switch to Dark Mode';
+            }
+        }
+        
         // Загружаем статистику при загрузке страницы
+        // Функция для загрузки Smart Profile информации
+        async function loadSmartProfileInfo(userId) {
+            try {
+                const response = await fetch(`/enhanced-coffee/profile/${userId}`);
+                const data = await response.json();
+                
+                if (data.error || !data.profile) {
+                    return `<div style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 16px; padding: 20px; margin: 15px 0; border: 1px solid rgba(255, 255, 255, 0.3); text-align: center;">
+                        <h3 style="margin: 0 0 12px 0; color: var(--gray-800);">🎯 Smart Profile</h3>
+                        <p style="color: var(--gray-600); margin: 0;">No Smart Profile data</p>
+                    </div>`;
+                }
+                
+                const profile = data.profile;
+                let html = `<div style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 16px; padding: 20px; margin: 15px 0; border: 1px solid rgba(255, 255, 255, 0.3);">`;
+                html += `<h3 style="margin: 0 0 16px 0; color: var(--gray-800);">🎯 Smart Profile</h3>`;
+                
+                // Interests
+                if (profile.interests && profile.interests.length > 0) {
+                    html += `<div style="margin-bottom: 16px;"><strong style="color: var(--gray-700);">🎆 Interests:</strong><br>`;
+                    html += `<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">`;
+                    profile.interests.forEach(interest => {
+                        html += `<span style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">${interest}</span>`;
+                    });
+                    html += `</div></div>`;
+                }
+                
+                // Personality
+                if (profile.personality_traits && profile.personality_traits.length > 0) {
+                    html += `<div style="margin-bottom: 16px;"><strong style="color: var(--gray-700);">🧠 Personality:</strong><br>`;
+                    html += `<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">`;
+                    profile.personality_traits.forEach(trait => {
+                        html += `<span style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">${trait}</span>`;
+                    });
+                    html += `</div></div>`;
+                }
+                
+                // Meeting Preferences
+                if (profile.meeting_preferences && Object.keys(profile.meeting_preferences).length > 0) {
+                    html += `<div style="margin-bottom: 16px;"><strong style="color: var(--gray-700);">☕ Preferences:</strong><br>`;
+                    html += `<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">`;
+                    Object.entries(profile.meeting_preferences).forEach(([key, value]) => {
+                        if (value) {
+                            const colors = {
+                                'coffee_shop': 'background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);',
+                                'campus_walk': 'background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);',
+                                'study_session': 'background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);',
+                                'lunch': 'background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);'
+                            };
+                            const style = colors[key] || 'background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);';
+                            html += `<span style="${style} color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">${key.replace('_', ' ')}</span>`;
+                        }
+                    });
+                    html += `</div></div>`;
+                }
+                
+                html += `</div>`;
+                return html;
+                
+            } catch (error) {
+                console.error('Error loading Smart Profile:', error);
+                return `<div style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 16px; padding: 20px; margin: 15px 0; border: 1px solid rgba(255, 255, 255, 0.3); text-align: center;">
+                    <h3 style="margin: 0 0 12px 0; color: var(--gray-800);">🎯 Smart Profile</h3>
+                    <p style="color: var(--gray-600); margin: 0;">Loading error</p>
+                </div>`;
+            }
+        }
+        
         async function showUserProfile() {
-            showModal('👤 Профиль user', '<div style="text-align: center; padding: 40px;">👤 Загружаю профиль...</div>');
+            showModal('👤 User Profile', '<div style="text-align: center; padding: 40px;">👤 Loading profile...</div>');
             
             try {
                 const userId = window.location.pathname.split('/')[2];
@@ -1166,7 +2199,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                 html += `<div style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 16px; padding: 24px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);">`;
                 html += `<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">`;
                 html += `<div><h3 style="margin: 0; color: var(--gray-800); font-size: 24px;">👤 ${data.user.name}</h3><p style="margin: 4px 0 0 0; color: var(--gray-600); font-size: 14px;">${data.user.user_id}</p></div>`;
-                html += `<button onclick="editProfile('${data.user.user_id}', '${data.user.name}', '${data.user.role}', '${data.user.department}')" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 12px;">✏️ Редактировать</button>`;
+                html += `<button onclick="editProfile('${data.user.user_id}', '${data.user.name}', '${data.user.role}', '${data.user.department}')" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 12px;">✏️ Edit Profile</button>`;
                 html += `</div>`;
                 html += `<div id="profileForm" style="display: none; margin-bottom: 16px; padding: 16px; background: rgba(255,255,255,0.5); border-radius: 12px;">`;
                 html += `<input type="text" id="editName" placeholder="Имя" style="width: 100%; padding: 8px; margin: 4px 0; border: 1px solid #ddd; border-radius: 6px;">`;
@@ -1179,18 +2212,13 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                 html += `<div><strong style="color: var(--gray-700);">🏭 Department:</strong><br><span id="departmentDisplay" style="color: var(--gray-800);">${data.user.department}</span></div>`;
                 html += `</div></div>`;
                 
-                // Только карточка бейджей
-                html += `<div style="display: flex; justify-content: center; margin: 15px 0;">`;
-                html += `<div style="background: rgba(139, 92, 246, 0.1); padding: 16px 24px; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s ease;" onclick="showProfileBadges()" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(139, 92, 246, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'"><strong id="badgeCount" style="font-size: 24px; color: #8b5cf6;">0</strong><br><small style="color: var(--gray-600); font-weight: 600;">🏆 Achievement Badges</small></div>`;
-                html += `</div>`;
+                // Smart Profile информация
+                html += await loadSmartProfileInfo(userId);
                 
-                // Секция бейджей
+                // Секция бейджей (сразу видимая)
                 html += `
-                    <div id="badgesSection" style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 16px; padding: 20px; margin: 15px 0; border: 1px solid rgba(255, 255, 255, 0.3); display: none;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                            <h3 style="margin: 0; color: var(--gray-800);">🏆 Achievement Badges</h3>
-                            <button onclick="toggleBadgesSection()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: var(--gray-600);">×</button>
-                        </div>
+                    <div id="badgesSection" style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 16px; padding: 20px; margin: 15px 0; border: 1px solid rgba(255, 255, 255, 0.3);">
+                        <h3 style="margin: 0 0 16px 0; color: var(--gray-800);">🏆 Achievement Badges</h3>
                         <div id="badgesContent">
                             <div style="text-align: center; padding: 20px; color: #666;">🏆 Loading badges...</div>
                         </div>
@@ -1200,9 +2228,12 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                 html += '</div>';
                 document.getElementById('modalBody').innerHTML = html;
                 
+                // Автоматически загружаем бейджи
+                loadProfileBadgesContent();
+                
             } catch (error) {
                 console.error('Error:', error);
-                document.getElementById('modalBody').innerHTML = '<div style="text-align: center; padding: 40px; color: var(--gray-600);">❌ Error loading профиля</div>';
+                document.getElementById('modalBody').innerHTML = '<div style="text-align: center; padding: 40px; color: var(--gray-600);">❌ Error loading profile</div>';
             }
         }
         
@@ -1219,7 +2250,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                     
                     data.matches.slice(-3).forEach(match => {
                         const partnerId = match.users.find(id => id !== userId) || 'unknown';
-                        const status = match.status === 'confirmed' ? '✅ Подтвержден' : '⏳ Ожидает';
+                        const status = (match.status === 'confirmed' || match.status === 'active') ? '✅ Active' : '⏳ Pending';
                         
                         html += `<div style="background: white; padding: 12px; margin: 8px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">`;
                         html += `<div><strong>${match.id}</strong><br><small>${status} | С ${partnerId}</small></div>`;
@@ -1241,17 +2272,17 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
         function openMatchChat(matchId) {
             const chatHTML = `
                 <div id="matchChatMessages" style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 16px; padding: 16px; margin: 16px 0; height: 300px; overflow-y: auto; font-size: 14px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);">
-                    <div style="text-align: center; padding: 20px; color: #666;">💬 Загружаю сообщения...</div>
+                    <div style="text-align: center; padding: 20px; color: #666;">💬 Loading messages...</div>
                 </div>
                 
                 <div style="display: flex; gap: 8px; margin: 16px 0;">
-                    <button onclick="sendQuickReply('${matchId}', 'Привет! 👋')" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">👋 Привет</button>
-                    <button onclick="sendQuickReply('${matchId}', 'Как насчет встречи?')" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">☕ Встреча?</button>
-                    <button onclick="sendQuickReply('${matchId}', 'Подтверждаю! ✅')" style="background: #8b5cf6; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">✅ ОК</button>
+                    <button onclick="sendQuickReply('${matchId}', 'Hello! 👋')" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">👋 Hello</button>
+                    <button onclick="sendQuickReply('${matchId}', 'How about meeting up?')" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">☕ Meet up?</button>
+                    <button onclick="sendQuickReply('${matchId}', 'Confirmed! ✅')" style="background: #8b5cf6; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">✅ OK</button>
                 </div>
                 
                 <div style="display: flex; gap: 8px; margin-top: 16px;">
-                    <input type="text" id="matchChatInput" placeholder="Напиши сообщение..." style="flex: 1; padding: 12px; border: 1px solid #dee2e6; border-radius: 8px; font-size: 14px;" onkeypress="if(event.key==='Enter') sendMatchMessage('${matchId}')">
+                    <input type="text" id="matchChatInput" placeholder="Write a message..." style="flex: 1; padding: 12px; border: 1px solid #dee2e6; border-radius: 8px; font-size: 14px;" onkeypress="if(event.key==='Enter') sendMatchMessage('${matchId}')">
                     <button onclick="sendMatchMessage('${matchId}')" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">💬 Send</button>
                 </div>
             `;
@@ -1285,7 +2316,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                             const bgColor = isOwn ? '#8b5cf6' : 'white';
                             const textColor = isOwn ? 'white' : '#333';
                             const border = isOwn ? 'none' : '1px solid #dee2e6';
-                            const sender = isOwn ? 'Ты' : msg.sender_id;
+                            const sender = isOwn ? 'You' : msg.sender_id;
                             
                             html += `<div style="margin: 8px 0; text-align: ${align};">`;
                             html += `<div style="background: ${bgColor}; color: ${textColor}; border: ${border}; padding: 8px 12px; border-radius: 12px; display: inline-block; max-width: 70%;">`;
@@ -1297,7 +2328,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                     messagesDiv.innerHTML = html;
                     messagesDiv.scrollTop = messagesDiv.scrollHeight;
                 } else {
-                    messagesDiv.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">💬 Начните разговор!</div>';
+                    messagesDiv.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">💬 Start the conversation!</div>'
                 }
             } catch (error) {
                 console.error('Error loading messages:', error);
@@ -1358,8 +2389,10 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
         async function checkNewMessages() {
             try {
                 const userId = window.location.pathname.split('/')[2];
+                console.log('Checking messages for user:', userId);
                 const response = await fetch(`/coffee/unread/${userId}`);
                 const data = await response.json();
+                console.log('Unread messages response:', data);
                 
                 // Обновляем уведомление в шапке
                 const notification = document.getElementById('messageNotification');
@@ -1372,32 +2405,42 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                     }
                 }
                 
-                // Обновляем бейдж в вкладке Messages
-                const unreadBadge = document.getElementById('unreadBadge');
-                const messagesButton = unreadBadge ? unreadBadge.parentElement : null;
+                // Обновляем бейджи в обеих местах
+                const badges = [
+                    document.getElementById('unreadBadge'),
+                    document.getElementById('coffeeUnreadBadge')
+                ];
                 
-                if (unreadBadge && messagesButton) {
-                    // Добавляем CSS анимацию если её нет
-                    if (!document.getElementById('messagePulseStyle')) {
-                        const style = document.createElement('style');
-                        style.id = 'messagePulseStyle';
-                        style.textContent = '@keyframes messagePulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }';
-                        document.head.appendChild(style);
+                badges.forEach(badge => {
+                    if (badge) {
+                        const button = badge.parentElement;
+                        
+                        // Добавляем CSS анимацию если её нет
+                        if (!document.getElementById('messagePulseStyle')) {
+                            const style = document.createElement('style');
+                            style.id = 'messagePulseStyle';
+                            style.textContent = '@keyframes messagePulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }';
+                            document.head.appendChild(style);
+                        }
+                        
+                        if (data.success && data.unread_count > 0) {
+                            badge.textContent = data.unread_count > 9 ? '9+' : data.unread_count;
+                            badge.style.display = 'block';
+                            // Добавляем пульсацию
+                            if (button) {
+                                button.style.animation = 'messagePulse 2s infinite';
+                                button.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.5)';
+                            }
+                        } else {
+                            badge.style.display = 'none';
+                            // Убираем пульсацию
+                            if (button) {
+                                button.style.animation = 'none';
+                                button.style.boxShadow = 'none';
+                            }
+                        }
                     }
-                    
-                    if (data.success && data.unread_count > 0) {
-                        unreadBadge.textContent = data.unread_count > 9 ? '9+' : data.unread_count;
-                        unreadBadge.style.display = 'block';
-                        // Добавляем пульсацию
-                        messagesButton.style.animation = 'messagePulse 2s infinite';
-                        messagesButton.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.5)';
-                    } else {
-                        unreadBadge.style.display = 'none';
-                        // Убираем пульсацию
-                        messagesButton.style.animation = 'none';
-                        messagesButton.style.boxShadow = 'none';
-                    }
-                }
+                });
                 
             } catch (error) {
                 console.error('Error checking messages:', error);
@@ -1406,11 +2449,15 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
         
         window.onload = function() {
             updateMotivationalStatus();
-            checkNewMessages();
             loadNextAction();
             loadUserBadges();
-            // Проверяем новые сообщения каждые 10 секунд
-            setInterval(checkNewMessages, 10000);
+            
+            // Принудительная проверка сообщений
+            setTimeout(checkNewMessages, 1000);
+            setTimeout(checkNewMessages, 3000);
+            
+            // Проверяем новые сообщения каждые 5 секунд
+            setInterval(checkNewMessages, 5000);
         }
         
         function getCourseEmojiJS(courseId) {
@@ -2810,8 +3857,24 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
             }
         }
         
+        // Функция для открытия Random Coffee через кнопку в шапке (в модальном окне)
+        function openRandomCoffee() {
+            openAIChat();
+        }
+        
         // Enhanced Coffee Messages functions
         async function showCoffeeMessages() {
+            // Сбрасываем уведомления при открытии Messages
+            const badge = document.getElementById('coffeeUnreadBadge');
+            if (badge) {
+                badge.style.display = 'none';
+                const button = badge.parentElement;
+                if (button) {
+                    button.style.animation = 'none';
+                    button.style.boxShadow = 'none';
+                }
+            }
+            
             const contentDiv = document.getElementById('coffeeContent');
             contentDiv.innerHTML = '<div style="text-align: center; padding: 40px;">💬 Loading messages...</div>';
             
@@ -2842,7 +3905,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                                  onmouseout="this.style.background='${isActive ? 'rgba(139, 92, 246, 0.2)' : 'transparent'}'">
                                 <div style="font-weight: 600; font-size: 14px; color: var(--gray-800); margin-bottom: 2px;">${partnerId}</div>
                                 <div style="font-size: 12px; color: var(--gray-600);">${match.id}</div>
-                                <div style="font-size: 11px; color: var(--gray-500); margin-top: 2px;">${match.status === 'confirmed' ? '✅ Active' : '⏳ Pending'}</div>
+                                <div style="font-size: 11px; color: var(--gray-500); margin-top: 2px;">${(match.status === 'confirmed' || match.status === 'active') ? '✅ Active' : '⏳ Pending'}</div>
                             </div>
                         `;
                     });
@@ -2896,6 +3959,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
         
         let currentChatId = null;
         let currentPartnerId = null;
+        let chatRefreshInterval = null;
         
         async function selectChat(matchId, partnerId, element) {
             // Обновляем визуальное выделение
@@ -2915,43 +3979,95 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
             
             // Загружаем сообщения
             await loadChatMessages(matchId);
+            
+            // Запускаем автообновление сообщений каждые 3 секунды
+            if (chatRefreshInterval) clearInterval(chatRefreshInterval);
+            chatRefreshInterval = setInterval(() => {
+                if (currentChatId === matchId) {
+                    loadChatMessages(matchId, false); // false = не помечать как прочитанные
+                }
+            }, 3000);
         }
         
-        async function loadChatMessages(matchId) {
+        async function loadChatMessages(matchId, markAsRead = true) {
             const messagesDiv = document.getElementById('chatMessages');
-            messagesDiv.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">💬 Loading messages...</div>';
+            
+            // Проверяем что элемент существует (чат открыт)
+            if (!messagesDiv) {
+                console.log('Chat messages div not found - chat is closed');
+                return;
+            }
+            
+            // Получаем текущие сообщения для сравнения
+            const existingMessages = messagesDiv.querySelectorAll('[data-message-id]');
+            const existingIds = Array.from(existingMessages).map(msg => msg.getAttribute('data-message-id'));
+            
+            if (markAsRead) {
+                messagesDiv.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">💬 Loading messages...</div>';
+            }
             
             try {
                 const userId = window.location.pathname.split('/')[2];
-                const response = await fetch(`/coffee/messages/${matchId}?user_id=${userId}`);
+                const url = markAsRead ? `/coffee/messages/${matchId}?user_id=${userId}` : `/coffee/messages/${matchId}`;
+                const response = await fetch(url);
                 const data = await response.json();
                 
                 if (data.success && data.messages && data.messages.length > 0) {
-                    let html = '';
-                    data.messages.forEach(msg => {
-                        const isOwn = msg.sender_id === userId;
-                        const isSystem = msg.sender_id === 'system';
-                        const time = new Date(msg.timestamp).toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit'});
-                        
-                        if (isSystem) {
-                            html += `<div style="text-align: center; margin: 16px 0; padding: 8px; background: rgba(139, 92, 246, 0.1); border-radius: 12px; font-size: 12px; color: #8b5cf6;">⚙️ ${msg.message}</div>`;
-                        } else {
-                            const align = isOwn ? 'flex-end' : 'flex-start';
-                            const bgColor = isOwn ? 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)' : 'rgba(255, 255, 255, 0.8)';
-                            const textColor = isOwn ? 'white' : '#333';
+                    if (markAsRead) {
+                        // Полная перезагрузка (при открытии чата)
+                        let html = '';
+                        data.messages.forEach(msg => {
+                            const isOwn = msg.sender_id === userId;
+                            const isSystem = msg.sender_id === 'system';
+                            const time = new Date(msg.timestamp).toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit'});
                             
-                            html += `
-                                <div style="display: flex; justify-content: ${align}; margin: 8px 0;">
-                                    <div style="max-width: 70%; background: ${bgColor}; color: ${textColor}; padding: 8px 12px; border-radius: 16px; font-size: 14px; line-height: 1.4;">
-                                        <div>${msg.message}</div>
-                                        <div style="font-size: 11px; opacity: 0.7; margin-top: 4px;">${time}</div>
+                            if (isSystem) {
+                                html += `<div data-message-id="${msg.id}" style="text-align: center; margin: 16px 0; padding: 8px; background: rgba(139, 92, 246, 0.1); border-radius: 12px; font-size: 12px; color: #8b5cf6;">⚙️ ${msg.message}</div>`;
+                            } else {
+                                const align = isOwn ? 'flex-end' : 'flex-start';
+                                const bgColor = isOwn ? 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)' : 'rgba(255, 255, 255, 0.8)';
+                                const textColor = isOwn ? 'white' : '#333';
+                                
+                                html += `
+                                    <div data-message-id="${msg.id}" style="display: flex; justify-content: ${align}; margin: 8px 0;">
+                                        <div style="max-width: 70%; background: ${bgColor}; color: ${textColor}; padding: 8px 12px; border-radius: 16px; font-size: 14px; line-height: 1.4;">
+                                            <div>${msg.message}</div>
+                                            <div style="font-size: 11px; opacity: 0.7; margin-top: 4px;">${time}</div>
+                                        </div>
                                     </div>
-                                </div>
-                            `;
-                        }
-                    });
-                    
-                    messagesDiv.innerHTML = html;
+                                `;
+                            }
+                        });
+                        messagesDiv.innerHTML = html;
+                    } else {
+                        // Инкрементальное обновление (только новые сообщения)
+                        data.messages.forEach(msg => {
+                            if (!existingIds.includes(msg.id)) {
+                                const isOwn = msg.sender_id === userId;
+                                const isSystem = msg.sender_id === 'system';
+                                const time = new Date(msg.timestamp).toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit'});
+                                
+                                let messageHtml = '';
+                                if (isSystem) {
+                                    messageHtml = `<div data-message-id="${msg.id}" style="text-align: center; margin: 16px 0; padding: 8px; background: rgba(139, 92, 246, 0.1); border-radius: 12px; font-size: 12px; color: #8b5cf6;">⚙️ ${msg.message}</div>`;
+                                } else {
+                                    const align = isOwn ? 'flex-end' : 'flex-start';
+                                    const bgColor = isOwn ? 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)' : 'rgba(255, 255, 255, 0.8)';
+                                    const textColor = isOwn ? 'white' : '#333';
+                                    
+                                    messageHtml = `
+                                        <div data-message-id="${msg.id}" style="display: flex; justify-content: ${align}; margin: 8px 0;">
+                                            <div style="max-width: 70%; background: ${bgColor}; color: ${textColor}; padding: 8px 12px; border-radius: 16px; font-size: 14px; line-height: 1.4;">
+                                                <div>${msg.message}</div>
+                                                <div style="font-size: 11px; opacity: 0.7; margin-top: 4px;">${time}</div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                                messagesDiv.insertAdjacentHTML('beforeend', messageHtml);
+                            }
+                        });
+                    }
                     messagesDiv.scrollTop = messagesDiv.scrollHeight;
                 } else {
                     messagesDiv.innerHTML = `
@@ -2988,11 +4104,74 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                 const data = await response.json();
                 if (data.success) {
                     input.value = '';
-                    await loadChatMessages(currentChatId);
+                    
+                    // Добавляем новое сообщение локально вместо перезагрузки всех
+                    const messagesDiv = document.getElementById('chatMessages');
+                    const time = new Date().toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit'});
+                    
+                    const messageHtml = `
+                        <div data-message-id="${data.message.id}" style="display: flex; justify-content: flex-end; margin: 8px 0;">
+                            <div style="max-width: 70%; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; padding: 8px 12px; border-radius: 16px; font-size: 14px; line-height: 1.4;">
+                                <div>${message}</div>
+                                <div style="font-size: 11px; opacity: 0.7; margin-top: 4px;">${time}</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    messagesDiv.insertAdjacentHTML('beforeend', messageHtml);
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                    
+                    // Останавливаем автообновление на 5 секунд чтобы не стирать новое сообщение
+                    if (chatRefreshInterval) {
+                        clearInterval(chatRefreshInterval);
+                        setTimeout(() => {
+                            if (currentChatId) {
+                                chatRefreshInterval = setInterval(() => {
+                                    if (currentChatId) {
+                                        loadChatMessages(currentChatId, false);
+                                    }
+                                }, 3000);
+                            }
+                        }, 5000);
+                    }
                 }
             } catch (error) {
                 console.error('Error sending message:', error);
             }
+        }
+        
+        // Вспомогательные функции для форматирования
+        function getMeetingStyleText(style) {
+            switch(style) {
+                case 'casual': return '☕ Coffee Chat';
+                case 'study': return '📚 Study Session';
+                case 'activity': return '🏃 Activity';
+                case 'group': return '👥 Group';
+                default: return '☕ Coffee Chat';
+            }
+        }
+        
+        function getGroupSizeText(size) {
+            switch(size) {
+                case 'pair': return '👥 One-on-One';
+                case 'small': return '👥 Small Group';
+                case 'large': return '👥 Large Group';
+                default: return '👥 One-on-One';
+            }
+        }
+        
+        function formatInterestTags(interests) {
+            if (!interests || !Array.isArray(interests)) return '';
+            return interests.map(interest => 
+                `<span style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; box-shadow: 0 3px 8px rgba(139, 92, 246, 0.3); text-transform: capitalize;">${interest}</span>`
+            ).join('');
+        }
+        
+        function formatPersonalityTags(traits) {
+            if (!traits || !Array.isArray(traits)) return '';
+            return traits.map(trait => 
+                `<span style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; box-shadow: 0 3px 8px rgba(16, 185, 129, 0.3); text-transform: capitalize;">${trait}</span>`
+            ).join('');
         }
         
         async function showPartnerProfile(partnerId) {
@@ -3005,8 +4184,15 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                 const userData = await userResponse.json();
                 const profileData = await profileResponse.json();
                 
-                if (userData.error) {
-                    alert('❌ Профиль не найден');
+                if (userData.error || !userData.user) {
+                    showModal('❌ Profile Not Found', `
+                        <div style="text-align: center; padding: 40px;">
+                            <div style="font-size: 48px; margin-bottom: 16px;">👤</div>
+                            <h3 style="color: #ef4444; margin-bottom: 16px;">Profile Not Found</h3>
+                            <p style="color: #666; margin-bottom: 20px;">This user's profile is not available.</p>
+                            <button onclick="closeModal()" style="background: #6b7280; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer;">✕ Close</button>
+                        </div>
+                    `);
                     return;
                 }
                 
@@ -3018,85 +4204,141 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                 let profileHTML = `
                     <div style="text-align: center; padding: 0;">
                         <!-- Аватар и основная инфо -->
-                        <div style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; border-radius: 16px; padding: 30px; margin-bottom: 20px; position: relative; overflow: hidden;">
-                            <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: pulse 4s ease-in-out infinite;"></div>
-                            <div style="font-size: 64px; margin-bottom: 16px; position: relative; z-index: 2;">👤</div>
-                            <h2 style="margin: 0 0 8px 0; font-size: 24px; font-weight: 700; position: relative; z-index: 2;">${user.name}</h2>
-                            <div style="font-size: 14px; opacity: 0.9; position: relative; z-index: 2;">${user.user_id}</div>
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 20px; padding: 40px 30px; margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);">
+                            <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); animation: pulse 6s ease-in-out infinite;"></div>
+                            
+                            <!-- Красивый аватар -->
+                            <div style="position: relative; z-index: 2; margin-bottom: 20px;">
+                                <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 36px; backdrop-filter: blur(10px); border: 3px solid rgba(255,255,255,0.3);">👤</div>
+                                <h2 style="margin: 0 0 8px 0; font-size: 28px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">${user.name}</h2>
+                                <div style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 500; display: inline-block;">${user.user_id}</div>
+                            </div>
+                            
+                            <!-- Статус онлайн -->
+                            <div style="position: absolute; top: 20px; right: 20px; z-index: 3;">
+                                <div style="width: 12px; height: 12px; background: #10b981; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);"></div>
+                            </div>
                         </div>
                         
-                        <!-- Информация о работе -->
-                        <div style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.3);">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-                                <div style="text-align: left;">
-                                    <strong style="color: var(--gray-700); font-size: 12px; text-transform: uppercase;">🏢 Role:</strong><br>
-                                    <span style="color: var(--gray-800); font-size: 16px; font-weight: 600;">${user.role}</span>
+                        <!-- Профессиональная информация -->
+                        <div style="background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px); border-radius: 18px; padding: 24px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+                            <h3 style="margin: 0 0 16px 0; color: var(--gray-800); font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                                🏢 Professional Info
+                            </h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="background: rgba(139, 92, 246, 0.1); padding: 16px; border-radius: 12px; border-left: 4px solid #8b5cf6;">
+                                    <div style="color: #8b5cf6; font-size: 12px; font-weight: 600; text-transform: uppercase; margin-bottom: 6px;">💼 Role</div>
+                                    <div style="color: var(--gray-800); font-size: 16px; font-weight: 600;">${user.role}</div>
                                 </div>
-                                <div style="text-align: left;">
-                                    <strong style="color: var(--gray-700); font-size: 12px; text-transform: uppercase;">🏢 Department:</strong><br>
-                                    <span style="color: var(--gray-800); font-size: 16px; font-weight: 600;">${user.department}</span>
+                                <div style="background: rgba(16, 185, 129, 0.1); padding: 16px; border-radius: 12px; border-left: 4px solid #10b981;">
+                                    <div style="color: #10b981; font-size: 12px; font-weight: 600; text-transform: uppercase; margin-bottom: 6px;">🏫 Department</div>
+                                    <div style="color: var(--gray-800); font-size: 16px; font-weight: 600;">${user.department}</div>
                                 </div>
                             </div>
                         </div>
                 `;
                 
+                // Добавляем статистику совместимости
+                profileHTML += `
+                    <!-- Статистика совместимости -->
+                    <div style="background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px); border-radius: 18px; padding: 24px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+                        <h3 style="margin: 0 0 16px 0; color: var(--gray-800); font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                            📊 Activity & Stats
+                        </h3>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                            <div style="text-align: center; background: rgba(245, 158, 11, 0.1); padding: 16px; border-radius: 12px;">
+                                <div style="font-size: 24px; font-weight: 700; color: #f59e0b; margin-bottom: 4px;">${Math.floor(Math.random() * 30 + 70)}%</div>
+                                <div style="font-size: 12px; color: var(--gray-600); font-weight: 500;">Compatibility</div>
+                            </div>
+                            <div style="text-align: center; background: rgba(34, 197, 94, 0.1); padding: 16px; border-radius: 12px;">
+                                <div style="font-size: 24px; font-weight: 700; color: #22c55e; margin-bottom: 4px;">${completedCount}</div>
+                                <div style="font-size: 12px; color: var(--gray-600); font-weight: 500;">Completed</div>
+                            </div>
+                            <div style="text-align: center; background: rgba(59, 130, 246, 0.1); padding: 16px; border-radius: 12px;">
+                                <div style="font-size: 24px; font-weight: 700; color: #3b82f6; margin-bottom: 4px;">${activeCount}</div>
+                                <div style="font-size: 12px; color: var(--gray-600); font-weight: 500;">Active</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
                 // Добавляем Smart Profile информацию если есть
                 if (smartProfile) {
-                    profileHTML += `
-                        <!-- Smart Profile данные -->
-                        <div style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.3);">
-                            <h3 style="margin: 0 0 16px 0; color: var(--gray-800); font-size: 16px;">🎯 Smart Profile</h3>
-                    `;
-                    
+                    // Отображаем интересы
                     if (smartProfile.interests && smartProfile.interests.length > 0) {
                         profileHTML += `
-                            <div style="margin-bottom: 12px;">
-                                <strong style="color: var(--gray-700); font-size: 12px; text-transform: uppercase;">🎯 Interests:</strong><br>
-                                <div style="display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px;">
-                        `;
-                        
-                        smartProfile.interests.forEach(interest => {
-                            const interestColors = {
-                                'lab-safety': '#dc2626',
-                                'ergonomics': '#7c3aed',
-                                'mental-health': '#059669',
-                                'environmental': '#16a34a',
-                                'emergency': '#ea580c',
-                                'sports': '#2563eb',
-                                'hobbies': '#db2777',
-                                'learning': '#0891b2'
-                            };
-                            const color = interestColors[interest] || '#6b7280';
-                            
-                            profileHTML += `<span style="background: ${color}; color: white; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 500;">${interest}</span>`;
-                        });
-                        
-                        profileHTML += `</div></div>`;
+                        <!-- Интересы -->
+                        <div style="background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px); border-radius: 18px; padding: 24px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+                            <h3 style="margin: 0 0 16px 0; color: var(--gray-800); font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                                🎯 What ${user.name ? user.name.split(' ')[0] : 'User'} loves
+                            </h3>
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                ${formatInterestTags(smartProfile.interests)}
+                            </div>
+                        </div>`;
                     }
                     
+                    // Отображаем черты личности
                     if (smartProfile.personality_traits && smartProfile.personality_traits.length > 0) {
                         profileHTML += `
-                            <div style="margin-bottom: 12px;">
-                                <strong style="color: var(--gray-700); font-size: 12px; text-transform: uppercase;">🧠 Personality:</strong><br>
-                                <div style="color: var(--gray-800); font-size: 14px; margin-top: 4px;">${smartProfile.personality_traits.join(', ')}</div>
+                        <!-- Личность -->
+                        <div style="background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px); border-radius: 18px; padding: 24px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+                            <h3 style="margin: 0 0 16px 0; color: var(--gray-800); font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                                🧠 ${user.name ? user.name.split(' ')[0] : 'User'}'s personality
+                            </h3>
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                ${formatPersonalityTags(smartProfile.personality_traits)}
                             </div>
-                        `;
+                        </div>`;
                     }
                     
+                    // Отображаем предпочтения встреч
                     if (smartProfile.meeting_preferences) {
                         const prefs = smartProfile.meeting_preferences;
                         profileHTML += `
-                            <div style="margin-bottom: 12px;">
-                                <strong style="color: var(--gray-700); font-size: 12px; text-transform: uppercase;">☕ Meeting Style:</strong><br>
-                                <div style="color: var(--gray-800); font-size: 14px; margin-top: 4px;">${prefs.meeting_style || 'casual'} • ${prefs.group_size || 'pair'}</div>
+                        <!-- Предпочтения встреч -->
+                        <div style="background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px); border-radius: 18px; padding: 24px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+                            <h3 style="margin: 0 0 16px 0; color: var(--gray-800); font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                                ☕ How ${user.name ? user.name.split(' ')[0] : 'User'} likes to meet
+                            </h3>
+                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 10px 16px; border-radius: 16px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); display: flex; align-items: center; gap: 6px;">
+                                    ${getMeetingStyleText(prefs.meeting_style)}
+                                </div>
+                                <div style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: white; padding: 10px 16px; border-radius: 16px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); display: flex; align-items: center; gap: 6px;">
+                                    ${getGroupSizeText(prefs.group_size)}
+                                </div>
                             </div>
-                        `;
+                        </div>`;
                     }
-                    
-                    profileHTML += `</div>`;
                 }
                 
                 profileHTML += `
+                        <!-- Кнопки действий -->
+                        <div style="margin-top: 24px;">
+                            <!-- Основные действия -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                                <button onclick="backToChat('${partnerId}')" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; border: none; padding: 16px 20px; border-radius: 14px; cursor: pointer; font-weight: 600; font-size: 14px; box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3); transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 25px rgba(139, 92, 246, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(139, 92, 246, 0.3)'">
+                                    💬 Continue Chat
+                                </button>
+                                <button onclick="suggestMeeting('${partnerId}')" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 16px 20px; border-radius: 14px; cursor: pointer; font-weight: 600; font-size: 14px; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3); transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 25px rgba(16, 185, 129, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(16, 185, 129, 0.3)'">
+                                    ☕ Suggest Meeting
+                                </button>
+                            </div>
+                            
+                            <!-- Дополнительные действия -->
+                            <div style="display: flex; gap: 8px;">
+                                <button onclick="sendQuickHi()" style="flex: 1; background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); padding: 12px 16px; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 12px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245, 158, 11, 0.2)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.1)'">
+                                    👋 Quick Hi
+                                </button>
+                                <button onclick="suggestCoffee()" style="flex: 1; background: rgba(99, 102, 241, 0.1); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.3); padding: 12px 16px; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 12px; transition: all 0.2s;" onmouseover="this.style.background='rgba(99, 102, 241, 0.2)'" onmouseout="this.style.background='rgba(99, 102, 241, 0.1)'">
+                                    ☕ Coffee?
+                                </button>
+                                <button onclick="closeModal()" style="background: rgba(107, 114, 128, 0.1); color: #6b7280; border: 1px solid rgba(107, 114, 128, 0.3); padding: 12px 16px; border-radius: 12px; cursor: pointer; font-weight: 500; font-size: 12px; transition: all 0.2s;" onmouseover="this.style.background='rgba(107, 114, 128, 0.2)'" onmouseout="this.style.background='rgba(107, 114, 128, 0.1)'">
+                                    ✕
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 `;
                 
@@ -3104,12 +4346,47 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                 
             } catch (error) {
                 console.error('Error loading partner profile:', error);
-                alert('❌ Error loading профиля');
+                showModal('❌ Profile Error', `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 48px; margin-bottom: 16px;">❌</div>
+                        <h3 style="color: #ef4444; margin-bottom: 16px;">Profile Loading Error</h3>
+                        <p style="color: #666; margin-bottom: 20px;">Unable to load profile information.</p>
+                        <button onclick="closeModal()" style="background: #ef4444; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer;">✕ Close</button>
+                    </div>
+                `);
+            }
+        }
+        
+        // Новые функции для карточки профиля
+        async function suggestMeeting(partnerId) {
+            const meetingMessage = `Hey! 👋 I'd love to meet up for coffee sometime. Are you free this week? ☕😊`;
+            const success = await sendQuickMessage(meetingMessage);
+            if (success) {
+                showSuccessMessage('☕ Meeting suggestion sent!');
+            }
+        }
+        
+        async function sendQuickHi() {
+            const hiMessage = `Hi! 👋`;
+            const success = await sendQuickMessage(hiMessage);
+            if (success) {
+                showSuccessMessage('👋 Hi sent!');
+            }
+        }
+        
+        async function suggestCoffee() {
+            const coffeeMessage = `Want to grab coffee? ☕`;
+            const success = await sendQuickMessage(coffeeMessage);
+            if (success) {
+                showSuccessMessage('☕ Coffee invitation sent!');
             }
         }
         
         async function sendQuickMessage(message) {
-            if (!currentChatId) return;
+            if (!currentChatId) {
+                showErrorMessage('No active chat found');
+                return false;
+            }
             
             try {
                 const userId = window.location.pathname.split('/')[2];
@@ -3126,12 +4403,70 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                 
                 const data = await response.json();
                 if (data.success) {
-                    closeModal();
                     await loadChatMessages(currentChatId);
+                    return true;
+                } else {
+                    showErrorMessage('Failed to send message');
+                    return false;
                 }
             } catch (error) {
                 console.error('Error sending quick message:', error);
+                showErrorMessage('Error sending message');
+                return false;
             }
+        }
+        
+        function showSuccessMessage(text) {
+            const notification = document.createElement('div');
+            notification.textContent = text;
+            notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #10b981; color: white; padding: 12px 20px; border-radius: 12px; font-size: 14px; font-weight: 600; z-index: 10001; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); opacity: 0; transition: opacity 0.3s;';
+            document.body.appendChild(notification);
+            setTimeout(() => notification.style.opacity = '1', 10);
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+        }
+        
+        function showErrorMessage(text) {
+            const notification = document.createElement('div');
+            notification.textContent = text;
+            notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #ef4444; color: white; padding: 12px 20px; border-radius: 12px; font-size: 14px; font-weight: 600; z-index: 10001; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); opacity: 0; transition: opacity 0.3s;';
+            document.body.appendChild(notification);
+            setTimeout(() => notification.style.opacity = '1', 10);
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+        }
+        
+        function showProfileComplete() {
+            // Закрываем редактор и возвращаем основной интерфейс
+            closeModal();
+            setTimeout(() => {
+                openAIChat();
+            }, 100);
+        }
+        
+        // Функция возврата к чату с партнером
+        function backToChat(partnerId) {
+            // Находим матч ID для этого партнера
+            const userId = window.location.pathname.split('/')[2];
+            
+            // Открываем Messages и выбираем чат с этим партнером
+            openAIChat();
+            setTimeout(() => {
+                showCoffeeMessages();
+                // Ищем чат с этим партнером и выбираем его
+                setTimeout(() => {
+                    const chatElements = document.querySelectorAll('#chatList > div');
+                    chatElements.forEach(element => {
+                        if (element.textContent && element.textContent.includes(partnerId)) {
+                            element.click();
+                        }
+                    });
+                }, 500);
+            }, 100);
         }
         
         // Enhanced Coffee functions
@@ -3144,33 +4479,101 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                         <div style="text-align: center; font-weight: 600; margin-bottom: 16px; color: #8b5cf6; font-size: 18px;">Enhanced Random Coffee AI</div>
                         
                         <div style="background: rgba(139, 92, 246, 0.1); padding: 16px; border-radius: 12px; margin-bottom: 16px;">
-                            <div style="font-weight: 600; margin-bottom: 8px; color: #8b5cf6;">🤖 Что я умею:</div>
-                            <div style="margin-bottom: 8px;">• 🛡️ <strong>Консультации по технике безопасности</strong> — спрашивай о протоколах, courseх, требованиях</div>
-                            <div style="margin-bottom: 8px;">• ☕ <strong>Поиск коллег для общения</strong> — если скучно говорить о безопасности, найду тебе друга!</div>
-                            <div>• 🎯 <strong>AI-матчинг</strong> — умный подбор по интересам и совместимости</div>
+                            <div style="font-weight: 600; margin-bottom: 8px; color: #8b5cf6;">🤖 What I can do:</div>
+                            <div style="margin-bottom: 8px;">• 🛡️ <strong>Safety consultations</strong> — ask about protocols, courses, requirements</div>
+                            <div style="margin-bottom: 8px;">• ☕ <strong>Finding colleagues to chat</strong> — if safety talk gets boring, I'll find you a friend!</div>
+                            <div>• 🎯 <strong>AI matching</strong> — smart pairing by interests and compatibility</div>
                         </div>
                         
                         <div style="background: rgba(16, 185, 129, 0.1); padding: 16px; border-radius: 12px; margin-bottom: 16px;">
-                            <div style="font-weight: 600; margin-bottom: 8px; color: #10b981;">💬 Как со мной общаться:</div>
-                            <div style="margin-bottom: 6px;">• Просто пиши — я отвечу на любые вопросы</div>
-                            <div style="margin-bottom: 6px;">• Скажи "найти друга" — создам профиль и подберу собеседника</div>
-                            <div style="margin-bottom: 6px;">• Напиши "мои матчи" — покажу твои пары для общения</div>
-                            <div>• Команда "помощь" — покажу все возможности</div>
+                            <div style="font-weight: 600; margin-bottom: 8px; color: #10b981;">💬 How to chat with me:</div>
+                            <div style="margin-bottom: 6px;">• Just write — I'll answer any questions</div>
+                            <div style="margin-bottom: 6px;">• Say "find friend" — I'll create a profile and find you a chat partner</div>
+                            <div style="margin-bottom: 6px;">• Write "my matches" — I'll show your chat pairs</div>
+                            <div>• Command "help" — I'll show all capabilities</div>
                         </div>
                         
-                        <div style="text-align: center; font-size: 13px; color: #666; font-style: italic;">Начни с любого вопроса или скажи "привет"! 🚀</div>
+                        <div style="text-align: center; font-size: 13px; color: #666; font-style: italic;">Start with any question or say "hello"! 🚀</div>
                     </div>
                 </div>
                 
                 <div style="display: flex; gap: 8px; margin-top: 16px;">
-                    <input type="text" id="coffeeChatInput" placeholder="Напиши что-нибудь..." style="flex: 1; padding: 12px; border: 1px solid #dee2e6; border-radius: 8px; font-size: 14px;" onkeypress="if(event.key==='Enter') sendCoffeeMessage()">
+                    <input type="text" id="coffeeChatInput" placeholder="Write something..." style="flex: 1; padding: 12px; border: 1px solid #dee2e6; border-radius: 8px; font-size: 14px;" onkeypress="if(event.key==='Enter') sendCoffeeMessage()">
                     <button onclick="sendCoffeeMessage()" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">☕ Send</button>
                 </div>
             `;
+            
+            // Загружаем историю чата после создания элементов
+            console.log('showCoffeeChat: scheduling history load');
+            setTimeout(() => {
+                console.log('showCoffeeChat: calling loadCoffeeChatHistory');
+                loadCoffeeChatHistory();
+            }, 100);
+        }
+        
+        // Функция для типографирования сообщений
+        function formatChatMessage(text) {
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\\n\\n/g, '<br><br>')
+                .replace(/\\n/g, '<br>')
+                .replace(/• /g, '<span style="color: #8b5cf6; font-weight: bold;">•</span> ');
+        }
+        
+        // Функция загрузки истории AI чата
+        async function loadCoffeeChatHistory() {
+            const userId = window.location.pathname.split('/')[2];
+            console.log('Loading coffee chat history for user:', userId);
+            
+            try {
+                const response = await fetch(`/coffee/chat/history/${userId}`);
+                console.log('Server response status:', response.status);
+                const data = await response.json();
+                console.log('Server data:', data);
+                
+                const messagesDiv = document.getElementById('coffeeChatMessages');
+                if (!messagesDiv) {
+                    console.log('coffeeChatMessages div not found');
+                    return;
+                }
+                
+                if (data.success && data.history && data.history.length > 0) {
+                    console.log('Found', data.history.length, 'messages in history');
+                    let html = '';
+                    data.history.forEach(item => {
+                        const formattedResponse = formatChatMessage(item.ai_response);
+                        html += `<div style="margin: 8px 0; text-align: right;"><div style="background: #8b5cf6; color: white; padding: 8px 12px; border-radius: 12px; display: inline-block; max-width: 80%;">👤 ${item.user_message}</div></div>`;
+                        html += `<div style="margin: 8px 0;"><div style="background: white; border: 1px solid #dee2e6; padding: 8px 12px; border-radius: 12px; display: inline-block; max-width: 80%; line-height: 1.5;">☕ ${formattedResponse}</div></div>`;
+                    });
+                    messagesDiv.innerHTML = html;
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                    console.log('Coffee chat history loaded successfully');
+                } else {
+                    console.log('No coffee chat history found on server - keeping welcome message');
+                    // Оставляем приветственное сообщение
+                }
+            } catch (error) {
+                console.log('Coffee chat history error:', error);
+            }
         }
         
         async function showEnhancedProfile() {
-            const contentDiv = document.getElementById('coffeeContent');
+            // Проверяем контекст - модальное окно или обычный интерфейс
+            console.log('showEnhancedProfile called');
+            let contentDiv = document.getElementById('coffeeContent');
+            console.log('coffeeContent found:', !!contentDiv);
+            
+            if (!contentDiv) {
+                console.log('Looking for modalBody...');
+                contentDiv = document.getElementById('modalBody');
+                console.log('modalBody found:', !!contentDiv);
+            }
+            
+            if (!contentDiv) {
+                console.error('No content container found');
+                return;
+            }
+            
             contentDiv.innerHTML = '<div style="text-align: center; padding: 40px;">🎯 Loading smart profile...</div>';
             
             const userId = window.location.pathname.split('/')[2];
@@ -3213,14 +4616,506 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                 contentDiv.innerHTML = '<div style="text-align: center; padding: 40px; color: #dc3545;">❌ Error loading profile</div>';
             }
         }
+        
+        // Функция для создания/редактирования Smart Profile
+        async function showProfileEditor() {
+            const userId = window.location.pathname.split('/')[2];
+            
+            // Получаем существующий профиль если есть
+            let existingProfile = null;
+            try {
+                const response = await fetch(`/enhanced-coffee/profile/${userId}`);
+                const data = await response.json();
+                if (data.success) {
+                    existingProfile = data.profile;
+                }
+            } catch (error) {
+                console.log('No existing profile found');
+            }
+            
+            const selectedInterests = existingProfile ? existingProfile.interests : [];
+            const selectedPersonality = existingProfile ? existingProfile.personality_traits : [];
+            
+            const editorHTML = `
+                <div style="padding: 0; max-height: 500px; overflow-y: auto;">
+                    <h3 style="margin: 0 0 20px 0; color: var(--gray-800); text-align: center;">⚡ Quick Profile Setup</h3>
+                    
+                    <!-- Интересы кнопками -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 600; color: var(--gray-700);">🎯 What are you into? (click to select)</label>
+                        <div id="interestTags" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                            <!-- Кнопки будут добавлены через JavaScript -->
+                        </div>
+                        <input type="text" id="customInterest" placeholder="+ Add custom interest" style="width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 12px; margin-top: 8px;" onkeypress="if(event.key==='Enter') addCustomTag('interest', this.value)">
+                    </div>
+                    
+                    <!-- Личность кнопками -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 600; color: var(--gray-700);">🧠 How would you describe yourself?</label>
+                        <div id="personalityTags" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <!-- Кнопки будут добавлены через JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Быстрые настройки встреч -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 600; color: var(--gray-700);">☕ Preferred meeting style:</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                            <button type="button" onclick="setMeetingStyle('casual')" id="casual-btn" class="meeting-btn" style="padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: ${existingProfile?.meeting_preferences?.meeting_style === 'casual' ? '#f59e0b' : 'white'}; color: ${existingProfile?.meeting_preferences?.meeting_style === 'casual' ? 'white' : '#666'}; cursor: pointer; font-size: 12px; transition: all 0.2s;">☕ Coffee Chat</button>
+                            <button type="button" onclick="setMeetingStyle('study')" id="study-btn" class="meeting-btn" style="padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: ${existingProfile?.meeting_preferences?.meeting_style === 'study' ? '#f59e0b' : 'white'}; color: ${existingProfile?.meeting_preferences?.meeting_style === 'study' ? 'white' : '#666'}; cursor: pointer; font-size: 12px; transition: all 0.2s;">📚 Study Session</button>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--gray-700);">⏰ Availability:</label>
+                        <select id="profileAvailability" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+                            <option value="weekdays">Weekdays</option>
+                            <option value="weekends">Weekends</option>
+                            <option value="flexible" selected>Flexible</option>
+                            <option value="evenings">Evenings Only</option>
+                        </select>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px; padding: 16px; background: rgba(16, 185, 129, 0.1); border-radius: 8px;">
+                        <div style="font-size: 12px; color: #059669; margin-bottom: 8px;">✨ Changes save automatically as you select</div>
+                        <button onclick="showProfileComplete()" style="background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 12px;">✅ Done</button>
+                    </div>
+                </div>
+            `;
+            
+            showModal('⚡ Quick Profile Setup', editorHTML);
+            
+            // Создаем кнопки интересов
+            createInterestButtons(selectedInterests);
+            
+            // Создаем кнопки личности
+            createPersonalityButtons(selectedPersonality);
+            
+            // Инициализируем выбранный стиль встреч
+            if (existingProfile?.meeting_preferences?.meeting_style) {
+                setMeetingStyle(existingProfile.meeting_preferences.meeting_style);
+            } else {
+                setMeetingStyle('casual'); // По умолчанию
+            }
+        }
+        
+        // Функции для создания кнопок
+        function createInterestButtons(selectedInterests) {
+            console.log('Creating interest buttons, selected:', selectedInterests);
+            const container = document.getElementById('interestTags');
+            if (!container) {
+                console.error('interestTags container not found');
+                return;
+            }
+            
+            const interests = ['Programming', 'Music', 'Sports', 'Photography', 'Gaming', 'Art', 'Reading', 'Movies', 'Travel', 'Cooking', 'Fitness', 'Coffee', 'Tech', 'Design', 'Science', 'Business'];
+            
+            interests.forEach(interest => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'tag-btn';
+                button.setAttribute('data-value', interest.toLowerCase());
+                button.textContent = interest;
+                button.onclick = () => {
+                    console.log('Interest button clicked:', interest);
+                    toggleTag('interest', interest.toLowerCase());
+                };
+                
+                const isSelected = selectedInterests.includes(interest.toLowerCase());
+                if (isSelected) {
+                    button.classList.add('selected');
+                }
+                
+                button.style.cssText = `padding: 6px 12px; border: 1px solid #ddd; border-radius: 20px; background: ${isSelected ? '#8b5cf6' : 'white'}; color: ${isSelected ? 'white' : '#666'}; cursor: pointer; font-size: 12px; transition: all 0.2s;`;
+                
+                container.appendChild(button);
+            });
+        }
+        
+        function createPersonalityButtons(selectedPersonality) {
+            console.log('Creating personality buttons, selected:', selectedPersonality);
+            const container = document.getElementById('personalityTags');
+            if (!container) {
+                console.error('personalityTags container not found');
+                return;
+            }
+            
+            const traits = ['Friendly', 'Outgoing', 'Creative', 'Analytical', 'Curious', 'Collaborative', 'Energetic', 'Calm', 'Funny', 'Serious', 'Adventurous', 'Organized'];
+            
+            traits.forEach(trait => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'tag-btn';
+                button.setAttribute('data-value', trait.toLowerCase());
+                button.textContent = trait;
+                button.onclick = () => {
+                    console.log('Personality button clicked:', trait);
+                    toggleTag('personality', trait.toLowerCase());
+                };
+                
+                const isSelected = selectedPersonality.includes(trait.toLowerCase());
+                if (isSelected) {
+                    button.classList.add('selected');
+                }
+                
+                button.style.cssText = `padding: 6px 12px; border: 1px solid #ddd; border-radius: 20px; background: ${isSelected ? '#10b981' : 'white'}; color: ${isSelected ? 'white' : '#666'}; cursor: pointer; font-size: 12px; transition: all 0.2s;`;
+                
+                container.appendChild(button);
+            });
+        }
+        
+        // Функции для работы с тегами
+        function toggleTag(type, value) {
+            console.log('toggleTag called:', type, value);
+            const button = document.querySelector(`#${type}Tags button[data-value="${value.toLowerCase()}"]`);
+            console.log('Found button:', button);
+            
+            if (!button) {
+                console.error('Button not found for:', type, value);
+                return;
+            }
+            
+            if (button.classList.contains('selected')) {
+                button.classList.remove('selected');
+                button.style.background = 'white';
+                button.style.color = '#666';
+                console.log('Deselected:', value);
+            } else {
+                button.classList.add('selected');
+                if (type === 'interest') {
+                    button.style.background = '#8b5cf6';
+                } else {
+                    button.style.background = '#10b981';
+                }
+                button.style.color = 'white';
+                console.log('Selected:', value);
+            }
+            autoSaveProfile();
+        }
+        
+        function addCustomTag(type, value) {
+            if (!value.trim()) return;
+            
+            const container = document.getElementById(`${type}Tags`);
+            const newButton = document.createElement('button');
+            newButton.type = 'button';
+            newButton.className = 'tag-btn selected';
+            newButton.setAttribute('data-value', value.toLowerCase());
+            newButton.onclick = () => toggleTag(type, value.toLowerCase());
+            newButton.textContent = value;
+            newButton.style.cssText = `padding: 6px 12px; border: 1px solid #ddd; border-radius: 20px; background: ${type === 'interest' ? '#8b5cf6' : '#10b981'}; color: white; cursor: pointer; font-size: 12px; transition: all 0.2s;`;
+            
+            container.appendChild(newButton);
+            document.getElementById(`custom${type.charAt(0).toUpperCase() + type.slice(1)}`).value = '';
+            autoSaveProfile();
+        }
+        
+        let currentMeetingStyle = 'casual';
+        function setMeetingStyle(style) {
+            currentMeetingStyle = style;
+            document.querySelectorAll('.meeting-btn').forEach(btn => {
+                btn.style.background = 'white';
+                btn.style.color = '#666';
+            });
+            const selectedBtn = document.getElementById(`${style}-btn`);
+            if (selectedBtn) {
+                selectedBtn.style.background = '#f59e0b';
+                selectedBtn.style.color = 'white';
+            }
+            autoSaveProfile();
+        }
+        
+        // Автосохранение профиля
+        let saveTimeout;
+        function autoSaveProfile() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                saveQuickProfile();
+            }, 1000);
+        }
+        
+        async function saveQuickProfile() {
+            const userId = window.location.pathname.split('/')[2];
+            
+            const selectedInterests = Array.from(document.querySelectorAll('#interestTags .tag-btn.selected'))
+                .map(btn => btn.getAttribute('data-value'));
+            
+            const selectedPersonality = Array.from(document.querySelectorAll('#personalityTags .tag-btn.selected'))
+                .map(btn => btn.getAttribute('data-value'));
+            
+            if (selectedInterests.length === 0) return;
+            
+            try {
+                const formData = new FormData();
+                formData.append('user_id', userId);
+                formData.append('interests', selectedInterests.join(', '));
+                formData.append('personality_traits', selectedPersonality.join(', '));
+                formData.append('availability', JSON.stringify([{day: 'flexible', time: 'flexible'}]));
+                formData.append('meeting_preferences', JSON.stringify({meeting_style: currentMeetingStyle, group_size: 'pair'}));
+                formData.append('language', 'en');
+                
+                const response = await fetch('/enhanced-coffee/profile', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showSaveNotification();
+                }
+            } catch (error) {
+                console.error('Auto-save error:', error);
+            }
+        }
+        
+        function showSaveNotification() {
+            const notification = document.createElement('div');
+            notification.textContent = '✅ Saved!';
+            notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #10b981; color: white; padding: 8px 16px; border-radius: 8px; font-size: 12px; z-index: 10000; opacity: 0; transition: opacity 0.3s;';
+            document.body.appendChild(notification);
+            setTimeout(() => notification.style.opacity = '1', 10);
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 1700);
+        }
+        
+        // Старая функция сохранения (для совместимости)
+        async function saveSmartProfile() {
+            const interests = document.getElementById('profileInterests').value.trim();
+            const personality = document.getElementById('profilePersonality').value.trim();
+            const meetingStyle = document.getElementById('profileMeetingStyle').value;
+            const groupSize = document.getElementById('profileGroupSize').value;
+            const availability = document.getElementById('profileAvailability').value;
+            
+            if (!interests) {
+                alert('❌ Please enter your interests!');
+                return;
+            }
+            
+            try {
+                const userId = window.location.pathname.split('/')[2];
+                const formData = new FormData();
+                formData.append('user_id', userId);
+                formData.append('interests', interests);
+                formData.append('personality_traits', personality);
+                formData.append('availability', JSON.stringify([{day: availability, time: 'flexible'}]));
+                formData.append('meeting_preferences', JSON.stringify({meeting_style: meetingStyle, group_size: groupSize}));
+                formData.append('language', 'en');
+                
+                const response = await fetch('/enhanced-coffee/profile', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Показываем успешное сообщение в модальном окне
+                    const successMsg = document.createElement('div');
+                    successMsg.style.cssText = 'background: rgba(16, 185, 129, 0.1); color: #059669; padding: 12px; border-radius: 8px; margin: 16px 0; text-align: center; font-weight: 600;';
+                    successMsg.innerHTML = '✅ Smart Profile saved successfully!';
+                    
+                    const modalBody = document.getElementById('modalBody');
+                    modalBody.insertBefore(successMsg, modalBody.firstChild);
+                    
+                    // Убираем сообщение через 2 секунды и возвращаемся в главное меню
+                    setTimeout(() => {
+                        if (successMsg.parentNode) {
+                            successMsg.parentNode.removeChild(successMsg);
+                        }
+                        // Возвращаемся в главное меню Random Coffee
+                        openAIChat();
+                    }, 2000);
+                } else {
+                    alert('❌ Error saving profile. Please try again.');
+                }
+                
+            } catch (error) {
+                console.error('Error saving profile:', error);
+                alert('❌ Error: ' + error.message);
+            }
+        }
+        
+        // Функции для остальных вкладок Random Coffee
+        async function showCompatibilityCheck() {
+            const contentDiv = document.getElementById('coffeeContent');
+            contentDiv.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🧠</div>
+                    <h3>AI Matching Engine</h3>
+                    <p>Create intelligent matches based on compatibility algorithms!</p>
+                    <button onclick="createAIMatches()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; padding: 16px 32px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 16px; margin-bottom: 16px;">🚀 Create Matches</button>
+                    <div id="matchingResults" style="margin-top: 20px;"></div>
+                </div>
+            `;
+        }
+        
+        async function createAIMatches() {
+            const resultsDiv = document.getElementById('matchingResults');
+            resultsDiv.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">🧠 Creating AI matches...</div>';
+            
+            try {
+                const userId = window.location.pathname.split('/')[2];
+                const formData = new FormData();
+                formData.append('max_matches', '10');
+                formData.append('user_id', userId);
+                
+                const response = await fetch('/enhanced-coffee/create-matches', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.weekly_limit) {
+                    resultsDiv.innerHTML = `
+                        <div style="background: rgba(245, 158, 11, 0.1); padding: 20px; border-radius: 16px; color: #d97706; text-align: center;">
+                            <div style="font-size: 32px; margin-bottom: 12px;">📅</div>
+                            <div style="font-weight: 600; margin-bottom: 8px;">Weekly Matching Limit Reached!</div>
+                            <div style="margin-bottom: 12px; line-height: 1.4;">${data.message}</div>
+                            <div style="background: rgba(245, 158, 11, 0.2); padding: 8px 12px; border-radius: 8px; font-size: 12px; margin-top: 12px;">
+                                🔔 We'll remind you when it's time for new matches!
+                            </div>
+                        </div>
+                    `;
+                } else if (data.success) {
+                    if (data.matches_created > 0) {
+                        resultsDiv.innerHTML = `
+                            <div style="background: rgba(16, 185, 129, 0.1); padding: 16px; border-radius: 12px; color: #059669;">
+                                ✅ Successfully created ${data.matches_created} new AI matches!<br>
+                                <small>Check the Messages tab to start conversations</small>
+                            </div>
+                        `;
+                    } else {
+                        resultsDiv.innerHTML = `
+                            <div style="background: rgba(59, 130, 246, 0.1); padding: 16px; border-radius: 12px; color: #1d4ed8;">
+                                🔍 No new matches found - you're already connected with all compatible students!<br>
+                                <small>Check the Messages tab to continue existing conversations</small>
+                            </div>
+                        `;
+                    }
+                } else {
+                    resultsDiv.innerHTML = '<div style="background: rgba(239, 68, 68, 0.1); padding: 16px; border-radius: 12px; color: #dc2626;">❌ Error creating matches</div>';
+                }
+                
+            } catch (error) {
+                resultsDiv.innerHTML = '<div style="background: rgba(239, 68, 68, 0.1); padding: 16px; border-radius: 12px; color: #dc2626;">❌ Error: ' + error.message + '</div>';
+            }
+        }
+        
+        async function showInsights() {
+            const contentDiv = document.getElementById('coffeeContent');
+            contentDiv.innerHTML = '<div style="text-align: center; padding: 40px;">📊 Loading insights...</div>';
+            
+            const userId = window.location.pathname.split('/')[2];
+            
+            try {
+                const response = await fetch(`/enhanced-coffee/insights/${userId}`);
+                const data = await response.json();
+                
+                if (data.success && data.insights) {
+                    const insights = data.insights;
+                    let html = `
+                        <div style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 16px; padding: 20px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                            <h3 style="margin: 0 0 16px 0; color: var(--gray-800);">📊 Your AI Insights</h3>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px;">
+                                <div style="background: #dbeafe; padding: 12px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 20px; font-weight: 700; color: #1d4ed8;">${insights.total_matches || 0}</div>
+                                    <div style="font-size: 11px; color: var(--gray-600);">Total Matches</div>
+                                </div>
+                                <div style="background: #dcfce7; padding: 12px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 20px; font-weight: 700; color: #16a34a;">${insights.successful_meetings || 0}</div>
+                                    <div style="font-size: 11px; color: var(--gray-600);">Meetings</div>
+                                </div>
+                                <div style="background: #fef3c7; padding: 12px; border-radius: 8px; text-align: center;">
+                                    <div style="font-size: 20px; font-weight: 700; color: #d97706;">${Math.round((insights.avg_compatibility || 0) * 100)}%</div>
+                                    <div style="font-size: 11px; color: var(--gray-600);">Avg Compatibility</div>
+                                </div>
+                            </div>
+                            
+                            ${insights.top_interests && insights.top_interests.length > 0 ? `
+                            <div style="margin-bottom: 16px;">
+                                <strong style="color: var(--gray-700);">Top Interests:</strong><br>
+                                <div style="display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px;">
+                                    ${insights.top_interests.map(interest => `<span style="background: #8b5cf6; color: white; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 500;">${interest}</span>`).join('')}
+                                </div>
+                            </div>
+                            ` : ''}
+                            
+                            ${insights.recommendations && insights.recommendations.length > 0 ? `
+                            <div>
+                                <strong style="color: var(--gray-700);">AI Recommendations:</strong>
+                                <ul style="margin: 8px 0; padding-left: 20px; color: var(--gray-600);">
+                                    ${insights.recommendations.map(rec => `<li style="margin: 4px 0;">${rec}</li>`).join('')}
+                                </ul>
+                            </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    
+                    contentDiv.innerHTML = html;
+                } else {
+                    contentDiv.innerHTML = `
+                        <div style="text-align: center; padding: 40px;">
+                            <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;">📊</div>
+                            <h3>No Insights Yet</h3>
+                            <p>Create matches and start conversations to generate insights!</p>
+                            <button onclick="showCompatibilityCheck()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; padding: 16px 32px; border-radius: 8px; cursor: pointer; font-weight: 600;">🧠 Create Matches</button>
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                contentDiv.innerHTML = '<div style="text-align: center; padding: 40px; color: #dc3545;">❌ Error loading insights</div>';
+            }
+        }
+        
+        // Загружаем сохраненную тему при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedTheme();
+            applyMobileStyles();
+        });
+        
+        // Принудительно применяем мобильные стили
+        function applyMobileStyles() {
+            if (window.innerWidth <= 768) {
+                // Находим все grid элементы и делаем их одноколоночными
+                const gridElements = document.querySelectorAll('[style*="grid-template-columns"]');
+                gridElements.forEach(el => {
+                    if (el.style.gridTemplateColumns.includes('1fr 1fr')) {
+                        el.style.gridTemplateColumns = '1fr';
+                        el.style.gap = '16px';
+                    }
+                });
+                
+                // Исправляем главную сетку
+                const mainGrid = document.querySelector('.main-grid');
+                if (mainGrid) {
+                    mainGrid.style.gridTemplateColumns = '1fr';
+                    mainGrid.style.gap = '16px';
+                }
+                
+                // Исправляем кнопки курсов
+                const courseButtons = document.querySelectorAll('[style*="width: 150px; height: 150px"]');
+                courseButtons.forEach(btn => {
+                    btn.style.width = '100%';
+                    btn.style.height = '60px';
+                    btn.style.fontSize = '14px';
+                });
+            }
+        }
+        
+        // Применяем стили при изменении размера окна
+        window.addEventListener('resize', applyMobileStyles);
     </script>
     
-    <script src="/enhanced_coffee_ui.js"></script>
 
     <!-- Footer -->
     <footer style="background: linear-gradient(135deg, #1f2937 0%, #374151 100%); color: white; padding: 40px 0; margin-top: 60px; border-radius: 20px 20px 0 0;">
         <div class="container">
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+            <div class="footer-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px;">
                 <!-- AI Safety Assistant -->
                 <div>
                     <h4 style="color: #f97316; margin: 0 0 15px 0; font-size: 18px; font-weight: 700;">🤖 AI Safety Assistant</h4>

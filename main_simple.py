@@ -4,6 +4,7 @@ load_dotenv()
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
+from datetime import datetime
 from ai_mentor import AIMentor
 from pdf_processor import extract_text_from_pdf
 from document_tracker import DocumentTracker
@@ -1045,6 +1046,7 @@ async def root():
         }
         
         function openAIChat() {
+            console.log('Opening chat for user:', getCurrentUserId()); // Debug log
             const chatHTML = `
 
                 
@@ -1062,17 +1064,65 @@ async def root():
                     <button onclick="sendMessage()" style="background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">Send 🚀</button>
                     <button onclick="clearChatHistory()" style="background: #6b7280; color: white; border: none; padding: 12px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;" title="Clear chat">🗑️</button>
                 </div>
+                <div style="margin-top: 8px; font-size: 12px; color: #666;">
+                    User: <span id="currentUser">${getCurrentUserId()}</span> | 
+                    <button onclick="switchUser('u001')" style="background: none; border: 1px solid #ddd; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;">u001</button>
+                    <button onclick="switchUser('u002')" style="background: none; border: 1px solid #ddd; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;">u002</button>
+                    <button onclick="switchUser('u009')" style="background: none; border: 1px solid #ddd; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;">u009</button>
+                </div>
             `;
             showModal('🤖💫 AI Friend', chatHTML);
             
             // Загружаем сохраненную историю после открытия модального окна
-            setTimeout(loadChatHistory, 100);
+            setTimeout(() => loadChatHistory(), 100);
         }
         
         let chatHistory = [];
         
-        // Load chat history from localStorage when opening modal
-        function loadChatHistory() {
+        // Get current user ID from URL or localStorage
+        function getCurrentUserId() {
+            return localStorage.getItem('currentUserId') || 'u001'; // Default to u001
+        }
+        
+        // Switch user and reload chat
+        function switchUser(userId) {
+            localStorage.setItem('currentUserId', userId);
+            document.getElementById('currentUser').textContent = userId;
+            loadChatHistory(); // Reload chat for new user
+        }
+        
+        // Load chat history from server when opening modal
+        async function loadChatHistory() {
+            try {
+                // Try to load from server first
+                const response = await fetch(`/coffee/chat/history/${getCurrentUserId()}`); // Dynamic user
+                const data = await response.json();
+                
+                if (data.success && data.history && data.history.length > 0) {
+                    const messagesDiv = document.getElementById('chatMessages');
+                    if (messagesDiv) {
+                        let html = '';
+                        data.history.forEach(item => {
+                            html += `<div style="margin: 8px 0; text-align: right;"><div style="background: var(--brand); color: white; padding: 8px 12px; border-radius: 12px; display: inline-block; max-width: 80%;">👤 ${item.user_message}</div></div>`;
+                            html += `<div style="margin: 8px 0;"><div style="background: white; border: 1px solid #dee2e6; padding: 8px 12px; border-radius: 12px; display: inline-block; max-width: 80%;">🤖 ${item.ai_response}</div></div>`;
+                        });
+                        messagesDiv.innerHTML = html;
+                        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                        
+                        // Update chatHistory array for compatibility
+                        chatHistory = [];
+                        data.history.forEach(item => {
+                            chatHistory.push({role: 'user', content: item.user_message});
+                            chatHistory.push({role: 'assistant', content: item.ai_response});
+                        });
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.log('Server history not available, checking localStorage');
+            }
+            
+            // Fallback to localStorage if server fails
             const savedHistory = localStorage.getItem('ehsChatHistory');
             const savedMessages = localStorage.getItem('ehsChatMessages');
             
@@ -1138,10 +1188,10 @@ async def root():
                 chatHistory.push({role: 'user', content: message});
                 
                 const formData = new FormData();
+                formData.append('user_id', getCurrentUserId()); // Dynamic user
                 formData.append('message', message);
-                formData.append('history', JSON.stringify(chatHistory));
                 
-                const response = await fetch('/chat', {
+                const response = await fetch('/coffee/chat', {
                     method: 'POST',
                     body: formData
                 });
@@ -4340,7 +4390,7 @@ async def get_expired_courses():
         "expired_users": expired_list
     }
 
-# Random Coffee эндпоинты
+# Random Coffee endpoints
 @app.post("/coffee/profile")
 async def create_coffee_profile(user_id: str = Form(...), interests: str = Form(...), 
                                availability: str = Form(...), language: str = Form(default="en")):
@@ -4369,7 +4419,7 @@ async def create_coffee_profile(user_id: str = Form(...), interests: str = Form(
 
 @app.get("/coffee/profile/{user_id}")
 async def get_coffee_profile(user_id: str):
-    """Get профиль Random Coffee"""
+    """Get Random Coffee profile"""
     profile = coffee_manager.get_profile(user_id)
     if not profile:
         return {"error": "Profile not found"}
@@ -4377,7 +4427,7 @@ async def get_coffee_profile(user_id: str):
 
 @app.post("/coffee/opt-in")
 async def coffee_opt_in(user_id: str = Form(...), participate: bool = Form(...)):
-    """Участие в Random Coffee на неделю"""
+    """Participate in Random Coffee for the week"""
     try:
         profile = coffee_manager.get_profile(user_id)
         if not profile:
@@ -4392,25 +4442,31 @@ async def coffee_opt_in(user_id: str = Form(...), participate: bool = Form(...))
 
 @app.get("/coffee/matches/{user_id}")
 async def get_user_matches(user_id: str):
-    """Get матчи user"""
-    matches = coffee_manager.get_user_matches(user_id)
+    """Get user matches from both systems"""
+    # Получаем матчи из обеих систем
+    basic_matches = coffee_manager.get_user_matches(user_id)
+    enhanced_matches = [m for m in enhanced_coffee.matches.values() if user_id in m.get("users", [])]
     
-    # Добавляем информацию о партнерах
-    for match in matches:
+    # Объединяем и обогащаем данными
+    all_matches = basic_matches + enhanced_matches
+    
+    for match in all_matches:
         partner_ids = [uid for uid in match["users"] if uid != user_id]
         partners = []
         for partner_id in partner_ids:
-            partner_profile = coffee_manager.get_profile(partner_id)
+            # Пробуем получить профиль из любой системы
+            partner_profile = coffee_manager.get_profile(partner_id) or enhanced_coffee.profiles.get(partner_id)
             if partner_profile:
                 partners.append({
                     "id": partner_id,
                     "name": partner_profile["name"],
                     "role": partner_profile["role"],
-                    "department": partner_profile["department"]
+                    "department": partner_profile["department"],
+                    "compatibility_score": match.get("compatibility_score", 0.8)  # Для Enhanced матчей
                 })
         match["partners"] = partners
     
-    return {"matches": matches}
+    return {"matches": all_matches}
 
 @app.post("/coffee/confirm-match")
 async def confirm_coffee_match(match_id: str = Form(...), timeslot: str = Form(...)):
@@ -4440,7 +4496,7 @@ async def add_coffee_feedback(match_id: str = Form(...), user_id: str = Form(...
 
 @app.get("/coffee/stats")
 async def get_coffee_stats():
-    """Get статистику Random Coffee"""
+    """Get Random Coffee statistics"""
     return coffee_manager.get_stats()
 
 @app.post("/coffee/create-matches")
@@ -4449,11 +4505,11 @@ async def create_weekly_matches():
     try:
         matches = coffee_manager.create_weekly_matches()
         
-        # Отправляем приветственные сообщения
+        # Send welcome messages
         for match in matches:
             coffee_messenger.send_system_message(
                 match["id"], 
-                f"☕ Новый матч! Познакомьтесь и договоритесь о времени встречи!"
+                f"☕ New match! Get to know each other and arrange a meeting time!"
             )
         
         return {"success": True, "matches_created": len(matches), "matches": matches}
@@ -4465,19 +4521,55 @@ async def send_coffee_message(match_id: str = Form(...), sender_id: str = Form(.
                              message: str = Form(...), message_type: str = Form(default="text")):
     """Send message in match chat"""
     try:
-        message_obj = coffee_messenger.send_message(match_id, sender_id, message, message_type)
+        # Пробуем отправить через enhanced_coffee систему
+        message_obj = {
+            "id": f"msg_{len(enhanced_coffee.messages.get(match_id, []))}",
+            "match_id": match_id,
+            "sender_id": sender_id,
+            "message": message,
+            "message_type": message_type,
+            "timestamp": datetime.now().isoformat(),
+            "read": False  # Важно: помечаем как непрочитанное
+        }
+        
+        if match_id not in enhanced_coffee.messages:
+            enhanced_coffee.messages[match_id] = []
+        
+        enhanced_coffee.messages[match_id].append(message_obj)
+        
+        # Также пробуем старую систему для совместимости
+        try:
+            coffee_messenger.send_message(match_id, sender_id, message, message_type)
+        except:
+            pass
+            
         return {"success": True, "message": message_obj}
     except Exception as e:
         return {"success": False, "error": str(e)}
 
 @app.get("/coffee/messages/{match_id}")
 async def get_match_messages(match_id: str, user_id: str = None):
-    """Get сообщения матча"""
+    """Get match messages"""
     try:
-        messages = coffee_messenger.get_match_messages(match_id)
+        # Инициализируем messages если нужно
+        if not hasattr(enhanced_coffee, 'messages'):
+            enhanced_coffee.messages = {}
         
-        if user_id:
-            coffee_messenger.mark_as_read(match_id, user_id)
+        # Сначала пробуем enhanced_coffee систему
+        messages = enhanced_coffee.messages.get(match_id, [])
+        
+        # Если нет сообщений, пробуем старую систему
+        if not messages:
+            try:
+                messages = coffee_messenger.get_match_messages(match_id)
+            except:
+                messages = []
+        
+        # Помечаем сообщения как прочитанные для текущего пользователя
+        if user_id and match_id in enhanced_coffee.messages:
+            for msg in enhanced_coffee.messages[match_id]:
+                if msg.get('sender_id') != user_id:
+                    msg['read'] = True
         
         return {"success": True, "messages": messages}
     except Exception as e:
@@ -4495,7 +4587,7 @@ async def confirm_meeting_time(match_id: str = Form(...), time_slot: str = Form(
 
 @app.get("/admin/coffee-chats")
 async def admin_coffee_chats():
-    """Админская панель for просмотра всех чатов"""
+    """Admin panel for viewing all chats"""
     try:
         matches = coffee_manager.matches
         all_chats = []
@@ -4578,17 +4670,104 @@ async def admin_coffee_chats():
     except Exception as e:
         return HTMLResponse(content=f"<h1>Error: {str(e)}</h1>")
 
+@app.post("/coffee/cleanup-duplicates")
+async def cleanup_duplicate_matches():
+    """Очистка дублирующихся матчей"""
+    try:
+        # Перезагружаем матчи из файла
+        enhanced_coffee.matches = enhanced_coffee.load_matches()
+        
+        # Находим дубликаты
+        seen_pairs = set()
+        duplicates = []
+        
+        for match_id, match in enhanced_coffee.matches.items():
+            users = tuple(sorted(match["users"]))
+            if users in seen_pairs:
+                duplicates.append(match_id)
+            else:
+                seen_pairs.add(users)
+        
+        # Удаляем дубликаты
+        for dup_id in duplicates:
+            del enhanced_coffee.matches[dup_id]
+        
+        # Сохраняем
+        enhanced_coffee.save_matches()
+        
+        return {"success": True, "removed_duplicates": len(duplicates), "duplicate_ids": duplicates}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@app.post("/coffee/test-message")
+async def create_test_message(user_id: str = Form(...)):
+    """Создать тестовое сообщение для проверки уведомлений"""
+    try:
+        # Создаем тестовый матч если его нет
+        test_match_id = "test_match_001"
+        
+        # Инициализируем messages если нужно
+        if not hasattr(enhanced_coffee, 'messages'):
+            enhanced_coffee.messages = {}
+        
+        if test_match_id not in enhanced_coffee.messages:
+            enhanced_coffee.messages[test_match_id] = []
+        
+        # Создаем тестовое сообщение от другого пользователя
+        test_message = {
+            "id": f"test_msg_{len(enhanced_coffee.messages[test_match_id])}",
+            "match_id": test_match_id,
+            "sender_id": "u999",  # Другой пользователь
+            "message": "Test message for notifications!",
+            "message_type": "text",
+            "timestamp": datetime.now().isoformat(),
+            "read": False
+        }
+        
+        enhanced_coffee.messages[test_match_id].append(test_message)
+        
+        # Также добавляем тестовый матч в enhanced_coffee.matches
+        if not hasattr(enhanced_coffee, 'matches'):
+            enhanced_coffee.matches = {}
+            
+        enhanced_coffee.matches[test_match_id] = {
+            "id": test_match_id,
+            "users": [user_id, "u999"],
+            "status": "confirmed",
+            "created_at": datetime.now().isoformat()
+        }
+        
+        return {"success": True, "message": "Test message created", "match_id": test_match_id}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
 @app.get("/coffee/unread/{user_id}")
 async def get_unread_messages(user_id: str):
     """Get количество непрочитанных сообщений"""
     try:
-        user_matches = coffee_manager.get_user_matches(user_id)
         total_unread = 0
         
-        for match in user_matches:
-            messages = coffee_messenger.get_match_messages(match["id"])
-            unread_count = len([msg for msg in messages if msg["sender_id"] != user_id and not msg["read"]])
-            total_unread += unread_count
+        # Проверяем старую систему
+        try:
+            user_matches = coffee_manager.get_user_matches(user_id)
+            for match in user_matches:
+                messages = coffee_messenger.get_match_messages(match["id"])
+                unread_count = len([msg for msg in messages if msg["sender_id"] != user_id and not msg["read"]])
+                total_unread += unread_count
+        except:
+            pass
+        
+        # Проверяем новую enhanced систему
+        try:
+            enhanced_matches = [m for m in enhanced_coffee.matches.values() if user_id in m.get("users", [])]
+            for match in enhanced_matches:
+                match_id = match.get("id")
+                if match_id and match_id in enhanced_coffee.messages:
+                    messages = enhanced_coffee.messages[match_id]
+                    unread_count = len([msg for msg in messages if msg.get("sender_id") != user_id and not msg.get("read", False)])
+                    total_unread += unread_count
+        except:
+            pass
         
         return {"success": True, "unread_count": total_unread}
     except Exception as e:
@@ -4645,61 +4824,239 @@ async def admin_view_chat(match_id: str):
     except Exception as e:
         return HTMLResponse(content=f"<h1>Error: {str(e)}</h1>")
 
+@app.get("/coffee/chat/history/{user_id}")
+async def get_chat_history(user_id: str):
+    """Get chat history for user"""
+    try:
+        import json
+        import os
+        
+        chat_file = f"data/chat_history/{user_id}_chat.json"
+        if os.path.exists(chat_file):
+            with open(chat_file, 'r', encoding='utf-8') as f:
+                history = json.load(f)
+            
+            # Format for frontend
+            formatted_history = []
+            for i in range(0, len(history), 2):
+                if i + 1 < len(history):
+                    user_msg = history[i].split("] ", 1)[-1] if "] " in history[i] else history[i]
+                    ai_msg = history[i + 1].split("] ", 1)[-1] if "] " in history[i + 1] else history[i + 1]
+                    timestamp = history[i].split("] ", 1)[0].replace("[", "") if "] " in history[i] else ""
+                    
+                    formatted_history.append({
+                        "user_message": user_msg,
+                        "ai_response": ai_msg,
+                        "timestamp": timestamp
+                    })
+            
+            return {"history": formatted_history, "success": True}
+        else:
+            return {"history": [], "success": True}
+            
+    except Exception as e:
+        return {"history": [], "success": False, "error": str(e)}
+
+# Функция для сохранения истории чата
+def save_chat_message(user_id: str, user_msg: str, ai_response: str):
+    try:
+        import json
+        import os
+        from datetime import datetime
+        
+        chat_dir = "data/chat_history"
+        os.makedirs(chat_dir, exist_ok=True)
+        
+        chat_file = f"{chat_dir}/{user_id}_chat.json"
+        history = []
+        if os.path.exists(chat_file):
+            with open(chat_file, 'r', encoding='utf-8') as f:
+                history = json.load(f)
+        
+        timestamp = datetime.now().isoformat()
+        history.extend([
+            f"[{timestamp}] {user_msg}",
+            f"[{timestamp}] {ai_response}"
+        ])
+        
+        if len(history) > 20:
+            history = history[-20:]
+        
+        with open(chat_file, 'w', encoding='utf-8') as f:
+            json.dump(history, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"Error saving chat: {e}")
+
 @app.post("/coffee/chat")
 async def coffee_chat(user_id: str = Form(...), message: str = Form(...)):
-    """Дружелюбный AI чат для Random Coffee"""
+    """Friendly AI chat for Random Coffee"""
     try:
-        profile = coffee_manager.get_profile(user_id)
-        matches = coffee_manager.get_user_matches(user_id)
+        # Проверка еженедельных напоминаний перенесена ниже
         
-        if not profile:
-            if any(word in message.lower() for word in ["профиль", "создать", "начать", "profile", "create", "start"]):
-                try:
-                    import pandas as pd
-                    users_df = pd.read_csv('data/users.csv')
-                    user_row = users_df[users_df['user_id'] == user_id]
+        profile = coffee_manager.get_profile(user_id)
+        enhanced_profile = enhanced_coffee.profiles.get(user_id)
+        
+        print(f"DEBUG coffee_chat: user_id={user_id}")
+        print(f"DEBUG coffee_chat: profile={profile}")
+        print(f"DEBUG coffee_chat: enhanced_profile={enhanced_profile}")
+        
+        # Получаем матчи из обеих систем
+        matches = coffee_manager.get_user_matches(user_id)
+        enhanced_matches = [m for m in enhanced_coffee.matches.values() if user_id in m.get("users", [])]
+        all_matches = matches + enhanced_matches
+        
+        # Проверяем, нужно ли напомнить о создании новых матчей (только для пользователей с профилем)
+        if enhanced_profile and len(all_matches) > 0:
+            can_create, limit_message, next_date = enhanced_coffee.can_create_matches(user_id)
+            if can_create:
+                from datetime import datetime, timedelta
+                
+                # Получаем последний матч пользователя
+                user_matches = [m for m in enhanced_coffee.matches.values() if user_id in m.get("users", [])]
+                if user_matches:
+                    latest_match = max(user_matches, key=lambda x: x["created_at"])
+                    match_date = datetime.fromisoformat(latest_match["created_at"].replace('Z', ''))
+                    days_since = (datetime.now() - match_date).days
                     
-                    if not user_row.empty:
-                        user_name = user_row.iloc[0]['name']
-                        user_role = user_row.iloc[0]['role']
-                        user_dept = user_row.iloc[0]['department']
-                        
-                        interests = ["networking", "professional development"]
-                        availability = [{"day": "flexible", "time": "flexible"}]
-                        
-                        coffee_manager.create_profile(user_id, user_name, user_role, user_dept, interests, availability)
-                        
-                        return {"response": f"🎉 Отлично, {user_name}! Я создал твой профиль в Random Coffee! ☕\n\nТеперь каждую неделю я буду анонимно подбирать тебе друга среди всех студентов Cal Poly на основе ваших общих интересов. Хочешь, чтобы я нашёл твоего первого друга прямо сейчас? ✨", "success": True}
-                except:
-                    pass
-                    
-                return {"response": "Давай создадим твой профиль! Расскажи мне о своих интересах, и я смогу найти тебе идеального друга среди студентов Cal Poly! 🚀", "success": True}
+                    # Если прошло 7+ дней, предлагаем создать новые матчи
+                    if days_since >= 7:
+                        return {"response": f"🌟 Hey {enhanced_profile.get('name', 'friend')}! It's been a week since your last matches. Ready to meet new amazing Cal Poly students? ☕\n\n🚀 **Want to create new matches?** Just say 'Yes' or 'Create matches'\n🎯 **Want to skip this week?** Say 'Skip' or 'Maybe later'\n\nRemember - the best connections happen when you're ready for them! ✨", "success": True}
+        
+        # Проверяем, есть ли любой профиль (старый или новый)
+        has_any_profile = (profile and not profile.get('error')) or (enhanced_profile and not enhanced_profile.get('error'))
+        
+        print(f"DEBUG: has_any_profile={has_any_profile}")
+        print(f"DEBUG: message.lower()={message.lower()}")
+        print(f"DEBUG: ready check={any(word in message.lower() for word in ['ok', 'ready', 'done'])}")
+        
+        if not has_any_profile:
+            # Проверяем команды "OK" или "Ready" для запуска подбора
+            if any(word in message.lower() for word in ["ok", "ready", "done"]):
+                response_text = "🚀 I see you're ready to start! But first, please create your Smart Profile using the '🎯 Smart Profile' tab above. Fill in your interests, personality traits, and preferences - it takes just a few seconds! \n\nOnce you've saved your profile, come back and write 'OK' again! ✨"
+                save_chat_message(user_id, message, response_text)
+                return {"response": response_text, "success": True}
             
-            return {"response": "Привет! 👋 Я твой AI-помощник Random Coffee! ☕✨\n\nКаждую неделю я анонимно подбираю студентам Cal Poly друзей на основе их интересов. Вот как это работает:\n\n🤖 Ты создаёшь профиль с интересами\n💫 Раз в неделю я нахожу тебе совместимого друга\n💬 Вы знакомитесь в чате и договариваетесь о встрече\n☕ Встречаетесь за кофе и общаетесь!\n🔄 На следующей неделе я найду тебе нового друга\n\nГотов начать? Скажи 'создать профиль'! 🌟", "success": True}
+            # Предлагаем заполнить Smart Profile
+            response_text = "Hello! 👋 I'm your Random Coffee AI assistant! ☕✨\n\nTo find you the perfect friends at Cal Poly, I need you to fill out your Smart Profile first. This will take just a few seconds and includes:\n\n📝 Your interests and hobbies\n🎯 Personality traits\n⏰ Availability preferences\n🎨 Meeting style preferences\n\nOnce you're done, just write 'OK' or 'Ready' and I'll start the AI matching process! 🚀\n\nReady to create your Smart Profile? 🌟"
+            save_chat_message(user_id, message, response_text)
+            return {"response": response_text, "success": True}
         
         else:
-            if any(word in message.lower() for word in ["матч", "друг", "найди", "match", "friend", "find"]):
+            # Пользователь с профилем - используем enhanced_profile если есть
+            current_profile = enhanced_profile if enhanced_profile else profile
+            
+            # Получаем настоящее имя из базы данных
+            try:
+                user_data = mentor.db.get_user(user_id)
+                user_name = user_data['name'] if user_data else current_profile.get('name', 'friend')
+            except:
+                user_name = current_profile.get('name', 'friend')
+            
+            user_interests = current_profile.get('interests', ['socializing'])
+            
+            # Умный анализ сообщения - определяем тему
+            message_lower = message.lower()
+            
+            # 1. Проверяем команды матчинга (высокий приоритет)
+            # Исключаем короткие ответы типа "yes please", "yes sure" из команд матчинга
+            is_matching_command = (
+                any(word in message_lower for word in ["ok", "ready", "done", "match", "find friends", "create matches", "start matching"]) or
+                (message_lower.strip() in ["yes", "yeah", "yep"] and len(message.split()) <= 1)
+            )
+            
+            if is_matching_command:
                 try:
-                    new_matches = enhanced_coffee.create_ai_matches(5)
+                    # Создаем Enhanced профиль если его нет
+                    if not enhanced_profile and profile:
+                        enhanced_coffee.create_enhanced_profile(
+                            user_id=user_id,
+                            name=profile["name"],
+                            role=profile["role"],
+                            department=profile["department"],
+                            interests=profile.get("interests", ["networking"]),
+                            availability=profile.get("availability", []),
+                            language="en"
+                        )
+                    
+                    # Проверяем еженедельное ограничение
+                    can_create_new, weekly_message, _ = enhanced_coffee.can_create_matches(user_id)
+                    
+                    # Если у пользователя уже есть матчи И нельзя создавать новые
+                    if len(all_matches) > 0 and not can_create_new:
+                        return {"response": f"{weekly_message}", "success": True}
+                    
+                    # Если у пользователя уже есть матчи И можно создавать новые
+                    if len(all_matches) > 0 and can_create_new:
+                        # Продолжаем создавать новые матчи
+                        pass
+                    
+                    # Используем Enhanced алгоритм для лучшего матчинга
+                    new_matches = enhanced_coffee.create_ai_matches(1)
                     if new_matches:
-                        return {"response": f"🎯 Супер! Я только что нашёл тебе {len(new_matches)} потенциальных друзей среди студентов Cal Poly! Проверь свои матчи - я выбрал людей с похожими интересами: {', '.join(profile.get('interests', ['общение']))}. У каждого матча есть оценка совместимости! ✨", "success": True}
+                        response_text = f"🎯 Awesome, {user_name}! I just found you {len(new_matches)} potential friends among Cal Poly students! Check your matches - I selected people with similar interests: {', '.join(user_interests)}. Each match has a compatibility score! ✨"
+                        save_chat_message(user_id, message, response_text)
+                        return {"response": response_text, "success": True}
                     else:
-                        return {"response": "Я ищу для тебя идеального друга! 🔍 Мой AI анализирует интересы, факультеты и личности всех студентов Cal Poly. Новые люди присоединяются каждый день - скоро найду кого-то особенного! 🌟", "success": True}
+                        response_text = f"I'm looking for the perfect friend for you, {user_name}! 🔍 My AI analyzes interests, departments, and personalities of all Cal Poly students. New people join every day - I'll find someone special soon! 🌟"
+                        save_chat_message(user_id, message, response_text)
+                        return {"response": response_text, "success": True}
+                except Exception as e:
+                    response_text = f"❌ Error during matching: {str(e)}. Please try again."
+                    save_chat_message(user_id, message, response_text)
+                    return {"response": response_text, "success": True}
+            
+            # 2. Вопросы о безопасности
+            elif any(word in message_lower for word in ["safety", "security", "hazard", "risk", "ppe", "equipment", "accident", "incident", "emergency", "fire", "chemical", "lab", "workplace", "protocol", "training", "безопасност", "охрана труда"]):
+                try:
+                    safety_response = mentor.chat(message, user_id)
+                    response_text = safety_response.get('response', f'Great safety question, {user_name}! I can help with workplace safety, protocols, training, and safety concerns.')
+                    save_chat_message(user_id, message, response_text)
+                    return {"response": response_text, "success": True}
                 except:
+                    response_text = f"Great safety question, {user_name}! 🛡️\n\nI'm here to help with workplace safety, training protocols, hazard identification, PPE requirements, emergency procedures, and any other safety concerns at Cal Poly.\n\nWhat specific safety topic would you like to discuss?"
+                    save_chat_message(user_id, message, response_text)
+                    return {"response": response_text, "success": True}
+            
+            # 3. Вопросы о друзьях/знакомствах
+            elif any(word in message_lower for word in ["friend", "meet", "social", "coffee", "chat", "conversation", "people", "student", "networking", "connection", "relationship", "buddy", "pal"]):
+                # Проверяем команды Ready/OK сначала
+                if any(word in message.lower() for word in ["ok", "ready", "done"]):
+                    # Переходим к логике создания матчей (ниже в коде)
                     pass
+                elif len(all_matches) > 0:
+                    response_text = f"That's great, {user_name}! 🌟 You have {len(all_matches)} active match{'es' if len(all_matches) > 1 else ''}! \n\n💬 Go to the Messages tab to continue your conversations. Building friendships takes time and regular chats!\n\n☕ Some conversation ideas:\n• Ask about their major or projects\n• Share your interests: {', '.join(user_interests[:3])}\n• Suggest meeting for coffee on campus\n\nWhat would you like to chat about with your matches?"
+                    save_chat_message(user_id, message, response_text)
+                    return {"response": response_text, "success": True}
+                else:
+                    response_text = f"I'd love to help you make friends, {user_name}! 😊\n\n🌟 Your Smart Profile shows you're interested in {', '.join(user_interests)}. That's awesome!\n\n☕ **Ready to find new friends?** Just say 'OK' or 'Ready' and I'll start the AI matching process!\n\n💬 **Need conversation tips?** I can help with ice breakers and meeting suggestions!"
+                    save_chat_message(user_id, message, response_text)
+                    return {"response": response_text, "success": True}
             
-            if any(word in message.lower() for word in ["помощь", "как", "help", "how"]):
-                return {"response": f"Конечно помогу, {profile.get('name', 'друг')}! 😊\n\n🤖 **Как работает Random Coffee:**\n• Каждую неделю AI находит тебе совместимого студента Cal Poly\n• Подбор по интересам, факультету и характеру\n• Вы общаетесь в чате и планируете встречу\n• После встречи делитесь впечатлениями\n\n☕ **Советы для встреч:**\n• Предложи встретиться в Starbucks или Julian's на кампусе\n• Спроси про специальность, проекты, планы\n• Расскажи о своих занятиях - может найдёте общие темы!\n\nТвои интересы: {', '.join(profile.get('interests', []))}\nХочешь изменить? Просто скажи! 🎯", "success": True}
-            
-            if len(matches) > 0:
-                return {"response": f"Привет, {profile.get('name', 'друг')}! 🌟 У тебя {len(matches)} активных матчей! Это студенты Cal Poly, с которыми у тебя много общего.\n\nГотов познакомиться? Заходи в чаты и начинай общение! Помни - лучшие дружбы начинаются с простого 'Привет!' и чашки кофе. ☕💫\n\nНужны идеи для разговора или советы где встретиться? Спрашивай! 😊", "success": True}
+            # 4. Общие вопросы и помощь
             else:
-                return {"response": f"Привет, {profile.get('name', 'друг')}! 👋 Твой профиль отлично выглядит! Мне нравится, что тебя интересует {', '.join(profile.get('interests', ['общение с людьми']))}.\n\nЯ постоянно ищу для тебя идеальных друзей среди всех студентов Cal Poly. Хочешь, чтобы я прямо сейчас запустил поиск? Скажи 'найди друзей' и я использую самые новые AI-алгоритмы! 🚀✨", "success": True}
+                # Используем основной AI для общих вопросов
+                try:
+                    general_response = mentor.chat(message, user_id)
+                    response_text = general_response.get('response', f'Hi {user_name}! I can help with safety questions, friend matching, campus life, or just chat! What would you like to know?')
+                    save_chat_message(user_id, message, response_text)
+                    return {"response": response_text, "success": True}
+                except:
+                    response_text = f"Hi {user_name}! 😊 I'm here to help with:\n\n🛡️ **Safety & Training:** Workplace safety, protocols, emergency procedures\n👥 **Friend Matching:** Finding compatible Cal Poly students\n🏫 **Campus Life:** Study spots, events, student resources\n☕ **General Chat:** Any questions or friendly conversation!\n\nWhat can I help you with today?"
+                    save_chat_message(user_id, message, response_text)
+                    return {"response": response_text, "success": True}
         
-        return {"response": "Я здесь, чтобы помочь тебе найти классных друзей в Cal Poly! ☕✨ Каждую неделю мой AI анонимно подбирает студентов по интересам. Хочешь попробовать? 🌟", "success": True}
+        # Fallback - если ничего не сработало
+        response_text = "I'm here to help you find awesome friends at Cal Poly! ☕✨ Every week my AI anonymously matches students by interests. Want to try? 🌟"
+        save_chat_message(user_id, message, response_text)
+        return {"response": response_text, "success": True}
         
     except Exception as e:
-        return {"response": "Привет! Я помогаю студентам Cal Poly находить друзей! ☕ Каждую неделю мой AI анонимно подбирает совместимых людей по интересам. Готов начать? 🚀", "success": True}
+        response_text = "Hello! I help Cal Poly students find friends! ☕ Every week my AI anonymously matches compatible people by interests. Ready to start? 🚀"
+        try:
+            save_chat_message(user_id, message, response_text)
+        except:
+            pass
+        return {"response": response_text, "success": True}
 
 # Онлайн-магазин endpoints
 @app.get("/store/products")
@@ -4793,7 +5150,7 @@ async def create_enhanced_coffee_profile(
     meeting_preferences: str = Form(default="{}"),
     language: str = Form(default="en")
 ):
-    """Создать расширенный профиль Random Coffee"""
+    """Create enhanced Random Coffee profile"""
     try:
         user = mentor.db.get_user(user_id)
         if not user:
@@ -4831,12 +5188,26 @@ async def get_compatibility_score(user1_id: str, user2_id: str):
     }
 
 @app.post("/enhanced-coffee/create-matches")
-async def create_ai_matches(max_matches: int = Form(default=20)):
-    """Создать AI-матчи"""
+async def create_ai_matches(max_matches: int = Form(default=20), user_id: str = Form(default="")):
+    """Create AI matches"""
     try:
-        matches = enhanced_coffee.create_ai_matches(max_matches)
+        # Проверяем еженедельное ограничение
+        can_create, limit_message, next_date = enhanced_coffee.can_create_matches(user_id)
+        
+        if not can_create:
+            return {
+                "success": False,
+                "weekly_limit": True,
+                "message": limit_message,
+                "next_match_date": next_date,
+                "matches_created": 0,
+                "matches": []
+            }
+        
+        matches = enhanced_coffee.create_ai_matches(max_matches, user_id)
         return {
             "success": True,
+            "weekly_limit": False,
             "matches_created": len(matches),
             "matches": matches
         }
@@ -4856,6 +5227,21 @@ async def get_enhanced_profile(user_id: str):
     if not profile:
         return {"error": "Profile not found"}
     return {"profile": profile, "success": True}
+
+@app.delete("/enhanced-coffee/matches/{match_id}")
+async def delete_match(match_id: str):
+    """Удалить матч"""
+    if match_id in enhanced_coffee.matches:
+        del enhanced_coffee.matches[match_id]
+        enhanced_coffee.save_matches()
+        return {"success": True, "message": "Match deleted"}
+    return {"error": "Match not found"}
+
+@app.get("/enhanced-coffee/user-matches/{user_id}")
+async def get_user_matches(user_id: str):
+    """Получить матчи пользователя"""
+    user_matches = [m for m in enhanced_coffee.matches.values() if user_id in m.get("users", [])]
+    return {"matches": user_matches, "count": len(user_matches)}
 
 # Badge System endpoints
 @app.get("/badges/{user_id}")

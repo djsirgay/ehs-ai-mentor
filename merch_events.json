@@ -154,5 +154,29 @@
     "data": {
       "course_id": "FORKLIFT-SAFETY-1910.178"
     }
+  },
+  {
+    "timestamp": "2025-09-23T16:34:03.201828",
+    "event_type": "course_completed",
+    "user_id": "u009",
+    "data": {
+      "course_id": "FORKLIFT-SAFETY-1910.178"
+    }
+  },
+  {
+    "timestamp": "2025-09-25T09:20:10.655025",
+    "event_type": "course_completed",
+    "user_id": "u006",
+    "data": {
+      "course_id": "BIOSAFETY-BSL2"
+    }
+  },
+  {
+    "timestamp": "2025-09-25T09:25:18.243622",
+    "event_type": "course_completed",
+    "user_id": "u006",
+    "data": {
+      "course_id": "RESPIRATOR-QUAL-130"
+    }
   }
 ]

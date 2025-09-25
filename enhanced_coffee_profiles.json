@@ -1,0 +1,123 @@
+{
+  "u009": {
+    "user_id": "u009",
+    "name": "User 009",
+    "role": "facilities_maintenance",
+    "department": "Facilities",
+    "interests": [
+      "programming",
+      "coffee"
+    ],
+    "availability": [
+      {
+        "day": "flexible",
+        "time": "flexible"
+      }
+    ],
+    "language": "en",
+    "personality_traits": [
+      "friendly",
+      "curious",
+      "collaborative"
+    ],
+    "meeting_preferences": {
+      "meeting_style": "casual",
+      "group_size": "pair"
+    },
+    "active": true,
+    "created_at": "2025-09-24T17:16:08.686880",
+    "updated_at": "2025-09-24T17:16:08.686893",
+    "match_history": [],
+    "compatibility_scores": {}
+  },
+  "u002": {
+    "user_id": "u002",
+    "name": "Alex Cool",
+    "role": "chem_researcher",
+    "department": "Biochemistry",
+    "interests": [
+      "programming",
+      "coffee"
+    ],
+    "availability": [
+      {
+        "day": "flexible",
+        "time": "flexible"
+      }
+    ],
+    "language": "en",
+    "personality_traits": [
+      "friendly",
+      "curious",
+      "collaborative"
+    ],
+    "meeting_preferences": {
+      "meeting_style": "casual",
+      "group_size": "pair"
+    },
+    "active": true,
+    "created_at": "2025-09-24T16:28:59.538323",
+    "updated_at": "2025-09-24T16:28:59.538335",
+    "match_history": [],
+    "compatibility_scores": {}
+  },
+  "u008": {
+    "user_id": "u008",
+    "name": "User 008",
+    "role": "chem_researcher",
+    "department": "Biochemistry",
+    "interests": [
+      "gaming",
+      "science"
+    ],
+    "availability": [
+      {
+        "day": "flexible",
+        "time": "flexible"
+      }
+    ],
+    "language": "en",
+    "personality_traits": [
+      "organized"
+    ],
+    "meeting_preferences": {
+      "meeting_style": "casual",
+      "group_size": "pair"
+    },
+    "active": true,
+    "created_at": "2025-09-24T17:39:40.430151",
+    "updated_at": "2025-09-24T17:39:40.430160",
+    "match_history": [],
+    "compatibility_scores": {}
+  },
+  "u007": {
+    "user_id": "u007",
+    "name": "User 007",
+    "role": "lab_tech",
+    "department": "Chemistry Lab",
+    "interests": [
+      "programming",
+      "coffee"
+    ],
+    "availability": [
+      {
+        "day": "flexible",
+        "time": "flexible"
+      }
+    ],
+    "language": "en",
+    "personality_traits": [
+      "outgoing",
+      "organized"
+    ],
+    "meeting_preferences": {
+      "meeting_style": "casual",
+      "group_size": "pair"
+    },
+    "active": true,
+    "created_at": "2025-09-24T18:27:09.823557",
+    "updated_at": "2025-09-24T18:27:09.823567",
+    "match_history": [],
+    "compatibility_scores": {}
+  }
+}

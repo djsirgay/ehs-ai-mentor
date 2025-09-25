@@ -158,5 +158,26 @@
     "completed_at": "2025-09-22T12:08:29.854419",
     "completion_method": "manual",
     "id": 22
+  },
+  {
+    "user_id": "u009",
+    "course_id": "FORKLIFT-SAFETY-1910.178",
+    "completed_at": "2025-09-23T16:34:03.195484",
+    "completion_method": "manual",
+    "id": 23
+  },
+  {
+    "user_id": "u006",
+    "course_id": "BIOSAFETY-BSL2",
+    "completed_at": "2025-09-25T09:20:10.651526",
+    "completion_method": "manual",
+    "id": 24
+  },
+  {
+    "user_id": "u006",
+    "course_id": "RESPIRATOR-QUAL-130",
+    "completed_at": "2025-09-25T09:25:18.238051",
+    "completion_method": "manual",
+    "id": 25
   }
 ]
