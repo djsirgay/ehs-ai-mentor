@@ -1375,7 +1375,7 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                     </button>
 
 
-                    <button onclick="window.history.back()" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3);">Logout</button>
+                    <button onclick="window.location.href='/'" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3);">Logout</button>
                 </div>
             </div>
         </div>
@@ -1858,8 +1858,6 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                             <span id="coffeeUnreadBadge" style="display: none; position: absolute; top: -8px; right: -8px; background: #fbbf24; color: #000; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; font-weight: bold; text-align: center; line-height: 20px;"></span>
                         </button>
                         <button onclick="showEnhancedProfile()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">🎯 Smart Profile</button>
-                        <button onclick="showCompatibilityCheck()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">🧠 AI Matching</button>
-                        <button onclick="showInsights()" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">📊 Insights</button>
                     </div>
                     <div id="coffeeContent" style="min-height: 400px;">
                         <div style="text-align: center; padding: 40px; color: #666;">☕ Choose an option above</div>
