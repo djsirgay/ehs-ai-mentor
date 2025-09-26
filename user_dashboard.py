@@ -50,8 +50,6 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-
     <title>EHS AI Mentor - Personal Dashboard - {user["name"]}</title>
     <link rel="stylesheet" href="/tahoe.css">
     <style>
@@ -273,21 +271,6 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
       max-width: var(--container-max);
       margin: 0 auto;
       padding: 0 var(--container-pad);
-    }}
-    
-      
-      #modalBody {{
-        max-height: calc(95vh - 80px) !important;
-      }}
-      
-      .hero {{
-        padding: 12px !important;
-      }}
-      
-      .hero h1 {{
-        font-size: 20px !important;
-        margin-bottom: 8px !important;
-      }}
     }}
     
     .hero{{
@@ -632,12 +615,12 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                     </button>
 
 
-                    <button onclick="window.location.href='/'" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3);">Logout</button>
+                    <button onclick="window.history.back()" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3);">Logout</button>
                 </div>
             </div>
         </div>
     
-        <div class="main-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; min-height: 400px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; min-height: 400px;">
             <div class="hero" style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: space-between; min-height: 400px;">
                 <div>
                     <h1 style="font-size: 48px; font-weight: 800; margin-bottom: 30px;">🚀 My Journey</h1>
@@ -1115,6 +1098,8 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
                             <span id="coffeeUnreadBadge" style="display: none; position: absolute; top: -8px; right: -8px; background: #fbbf24; color: #000; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; font-weight: bold; text-align: center; line-height: 20px;"></span>
                         </button>
                         <button onclick="showEnhancedProfile()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">🎯 Smart Profile</button>
+                        <button onclick="showCompatibilityCheck()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">🧠 AI Matching</button>
+                        <button onclick="showInsights()" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">📊 Insights</button>
                     </div>
                     <div id="coffeeContent" style="min-height: 400px;">
                         <div style="text-align: center; padding: 40px; color: #666;">☕ Choose an option above</div>
@@ -4328,49 +4313,14 @@ def generate_user_dashboard_html(user_data, assignments, scheduler, course_compl
         }
         
         // Загружаем сохраненную тему при загрузке
-        document.addEventListener('DOMContentLoaded', function() {
-            loadSavedTheme();
-            applyMobileStyles();
-        });
-        
-        // Принудительно применяем мобильные стили
-        function applyMobileStyles() {
-            if (window.innerWidth <= 768) {
-                // Находим все grid элементы и делаем их одноколоночными
-                const gridElements = document.querySelectorAll('[style*="grid-template-columns"]');
-                gridElements.forEach(el => {
-                    if (el.style.gridTemplateColumns.includes('1fr 1fr')) {
-                        el.style.gridTemplateColumns = '1fr';
-                        el.style.gap = '16px';
-                    }
-                });
-                
-                // Исправляем главную сетку
-                const mainGrid = document.querySelector('.main-grid');
-                if (mainGrid) {
-                    mainGrid.style.gridTemplateColumns = '1fr';
-                    mainGrid.style.gap = '16px';
-                }
-                
-                // Исправляем кнопки курсов
-                const courseButtons = document.querySelectorAll('[style*="width: 150px; height: 150px"]');
-                courseButtons.forEach(btn => {
-                    btn.style.width = '100%';
-                    btn.style.height = '60px';
-                    btn.style.fontSize = '14px';
-                });
-            }
-        }
-        
-        // Применяем стили при изменении размера окна
-        window.addEventListener('resize', applyMobileStyles);
+        document.addEventListener('DOMContentLoaded', loadSavedTheme);
     </script>
     
 
     <!-- Footer -->
     <footer style="background: linear-gradient(135deg, #1f2937 0%, #374151 100%); color: white; padding: 40px 0; margin-top: 60px; border-radius: 20px 20px 0 0;">
         <div class="container">
-            <div class="footer-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px;">
                 <!-- AI Safety Assistant -->
                 <div>
                     <h4 style="color: #f97316; margin: 0 0 15px 0; font-size: 18px; font-weight: 700;">🤖 AI Safety Assistant</h4>

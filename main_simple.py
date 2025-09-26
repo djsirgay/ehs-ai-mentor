@@ -4167,7 +4167,7 @@ async def login_page():
     <head>
         <title>Login - EHS AI Mentor</title>
         <meta charset="utf-8">
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
                    background: linear-gradient(135deg, #2a7d2e 0%, #66d36f 100%); 
