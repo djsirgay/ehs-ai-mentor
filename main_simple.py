@@ -4167,16 +4167,15 @@ async def login_page():
     <head>
         <title>Login - EHS AI Mentor</title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
                    background: linear-gradient(135deg, #2a7d2e 0%, #66d36f 100%); 
-                   color: white; margin: 0; padding: 40px; text-align: center; min-height: 100vh; 
+                   color: white; margin: 0; padding: 20px; text-align: center; min-height: 100vh; 
                    display: flex; flex-direction: column; justify-content: center; }
             .login-container { max-width: 400px; margin: 0 auto; background: rgba(255,255,255,0.1); 
-                              padding: 40px; border-radius: 20px; backdrop-filter: blur(10px); 
+                              padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); 
                               border: 1px solid rgba(255,255,255,0.2); }
-            h1 { font-size: 2.5em; margin-bottom: 30px; }
+            h1 { font-size: 2em; margin-bottom: 20px; }
             .form-group { margin-bottom: 20px; text-align: left; }
             label { display: block; margin-bottom: 8px; font-weight: 600; }
             input { width: 100%; padding: 15px; border: none; border-radius: 12px; 
@@ -4186,7 +4185,7 @@ async def login_page():
                    font-weight: 600; cursor: pointer; transition: all 0.3s ease; 
                    width: 100%; font-size: 16px; margin-top: 10px; }
             .btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); }
-            .demo-users { margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.1); 
+            .demo-users { margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); 
                          border-radius: 12px; }
             .demo-btn { background: rgba(255,255,255,0.15); padding: 10px 15px; 
                        border-radius: 8px; margin: 5px; display: inline-block; 
