@@ -1,0 +1,17 @@
+name: Keep demo responsive
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Wake and verify the production demo
+        run: curl --fail --silent --show-error --max-time 30 https://calpoly.sergey-ulyanov.pro/healthz

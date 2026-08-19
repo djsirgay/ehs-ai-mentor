@@ -4,6 +4,7 @@ load_dotenv()
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.concurrency import run_in_threadpool
 from datetime import datetime
 from ai_mentor import AIMentor
 from pdf_processor import extract_text_from_pdf
@@ -13,7 +14,6 @@ from audit_logger import AuditLogger
 from user_dashboard import generate_user_dashboard_html
 from course_completion import CourseCompletion
 from random_coffee import RandomCoffeeManager
-from bedrock_client import BedrockClient
 from coffee_messenger import CoffeeMessenger
 from online_store import OnlineStore
 from merch_system import MerchSystem
@@ -23,18 +23,26 @@ import json
 
 app = FastAPI(title="EHS AI Mentor", version="1.0.0")
 
+STATIC_CACHE_HEADERS = {"Cache-Control": "public, max-age=604800, immutable"}
+
+
+@app.get("/healthz")
+async def health_check():
+    """Fast health endpoint for Railway and uptime monitoring."""
+    return {"status": "ok", "service": "ehs-ai-mentor"}
+
 # Add static file handling
 @app.get("/calpoly-logo.png")
 async def get_logo():
-    return FileResponse("calpoly-logo.png")
+    return FileResponse("calpoly-logo.png", headers=STATIC_CACHE_HEADERS)
 
 @app.get("/tahoe.css")
 async def get_tahoe_css():
-    return FileResponse("tahoe.css", media_type="text/css")
+    return FileResponse("tahoe.css", media_type="text/css", headers=STATIC_CACHE_HEADERS)
 
 @app.get("/AWS_2007_logo_white.png")
 async def get_aws_logo():
-    return FileResponse("AWS_2007_logo_white.png")
+    return FileResponse("AWS_2007_logo_white.png", headers=STATIC_CACHE_HEADERS)
 
 @app.get("/coffee-demo")
 async def get_coffee_demo():
@@ -50,7 +58,7 @@ async def get_enhanced_coffee_js():
 
 @app.get("/favicon.ico")
 async def get_favicon():
-    return FileResponse("favicon.ico")
+    return FileResponse("favicon.ico", headers=STATIC_CACHE_HEADERS)
 
 @app.get("/safety-helmet.jpg")
 async def get_safety_helmet():
@@ -106,7 +114,6 @@ scheduler = CourseScheduler()
 audit_logger = AuditLogger()
 course_completion = CourseCompletion()
 coffee_manager = RandomCoffeeManager()
-bedrock_client = BedrockClient()
 coffee_messenger = CoffeeMessenger()
 store = OnlineStore()
 merch_system = MerchSystem()
@@ -224,11 +231,14 @@ async def chat_with_ai(message: str = Form(...), history: str = Form(default="[]
 @app.post("/upload-pdf")
 async def upload_pdf(file: UploadFile = File(...)):
     try:
-        if not file.filename.endswith('.pdf'):
+        if not file.filename or not file.filename.lower().endswith('.pdf'):
             raise HTTPException(status_code=400, detail="Only PDF files allowed")
         
         pdf_bytes = await file.read()
-        protocol_text = extract_text_from_pdf(pdf_bytes)
+        try:
+            protocol_text = await run_in_threadpool(extract_text_from_pdf, pdf_bytes)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
         
         # Check if document was processed before
         is_duplicate, prev_info = doc_tracker.is_duplicate(protocol_text)
@@ -243,7 +253,9 @@ async def upload_pdf(file: UploadFile = File(...)):
         
         # Process new document with history and deadline checking
         mentor._scheduler = scheduler  # Pass scheduler
-        result = mentor.analyze_for_all_users_with_history(protocol_text, doc_tracker)
+        result = await run_in_threadpool(
+            mentor.analyze_for_all_users_with_history, protocol_text, doc_tracker
+        )
         
         # Save processing information with skipped and content for chat
         doc_hash = doc_tracker.save_document(protocol_text, result.get("assignments", []), result.get("skipped_duplicates", []))
@@ -295,6 +307,8 @@ async def upload_pdf(file: UploadFile = File(...)):
         result["expired_courses"] = expired_courses
         
         return result
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -1252,29 +1266,47 @@ async def admin_dashboard():
     <script>
         async function uploadPDF() {
             const fileInput = document.getElementById('pdfFile');
+            let timeout;
             
             if (!fileInput.files[0]) {
                 showModal('⚠️ Error', '<div style="text-align: center; padding: 40px; color: #dc3545;">Please select a PDF file!</div>');
                 return;
             }
 
-            showModal('🤖 AI Analysis', '<div style="text-align: center; padding: 40px;">🤖 AI analyzing protocol via Amazon Bedrock...<br><br>⏱️ Approximately 30-40 seconds for 10 users</div>');
+            const selectedFile = fileInput.files[0];
+            if (selectedFile.size > 15 * 1024 * 1024) {
+                showModal('⚠️ File too large', '<div style="text-align: center; padding: 40px; color: #dc3545;">Please upload a PDF smaller than 15 MB.</div>');
+                return;
+            }
+
+            showModal('🤖 Safety Analysis', '<div style="text-align: center; padding: 40px;">📄 Extracting PDF text and matching safety requirements...<br><br>⏱️ Usually under 30 seconds for 10 demo users</div>');
 
             try {
                 const formData = new FormData();
-                formData.append('file', fileInput.files[0]);
+                formData.append('file', selectedFile);
+                const controller = new AbortController();
+                timeout = setTimeout(() => controller.abort(), 90000);
                 
                 const response = await fetch('/upload-pdf', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    signal: controller.signal
                 });
 
-                const data = await response.json();
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    throw new Error(data.detail || `Processing failed (${response.status})`);
+                }
                 displayResult(data);
 
             } catch (error) {
                 console.error('Error:', error);
-                showModal('❌ Error', '<div style="text-align: center; padding: 40px; color: #dc3545;">❌ Processing error</div>');
+                const message = error.name === 'AbortError'
+                    ? 'The analysis timed out. Please try a shorter text-based PDF.'
+                    : error.message;
+                showModal('❌ Processing error', `<div style="text-align: center; padding: 40px; color: #dc3545;">${message}</div>`);
+            } finally {
+                if (timeout) clearTimeout(timeout);
             }
         }
         
@@ -3204,7 +3236,7 @@ async def admin_dashboard():
                     </div>
                 </div>`;
             } else {
-                title = `🤖 AI Analysis Completed`;
+                title = `🤖 Safety Analysis Completed`;
                 
                 const totalAssignments = data.assignments ? data.assignments.length : 0;
                 const totalSkipped = data.skipped_duplicates ? data.skipped_duplicates.length : 0;
@@ -3215,6 +3247,10 @@ async def admin_dashboard():
                 
                 html += `
                 <div style="text-align: left; max-height: 80vh; overflow-y: auto;">
+                    <div style="background: ${data.analysis_source === 'amazon-bedrock' ? '#dbeafe' : '#ecfdf5'}; padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; color: var(--gray-700); font-size: 13px;">
+                        <strong>Analysis engine:</strong> ${data.analysis_source === 'amazon-bedrock' ? 'Amazon Bedrock' : data.analysis_source === 'hybrid' ? 'Amazon Bedrock + resilient local safety rules' : 'Resilient local safety rules'}
+                        ${data.analysis_warnings && data.analysis_warnings.length ? '<br><span style="color: var(--gray-600);">The cloud model was unavailable, so the verified fallback kept the demo functional.</span>' : ''}
+                    </div>
                     <!-- Header Stats -->
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 20px;">
                         <div style="background: #dcfce7; padding: 12px; border-radius: 8px; text-align: center;">
