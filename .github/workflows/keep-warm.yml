@@ -2,7 +2,9 @@ name: Keep demo responsive
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    # Render's free service sleeps after inactivity. Avoid the busy top of the
+    # hour and give GitHub several chances per hour to keep the demo warm.
+    - cron: "3-58/5 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -11,7 +13,14 @@ permissions:
 jobs:
   health-check:
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     steps:
       - name: Wake and verify the production demo
-        run: curl --fail --silent --show-error --max-time 30 https://calpoly.sergey-ulyanov.pro/healthz
+        run: >-
+          curl --fail --silent --show-error
+          --connect-timeout 15
+          --max-time 75
+          --retry 2
+          --retry-delay 5
+          --retry-all-errors
+          https://calpoly.sergey-ulyanov.pro/healthz
