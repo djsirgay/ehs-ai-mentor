@@ -31,7 +31,10 @@ class AIMentor:
         
         # Assign courses if AI recommends
         if decision.get("should_assign") and decision.get("recommended_courses"):
-            for course_id in decision["recommended_courses"]:
+            for course_item in decision["recommended_courses"]:
+                course_id = course_item.get("course_id") if isinstance(course_item, dict) else course_item
+                if not course_id:
+                    continue
                 # Check if course is already assigned
                 existing = self.db.get_assignment_history(user_id, course_id)
                 if not existing:
@@ -64,7 +67,10 @@ class AIMentor:
             
             assignments_made = []
             if decision.get("should_assign") and decision.get("recommended_courses"):
-                for course_id in decision["recommended_courses"]:
+                for course_item in decision["recommended_courses"]:
+                    course_id = course_item.get("course_id") if isinstance(course_item, dict) else course_item
+                    if not course_id:
+                        continue
                     # Check local database
                     existing_db = self.db.get_assignment_history(user_id, course_id)
                     # Check document tracker history
@@ -94,7 +100,9 @@ class AIMentor:
             "protocol_summary": protocol_text[:200] + "...",
             "total_users": len(all_users),
             "assignments": [],
-            "skipped_duplicates": []
+            "skipped_duplicates": [],
+            "analysis_sources": [],
+            "analysis_warnings": []
         }
         
         for i, user in enumerate(all_users):
@@ -105,6 +113,12 @@ class AIMentor:
             
             # AI analysis for each user
             decision = self.bedrock.analyze_protocol(protocol_text, user_data, courses)
+            source = decision.get("analysis_source", "amazon-bedrock")
+            if source not in results["analysis_sources"]:
+                results["analysis_sources"].append(source)
+            warning = decision.get("analysis_warning")
+            if warning and warning not in results["analysis_warnings"]:
+                results["analysis_warnings"].append(warning)
             
             assignments_made = []
             skipped_courses = []
@@ -177,7 +191,14 @@ class AIMentor:
                     "skipped_courses": skipped_courses,
                     "reason": "Courses were already assigned previously"
                 })
-        
+
+        if results["analysis_sources"] == ["amazon-bedrock"]:
+            results["analysis_source"] = "amazon-bedrock"
+        elif "amazon-bedrock" in results["analysis_sources"]:
+            results["analysis_source"] = "hybrid"
+        else:
+            results["analysis_source"] = "local-safety-rules"
+
         return results
     
     def chat(self, message: str, user_id: str = None) -> dict:
